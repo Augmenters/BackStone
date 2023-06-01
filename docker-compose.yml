@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  backstone:
+    image: ${DOCKER_REGISTRY-}backstone
+    build:
+      context: .
+      dockerfile: Backstone/Dockerfile

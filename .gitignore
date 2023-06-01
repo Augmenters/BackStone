@@ -1,0 +1,9 @@
+*/bin/
+*/obj/
+*/Obj/
+bin/
+obj/
+*/Generated_Code/
+*.vs
+*.user
+*.cache
