@@ -6,3 +6,20 @@ services:
     build:
       context: .
       dockerfile: Backstone/Dockerfile
+
+  db:
+    image: "postgres:14.1-alpine"
+    container_name: backstone-data
+    ports: 
+      - "5432:5432" 
+    environment:
+      - POSTGRES_USER=backstone_user
+      - POSTGRES_PASSWORD=${AUGMENTERS_POSTGRES_PASSWORD}
+      - POSTGRES_DB=base_db
+    restart: always
+    volumes:
+      - backstone_persistent_data:/var/lib/postgresql/data/
+
+volumes:
+  backstone_persistent_data:
+
