@@ -14,11 +14,18 @@ services:
       - "5432:5432" 
     environment:
       - POSTGRES_USER=backstone_user
-      - POSTGRES_PASSWORD=${AUGMENTERS_POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=password
       - POSTGRES_DB=base_db
     restart: always
     volumes:
       - backstone_persistent_data:/var/lib/postgresql/data/
+
+  redis:
+    image: "redis:latest"
+    container_name: redis_broker
+    ports:
+      - "6380:6379"
+    restart: always
 
 volumes:
   backstone_persistent_data:
