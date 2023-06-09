@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DataAccess\" />
+    <None Remove="Models\" />
+    <None Remove="Models\Crime\" />
+    <None Remove="Models\Yelp\" />
+    <None Remove="Repositories\" />
+    <None Remove="Repositories\Utilities\" />
+    <None Remove="Repositories\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataAccess\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Crime\" />
+    <Folder Include="Models\Yelp\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\Utilities\" />
+    <Folder Include="Repositories\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="GraphQL" Version="7.4.1" />
+    <PackageReference Include="GraphQL.Client" Version="6.0.0" />
+    <PackageReference Include="GraphQL.Client.Abstractions" Version="6.0.0" />
+    <PackageReference Include="GraphQL.Client.Abstractions.Websocket" Version="6.0.0" />
+    <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="6.0.0" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+  </ItemGroup>
+</Project>
