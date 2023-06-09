@@ -8,3 +8,7 @@ obj/
 *.user
 *.cache
 *.pyc
+*.DS_Store
+*.env
+.DS_Store
+Backstone/.DS_Store

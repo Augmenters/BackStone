@@ -3,6 +3,8 @@ version: '3.4'
 services:
   backstone:
     image: ${DOCKER_REGISTRY-}backstone
+    env_file:
+        - settings.env
     build:
       context: .
       dockerfile: Backstone/Dockerfile
