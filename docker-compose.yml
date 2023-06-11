@@ -14,10 +14,8 @@ services:
     container_name: backstone-data
     ports: 
       - "5432:5432" 
-    environment:
-      - POSTGRES_USER=backstone_user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=base_db
+    env_file:
+      - .env
     restart: always
     volumes:
       - backstone_persistent_data:/var/lib/postgresql/data/
@@ -28,6 +26,13 @@ services:
     ports:
       - "6380:6379"
     restart: always
+  
+  python:
+    build:
+      context: ./Python
+      dockerfile: Dockerfile
+    env_file:
+      - .env
 
 volumes:
   backstone_persistent_data:
