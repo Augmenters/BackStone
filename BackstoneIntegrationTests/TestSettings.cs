@@ -22,9 +22,11 @@ namespace IntegrationTests
 
         public string YelpApiKey => Environment.GetEnvironmentVariable("YelpApiKey");
 
+        public double SearchRadius => double.Parse(config.GetSection("AppSettings")["SearchRadius"]);
+
         public long CacheSize => throw new NotImplementedException();
 
-        public string GridPrecision => throw new NotImplementedException();
+        public int GridPrecision => throw new NotImplementedException();
     }
 }
 

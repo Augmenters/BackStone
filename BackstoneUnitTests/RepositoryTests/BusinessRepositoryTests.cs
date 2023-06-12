@@ -7,6 +7,8 @@ using Library.Models.Business;
 using Library.Models.Yelp;
 using Library.Repositories;
 using Library.Repositories.Interfaces;
+using Library.Repositories.Utilities.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 using NUnit.Framework;
 
 namespace BackstoneUnitTests.RepositoryTests
@@ -14,59 +16,38 @@ namespace BackstoneUnitTests.RepositoryTests
 	public class BusinessRepositoryTests
 	{
         private IYelpDataAccess fakeYelpDataAccess;
+        private IGridRepository fakeGridRepository;
+        private ICacheHelper fakeCache;
         private IBusinessRepository businessRepository;
 
         [SetUp]
         public void Setup()
         {
             fakeYelpDataAccess = A.Fake<IYelpDataAccess>();
-            businessRepository = new BusinessRepository(fakeYelpDataAccess);
-        }
-
-        [Test]
-        public async Task BusinessSearch_ReturnsSuccess_WhenSuccessful()
-        {
-            //Arrange
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored))
-             .Returns(Task.FromResult(new DataResult<IEnumerable<YelpBusiness>>{
-                 IsSuccessful = true,
-                 Data = new List<YelpBusiness>()
-             }));
-
-            //Act
-            var result = await businessRepository.GetPOIs(new Coordinate());
-
-            //Assert
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored)).MustHaveHappened();
-            Assert.IsTrue(result.IsSuccessful);
-        }
-
-        [Test]
-        public async Task BusinessSearch_ReturnsFailure_WhenUnauthorized()
-        {
-            //Arrange
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored))
-             .Returns(Task.FromResult(new DataResult<IEnumerable<YelpBusiness>>
-             {
-                 IsSuccessful = false,
-                 Data = null,
-                 ErrorId = HttpStatusCode.Unauthorized
-             }));
-
-            //Act
-            var result = await businessRepository.GetPOIs(new Coordinate());
-
-            //Assert
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored)).MustHaveHappened();
-            Assert.IsFalse(result.IsSuccessful);
-            Assert.IsTrue(result.ErrorId == HttpStatusCode.Unauthorized);
+            fakeGridRepository = A.Fake<IGridRepository>();
+            fakeCache = A.Fake<ICacheHelper>();
+            businessRepository = new BusinessRepository(fakeYelpDataAccess, fakeGridRepository, fakeCache);
         }
 
         [Test]
         public async Task BusinessSearch_ReturnsFailure_WhenNoBusinessesFound()
         {
             //Arrange
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored))
+            A.CallTo(() => fakeGridRepository.GenerateGrid(A<Coordinate>.Ignored))
+            .Returns(new List<GridBox>()
+                {
+                     new GridBox()
+                     {
+                         GeoHash = string.Empty
+                     }
+                });
+
+            IEnumerable<POI>? ignored = null;
+
+            A.CallTo(() => fakeCache.TryGetValue<IEnumerable<POI>>(A<string>.Ignored, out ignored))
+             .Returns(false);
+
+            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored))
              .Returns(Task.FromResult(new DataResult<IEnumerable<YelpBusiness>>
              {
                  IsSuccessful = false,
@@ -78,13 +59,69 @@ namespace BackstoneUnitTests.RepositoryTests
             var result = await businessRepository.GetPOIs(new Coordinate());
 
             //Assert
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored)).MustHaveHappened();
+            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored)).MustHaveHappened();
             Assert.IsFalse(result.IsSuccessful);
             Assert.IsTrue(result.ErrorId == HttpStatusCode.NotFound);
         }
 
         [Test]
-        public async Task BusinessSearch_MapsYelpToPOI_WhenSuccessful()
+        public async Task BusinessSearch_MapsYelpToPOI_WhenSuccessful_Cached()
+        {
+            //Arrange
+            var returnedPOI = new POI()
+            {
+                Id = "id",
+                BusinessName = "name",
+                Rating = 1,
+                ReviewCount = 1,
+                Phone = "123",
+                Price = "$",
+                Coordinates = new Coordinate()
+                {
+                    Latitude = 1,
+                    Longitude = 1
+                },
+                Address = new Address()
+                {
+                    Line1 = "add1",
+                    Line2 = "add2",
+                    City = "city",
+                    State = "state",
+                    Zip = "65201"
+                },
+                Info = "url"
+            };
+
+            A.CallTo(() => fakeGridRepository.GenerateGrid(A<Coordinate>.Ignored))
+            .Returns(new List<GridBox>()
+                {
+                     new GridBox()
+                     {
+                         GeoHash = "abc123"
+                     }
+                });
+
+            IEnumerable<POI>? ignored = null;
+
+            A.CallTo(() => fakeCache.TryGetValue<IEnumerable<POI>>(A<string>.Ignored, out ignored))
+             .Returns(true)
+             .AssignsOutAndRefParameters(new List<POI>
+             {
+                returnedPOI
+             });
+
+            //Act
+            var result = await businessRepository.GetPOIs(new Coordinate());
+
+            //Assert
+            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored)).MustNotHaveHappened();
+            Assert.IsTrue(result.IsSuccessful);
+            Assert.IsTrue(result.Data != null);
+            Assert.IsTrue(result.Data.First().Validate());
+        }
+
+        [Test]
+        public async Task BusinessSearch_MapsYelpToPOI_WhenSuccessful_NotCached()
         {
             //Arrange
             var returnedBusiness = new YelpBusiness()
@@ -112,7 +149,24 @@ namespace BackstoneUnitTests.RepositoryTests
                 Url = "url"
             };
 
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored))
+            A.CallTo(() => fakeGridRepository.GenerateGrid(A<Coordinate>.Ignored))
+            .Returns(new List<GridBox>()
+                {
+                     new GridBox()
+                     {
+                         GeoHash = "abc123"
+                     }
+                });
+
+            A.CallTo(() => fakeGridRepository.VerifyHashContainsCoordinate(A<string>.Ignored, A<Coordinate>.Ignored))
+             .Returns(true);
+
+            IEnumerable<POI>? ignored = null;
+
+            A.CallTo(() => fakeCache.TryGetValue<IEnumerable<POI>>(A<string>.Ignored, out ignored))
+             .Returns(false);
+
+            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored))
              .Returns(Task.FromResult(new DataResult<IEnumerable<YelpBusiness>>
              {
                  IsSuccessful = true,
@@ -123,7 +177,7 @@ namespace BackstoneUnitTests.RepositoryTests
             var result = await businessRepository.GetPOIs(new Coordinate());
 
             //Assert
-            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored, A<double>.Ignored)).MustHaveHappened();
+            A.CallTo(() => fakeYelpDataAccess.BusinessQuery(A<Coordinate>.Ignored)).MustHaveHappened();
             Assert.IsTrue(result.IsSuccessful);
             Assert.IsTrue(result.Data != null);
             Assert.IsTrue(result.Data.First().Validate());
