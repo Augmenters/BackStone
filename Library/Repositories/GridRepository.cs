@@ -3,6 +3,7 @@ using Geohash;
 using Library.Models;
 using Library.Repositories.Interfaces;
 using Library.Repositories.Utilities;
+using Library.Repositories.Utilities.Interfaces;
 
 namespace Library.Repositories
 {

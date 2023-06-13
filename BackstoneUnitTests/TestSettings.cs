@@ -1,5 +1,6 @@
 ﻿using System;
 using Library.Repositories.Utilities;
+using Library.Repositories.Utilities.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace UnitTests
@@ -16,7 +17,7 @@ namespace UnitTests
 
         public double SearchRadius => throw new NotImplementedException();
 
-        int ISettings.GridPrecision => 7;
+        public int GridPrecision => 7;
     }
 }
 

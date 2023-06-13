@@ -1,4 +1,5 @@
 ﻿using System;
+using Library.Repositories.Utilities.Interfaces;
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Utilities;
 
@@ -25,7 +26,11 @@ namespace Library.Repositories.Utilities
             YelpApiKey = Environment.GetEnvironmentVariable("YelpApiKey");
 
             if (string.IsNullOrWhiteSpace(YelpApiKey))
-                throw new Exception("Yelp API key is not set");
+            {
+                var ex = new Exception("Yelp API key is not set");
+                ex.LogFatal("Failed to initialize settings");
+                throw ex;
+            }
         }
     }
 }

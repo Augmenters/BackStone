@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Library.Repositories.Utilities
+namespace Library.Repositories.Utilities.Interfaces
 {
     public interface ISettings
     {
