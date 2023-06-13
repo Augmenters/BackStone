@@ -28,7 +28,7 @@ namespace Library.Repositories
             return new Coordinate() { Latitude = coordinate.latitude, Longitude = coordinate.longitude };
         }
 
-        public bool VerifyHashContainsCoordinate(string hash, Coordinate coordinate)
+        public bool CheckCoordinateInHash(string hash, Coordinate coordinate)
         {
             var newHash = geoHasher.Encode(coordinate.Latitude, coordinate.Longitude, settings.GridPrecision);
             return newHash.Contains(hash);
@@ -38,14 +38,8 @@ namespace Library.Repositories
         {
             var hash = GenerateHash(coordinate);
             var neighbors = geoHasher.GetNeighbors(hash).Select(x=>x.Value);
-            var radius = GeoHashPrecisionMap.Get(settings.GridPrecision);
 
-            return neighbors.Append(hash).Select(x => new GridBox()
-            {
-                GeoHash = x,
-                Center = DecodeHash(x),
-                Radius = radius
-            });
+            return neighbors.Append(hash).Select(x => new GridBox(x, DecodeHash(x)));
         }
     }
 }

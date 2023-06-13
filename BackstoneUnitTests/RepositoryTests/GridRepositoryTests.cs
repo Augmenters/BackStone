@@ -38,7 +38,7 @@ namespace UnitTests.RepositoryTests
             var coordinateHash = gridRepository.GenerateHash(coordinate);
 
             //Act
-            var result = gridRepository.VerifyHashContainsCoordinate(coordinateHash, coordinate);
+            var result = gridRepository.CheckCoordinateInHash(coordinateHash, coordinate);
 
             //Assert
             Assert.IsTrue(result);
@@ -55,7 +55,6 @@ namespace UnitTests.RepositoryTests
             };
 
             var coordinateHash = gridRepository.GenerateHash(coordinate);
-            var gridBoxRadius = GeoHashPrecisionMap.Get(testSettings.GridPrecision);
 
             //Act
             var grid = gridRepository.GenerateGrid(coordinate);
@@ -64,7 +63,6 @@ namespace UnitTests.RepositoryTests
             Assert.IsTrue(grid != null);
             Assert.IsTrue(grid.Any());
             Assert.IsTrue(grid.Count() == 9, "Grid did not generate all boxes");
-            Assert.IsTrue(grid.All(x => x.Radius == gridBoxRadius), "Grid radius was not set correctly");
             Assert.IsTrue(grid.Single(x => x.GeoHash == coordinateHash) != null, "Grid does not contain original hash");
         }
     }

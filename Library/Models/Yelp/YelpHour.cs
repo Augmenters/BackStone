@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 
 namespace Library.Models.Yelp
 {
-    public class YelpHours
+    public sealed class YelpHours
     {
         [JsonProperty("open")]
         public YelpHour[] Open { get; set; }
     }
 
-    public class YelpHour
+    public sealed class YelpHour
 	{
         [JsonProperty("start")]
         public int Open { get; set; }

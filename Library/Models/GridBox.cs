@@ -3,12 +3,18 @@ using Library.Models.Business;
 
 namespace Library.Models
 {
-    public class GridBox
+    public sealed class GridBox
     {
-        public string GeoHash { get; set; }
-        public Coordinate Center { get; set; } //Don't know if we'll use this
-        public double Radius { get; set; } // or this
-        public IEnumerable<POI> POIs { get; set; }
+        public string GeoHash { get; private set; }
+        public Coordinate Center { get; private set; }
+        public IEnumerable<POI> POIs { get; private set; }
+
+        public GridBox(string hash, Coordinate center)
+        {
+            this.GeoHash = hash;
+            this.Center = center;
+            this.POIs = new List<POI>();
+        }
     }
 }
 

@@ -61,7 +61,7 @@ namespace Library.Repositories
 
         private IEnumerable<POI> RemovePOIsOutsideOfBox(string hash, IEnumerable<POI> pois)
         {
-            return pois.Where(poi => gridRepository.VerifyHashContainsCoordinate(hash, poi.Coordinates));
+            return pois.Where(poi => gridRepository.CheckCoordinateInHash(hash, poi.Coordinates));
         }
 
         private IEnumerable<POI> MapYelpToPOI(IEnumerable<YelpBusiness> businesses)

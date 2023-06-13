@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using FakeItEasy;
+using Geohash;
 using Library.DataAccess;
 using Library.Models;
 using Library.Models.Business;
@@ -34,13 +35,10 @@ namespace BackstoneUnitTests.RepositoryTests
         {
             //Arrange
             A.CallTo(() => fakeGridRepository.GenerateGrid(A<Coordinate>.Ignored))
-            .Returns(new List<GridBox>()
-                {
-                     new GridBox()
-                     {
-                         GeoHash = string.Empty
-                     }
-                });
+             .Returns(new List<GridBox>()
+             {
+                 new GridBox(string.Empty, new Coordinate())
+             });
 
             IEnumerable<POI>? ignored = null;
 
@@ -93,13 +91,10 @@ namespace BackstoneUnitTests.RepositoryTests
             };
 
             A.CallTo(() => fakeGridRepository.GenerateGrid(A<Coordinate>.Ignored))
-            .Returns(new List<GridBox>()
-                {
-                     new GridBox()
-                     {
-                         GeoHash = "abc123"
-                     }
-                });
+             .Returns(new List<GridBox>()
+             {
+                 new GridBox(string.Empty, new Coordinate())
+             });
 
             IEnumerable<POI>? ignored = null;
 
@@ -150,15 +145,12 @@ namespace BackstoneUnitTests.RepositoryTests
             };
 
             A.CallTo(() => fakeGridRepository.GenerateGrid(A<Coordinate>.Ignored))
-            .Returns(new List<GridBox>()
-                {
-                     new GridBox()
-                     {
-                         GeoHash = "abc123"
-                     }
-                });
+             .Returns(new List<GridBox>()
+             {
+                 new GridBox(string.Empty, new Coordinate())
+             });
 
-            A.CallTo(() => fakeGridRepository.VerifyHashContainsCoordinate(A<string>.Ignored, A<Coordinate>.Ignored))
+            A.CallTo(() => fakeGridRepository.CheckCoordinateInHash(A<string>.Ignored, A<Coordinate>.Ignored))
              .Returns(true);
 
             IEnumerable<POI>? ignored = null;

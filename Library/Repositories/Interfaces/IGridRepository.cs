@@ -7,7 +7,7 @@ namespace Library.Repositories.Interfaces
 	{
         string GenerateHash(Coordinate coordinate);
         Coordinate DecodeHash(string hash);
-        bool VerifyHashContainsCoordinate(string hash, Coordinate coordinate);
+        bool CheckCoordinateInHash(string hash, Coordinate coordinate);
         IEnumerable<GridBox> GenerateGrid(Coordinate coordinate);
     }
 }
