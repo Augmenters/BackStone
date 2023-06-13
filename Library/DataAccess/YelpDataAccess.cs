@@ -23,7 +23,7 @@ namespace Library.DataAccess
             this.settings = settings;
         }
 
-        public async Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate, double radius)
+        public async Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Library.DataAccess
                 {
                     client.HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + settings.YelpApiKey);
 
-                    var request = BuildRequest(coordinate, radius);
+                    var request = BuildRequest(coordinate, settings.SearchRadius);
 
                     var result = await client.SendQueryAsync<BusinessQueryResponse>(request);
 

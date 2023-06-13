@@ -12,7 +12,8 @@ namespace Library.Repositories.Utilities
 
         //AppSettings
         public long CacheSize { get; }
-        public string GridPrecision { get; }
+        public int GridPrecision { get; }
+        public double SearchRadius { get; }
     }
 }
 

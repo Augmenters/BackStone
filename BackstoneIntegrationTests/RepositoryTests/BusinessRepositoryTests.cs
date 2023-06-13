@@ -16,7 +16,7 @@ namespace IntegrationTests.RepositoryTests
             public void Setup()
             {
                 yelpDataAccess = new YelpDataAccess(new TestSettings());
-                Environment.SetEnvironmentVariable("YelpApiKey", null); //Insert your key here or comment this line out if set locally
+                Environment.SetEnvironmentVariable("YelpApiKey", ""); //Insert your key here or comment this line out if set locally
             }
 
             [Test]
@@ -30,7 +30,7 @@ namespace IntegrationTests.RepositoryTests
                 };
 
                 //Act
-                var result = await yelpDataAccess.BusinessQuery(coordinate, 1000);
+                var result = await yelpDataAccess.BusinessQuery(coordinate);
 
                 //Assert
                 Assert.IsTrue(result.IsSuccessful);
