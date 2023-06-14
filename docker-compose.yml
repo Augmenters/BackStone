@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Backstone/Dockerfile
 
-  db:
+  database:
     image: "postgres:14.1-alpine"
     container_name: backstone-data
     ports: 
@@ -20,19 +20,28 @@ services:
     volumes:
       - backstone_persistent_data:/var/lib/postgresql/data/
 
-  redis:
+  broker:
     image: "redis:latest"
     container_name: redis_broker
     ports:
       - "6380:6379"
     restart: always
   
-  python:
+  datbase_initializer:
     build:
       context: ./Python
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.Database
     env_file:
       - .env
+
+  celery_worker:
+    build:
+      context: ./Python
+      dockerfile: Dockerfile.Celery
+    environment:
+      REDIS_HOST: broker
+      REDIS_PORT: 6379
+  
 
 volumes:
   backstone_persistent_data:
