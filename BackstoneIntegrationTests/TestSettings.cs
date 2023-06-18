@@ -1,5 +1,6 @@
 ﻿using System;
 using Library.Repositories.Utilities;
+using Library.Repositories.Utilities.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace IntegrationTests

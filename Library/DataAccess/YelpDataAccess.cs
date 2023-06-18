@@ -11,6 +11,7 @@ using GraphQL;
 using System.Net.Http.Headers;
 using System.Collections.ObjectModel;
 using System.Net;
+using Library.Repositories.Utilities.Interfaces;
 
 namespace Library.DataAccess
 {
@@ -47,6 +48,7 @@ namespace Library.DataAccess
             catch (Exception ex)
             {
                 ex.Data["coordinate"] = JsonConvert.SerializeObject(coordinate);
+                ex.Log("Yelp Business Query Failed");
                 return new DataResult<IEnumerable<YelpBusiness>> { IsSuccessful = false, ErrorMessage = ex.Message };
             }
         }
@@ -73,6 +75,7 @@ namespace Library.DataAccess
             catch (Exception ex)
             {
                 ex.Data["Business Id"] = businessId;
+                ex.Log("Getting reviews from Yelp failed");
                 return new DataResult<BusinessReviewsResponse> { IsSuccessful = false, ErrorMessage = ex.Message };
             }
         }

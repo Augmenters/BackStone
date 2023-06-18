@@ -8,6 +8,8 @@ using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ConfigureLogging();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,7 +27,14 @@ builder.Services.AddScoped<ICacheHelper, CacheHelper>();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseStaticFiles();
+app.UseSwaggerUI(options =>
+{
+    options.DocumentTitle = "Backstone";
+    options.HeadContent = File.ReadAllText("wwwroot/swagger-ui/sidebar.html");
+    options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+});
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
