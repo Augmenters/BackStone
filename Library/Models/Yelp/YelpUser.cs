@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Library.Models.Yelp
 {
-    public class User
+    public sealed class User
 	{
         [JsonProperty("name")]
         public string Name { get; set; }

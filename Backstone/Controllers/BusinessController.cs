@@ -6,6 +6,7 @@ using Library.Repositories.Interfaces;
 using Library.DataAccess;
 using Library.Models.Yelp;
 using Library.Models.Business;
+using Library.Repositories.Utilities;
 
 namespace Backstone.Controllers
 {
@@ -28,7 +29,6 @@ namespace Backstone.Controllers
         /// </summary>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        /// <param name="radius">radius in feet to pull from</param>
         /// <returns>a list of POIs</returns>
         [HttpGet]
         [Route("Search")]
@@ -53,6 +53,7 @@ namespace Backstone.Controllers
             catch (Exception ex)
             {
                 ex.Data["Request"] = Request;
+                ex.Log("Get Locations Failed");
                 return Problem(detail: ex.Message, statusCode: (int)HttpStatusCode.InternalServerError);
             }
         }
@@ -85,6 +86,7 @@ namespace Backstone.Controllers
             catch (Exception ex)
             {
                 ex.Data["Request"] = Request;
+                ex.Log("Get Reviews Failed");
                 return Problem(detail: ex.Message, statusCode: (int) HttpStatusCode.InternalServerError);
             }
         }

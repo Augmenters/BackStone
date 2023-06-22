@@ -11,6 +11,7 @@ using GraphQL;
 using System.Net.Http.Headers;
 using System.Collections.ObjectModel;
 using System.Net;
+using Library.Repositories.Utilities.Interfaces;
 
 namespace Library.DataAccess
 {
@@ -23,7 +24,7 @@ namespace Library.DataAccess
             this.settings = settings;
         }
 
-        public async Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate, double radius)
+        public async Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate)
         {
             try
             {
@@ -31,7 +32,7 @@ namespace Library.DataAccess
                 {
                     client.HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + settings.YelpApiKey);
 
-                    var request = BuildRequest(coordinate, radius);
+                    var request = BuildRequest(coordinate, settings.SearchRadius);
 
                     var result = await client.SendQueryAsync<BusinessQueryResponse>(request);
 
@@ -47,6 +48,7 @@ namespace Library.DataAccess
             catch (Exception ex)
             {
                 ex.Data["coordinate"] = JsonConvert.SerializeObject(coordinate);
+                ex.Log("Yelp Business Query Failed");
                 return new DataResult<IEnumerable<YelpBusiness>> { IsSuccessful = false, ErrorMessage = ex.Message };
             }
         }
@@ -73,6 +75,7 @@ namespace Library.DataAccess
             catch (Exception ex)
             {
                 ex.Data["Business Id"] = businessId;
+                ex.Log("Getting reviews from Yelp failed");
                 return new DataResult<BusinessReviewsResponse> { IsSuccessful = false, ErrorMessage = ex.Message };
             }
         }
