@@ -14,8 +14,8 @@ using NUnit.Framework;
 
 namespace BackstoneUnitTests.RepositoryTests
 {
-	public class BusinessRepositoryTests
-	{
+    public class BusinessRepositoryTests
+    {
         private IYelpDataAccess fakeYelpDataAccess;
         private IGridRepository fakeGridRepository;
         private ICacheHelper fakeCache;
@@ -31,6 +31,7 @@ namespace BackstoneUnitTests.RepositoryTests
         }
 
         [Test]
+        [Category("Search")]
         public async Task BusinessSearch_ReturnsFailure_WhenNoBusinessesFound()
         {
             //Arrange
@@ -63,6 +64,7 @@ namespace BackstoneUnitTests.RepositoryTests
         }
 
         [Test]
+        [Category("Search")]
         public async Task BusinessSearch_MapsYelpToPOI_WhenSuccessful_Cached()
         {
             //Arrange
@@ -116,6 +118,7 @@ namespace BackstoneUnitTests.RepositoryTests
         }
 
         [Test]
+        [Category("Search")]
         public async Task BusinessSearch_MapsYelpToPOI_WhenSuccessful_NotCached()
         {
             //Arrange
@@ -173,6 +176,64 @@ namespace BackstoneUnitTests.RepositoryTests
             Assert.IsTrue(result.IsSuccessful);
             Assert.IsTrue(result.Data != null);
             Assert.IsTrue(result.Data.First().Validate());
+        }
+
+        [Test]
+        [Category("GetReviews")]
+        public async Task GetReviews_ReturnsReviews_NoCache()
+        {
+            //Arrange
+            BusinessReviewsResponse? ignored = null;
+
+            A.CallTo(() => fakeCache.TryGetValue<BusinessReviewsResponse>(A<string>.Ignored, out ignored))
+             .Returns(false);
+
+            A.CallTo(() => fakeYelpDataAccess.GetReviews(A<string>.Ignored))
+             .Returns(Task.FromResult(new DataResult<BusinessReviewsResponse>
+             {
+                 IsSuccessful = true,
+                 Data = new BusinessReviewsResponse
+                 {
+                     Reviews = new List<YelpReview>()
+                     {
+                         new YelpReview()
+                     }
+                 }
+             }));
+
+            //Act
+            var result = await businessRepository.GetReviews("");
+
+            //Assert
+            Assert.IsTrue(result.IsSuccessful && result.Data != null);
+            A.CallTo(() => fakeYelpDataAccess.GetReviews(A<string>.Ignored)).MustHaveHappened();
+        }
+
+        [Test]
+        [Category("GetReviews")]
+        public async Task GetReviews_ReturnsReviews_Cache()
+        {
+            //Arrange
+            var returnedReview = new BusinessReviewsResponse
+            {
+                Reviews = new List<YelpReview>()
+                {
+                    new YelpReview()
+                }
+            };
+
+            BusinessReviewsResponse? ignored = null;
+
+            A.CallTo(() => fakeCache.TryGetValue<BusinessReviewsResponse>(A<string>.Ignored, out ignored))
+             .Returns(true)
+             .AssignsOutAndRefParameters(returnedReview);
+
+            //Act
+            var result = await businessRepository.GetReviews("");
+
+            //Assert
+            Assert.IsTrue(result.IsSuccessful && result.Data != null);
+            A.CallTo(() => fakeYelpDataAccess.GetReviews(A<string>.Ignored)).MustNotHaveHappened();
         }
     }
 }

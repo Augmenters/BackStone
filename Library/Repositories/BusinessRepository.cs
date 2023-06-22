@@ -59,6 +59,23 @@ namespace Library.Repositories
                  : new DataResult<IEnumerable<POI>> { IsSuccessful = false, ErrorId = HttpStatusCode.NotFound, ErrorMessage = "No POIs returned from search" };
         }
 
+        public async Task<DataResult<BusinessReviewsResponse>> GetReviews(string businessId)
+        {
+            if (cache.TryGetValue<BusinessReviewsResponse>(businessId, out var reviews))
+            {
+                return new DataResult<BusinessReviewsResponse> { IsSuccessful = true, Data = reviews };
+            }
+            else
+            {
+                var result = await yelpDataAccess.GetReviews(businessId);
+
+                if (result.IsSuccessful && result.Data != null)
+                    cache.Set(businessId, result.Data);
+
+                return result;
+            }
+        }
+
         private IEnumerable<POI> RemovePOIsOutsideOfBox(string hash, IEnumerable<POI> pois)
         {
             return pois.Where(poi => gridRepository.CheckCoordinateInHash(hash, poi.Coordinates));

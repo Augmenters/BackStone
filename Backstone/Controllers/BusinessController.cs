@@ -29,7 +29,6 @@ namespace Backstone.Controllers
         /// </summary>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        /// <param name="radius">radius in feet to pull from</param>
         /// <returns>a list of POIs</returns>
         [HttpGet]
         [Route("Search")]
