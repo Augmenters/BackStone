@@ -1,0 +1,1462 @@
+<form action="SH01_MP.I00070s" autocomplete="off" data-app_type="I" id="FORM_I00070" method="post" name="FORM_I00070">
+    <div class="searchWrapper">
+    <div class="search card">
+    <div class="card-title">Search Criteria</div>
+    <div class="card-block">
+    <div><label for="startDate">From: </label>
+<input class="mrcinput dateMMDDYYYY hasDatepicker" id="startDate" mrc="mrcdate" name="startDate" title="From Date" type="text" value="06/08/2023" placeholder="MM/DD/YYYY"><img class="ui-datepicker-trigger" src="/mrcjava/image/calendar.gif" alt="From Date" title="From Date">
+<span id="startDatecalImage" mrc="calImage">&nbsp;</span>
+</div>
+    <div><label for="endDate">To: </label>
+<input class="mrcinput dateMMDDYYYY hasDatepicker" id="endDate" mrc="mrcdate" name="endDate" title="End Date" type="text" placeholder="MM/DD/YYYY"><img class="ui-datepicker-trigger" src="/mrcjava/image/calendar.gif" alt="End Date" title="End Date">
+<span id="endDatecalImage" mrc="calImage">&nbsp;</span>
+</div>
+    <div><label for="val_EXTERNAL">Incident Type:</label>
+<select class="mrcselect relation" id="F_C_LI_EXTERNAL" name="rls_EXTERNAL" style="display: none;">    <option title="Equal" value="EQ">EQ</option>
+    <option title="Not equal" value="NE">NE</option>
+    <option title="Greater than or equal" value="GE">GE</option>
+    <option title="Greater than" value="GT">GT</option>
+    <option title="Less than or equal" value="LE">LE</option>
+    <option title="Less than" value="LT">LT</option>
+    <option title="In the list" value="LS">LS</option>
+    <option title="Not in the list" value="NS">NS</option>
+    <option title="In the range" value="RG">RG</option>
+    <option title="Not in the range" value="NR">NR</option>
+    <option selected="selected" title="Contains" value="CT">CT</option>
+    <option title="Does not Contain" value="NC">NC</option>
+    <option title="Contains all" value="CA">CA</option>
+    <option title="Contains any" value="CO">CO</option>
+    <option title="Starts with" value="SW">SW</option>
+    <option title="Does not Start with" value="NW">NW</option></select>
+<span mrcdropdown="val_EXTERNAL" mrchidden="undefined" mrcsize="6"><select id="val_EXTERNAL" class="mrcselect form-control" name="val_EXTERNAL">
+<option value="">VIEW ALL</option><option value="ABND BIKE">ABND BIKE</option>
+<option value="ABND CHILD">ABND CHILD</option>
+<option value="ABND VEH">ABND VEH</option>
+<option value="ABUSE/NEGLECT">ABUSE/NEGLECT</option>
+<option value="ACCIDENT">ACCIDENT</option>
+<option value="ANML BITE">ANML BITE</option>
+<option value="ANML CMPLNT">ANML CMPLNT</option>
+<option value="ANML CONTROL">ANML CONTROL</option>
+<option value="ANNOYING PHONE CALLS">ANNOYING PHONE CALLS</option>
+<option value="ARCFT ACCIDENT">ARCFT ACCIDENT</option>
+<option value="ARSON">ARSON</option>
+<option value="ASSLT">ASSLT</option>
+<option value="ASSLT (SEX)">ASSLT (SEX)</option>
+<option value="ASST AMBULANCE">ASST AMBULANCE</option>
+<option value="ASST CITIZEN (FIRE DEPT)">ASST CITIZEN (FIRE DEPT)</option>
+<option value="ASST CITIZEN (POLICE)">ASST CITIZEN (POLICE)</option>
+<option value="ASST FIRE DEPARTMENT">ASST FIRE DEPARTMENT</option>
+<option value="ASST FIRE EMERGENCY">ASST FIRE EMERGENCY</option>
+<option value="ASST MEDIC">ASST MEDIC</option>
+<option value="ASST MEDIC EMERGENCY">ASST MEDIC EMERGENCY</option>
+<option value="ASST OFFICER">ASST OFFICER</option>
+<option value="ASST OFFICER EMERGENCY">ASST OFFICER EMERGENCY</option>
+<option value="ASST OTHER AGENCY">ASST OTHER AGENCY</option>
+<option value="AUTO THEFT">AUTO THEFT</option>
+<option value="BE ON THE LOOKOUT">BE ON THE LOOKOUT</option>
+<option value="BEHAV PRBLM/PSYCH">BEHAV PRBLM/PSYCH</option>
+<option value="BICYCLE STOP">BICYCLE STOP</option>
+<option value="BOMB DEVICE">BOMB DEVICE</option>
+<option value="BOMB THRT">BOMB THRT</option>
+<option value="BURGLARY">BURGLARY</option>
+<option value="BURGLARY IN PROGRESS">BURGLARY IN PROGRESS</option>
+<option value="C&amp;I DRIVING">C&amp;I DRIVING</option>
+<option value="CHASE">CHASE</option>
+<option value="CHILD ABUSE">CHILD ABUSE</option>
+<option value="CHK AREA">CHK AREA</option>
+<option value="CHK BLDG">CHK BLDG</option>
+<option value="CHK LIGHTS">CHK LIGHTS</option>
+<option value="CHK OPEN BUSINESS">CHK OPEN BUSINESS</option>
+<option value="CHK STATUS">CHK STATUS</option>
+<option value="CHK SUBJ">CHK SUBJ</option>
+<option value="CHK WELFARE">CHK WELFARE</option>
+<option value="CI DRIVING">CI DRIVING</option>
+<option value="CIVIL MATTER">CIVIL MATTER</option>
+<option value="COM VEH FIRE">COM VEH FIRE</option>
+<option value="COMMUNITY ORIENTED POLICING">COMMUNITY ORIENTED POLICING</option>
+<option value="DEATH INVEST">DEATH INVEST</option>
+<option value="DETAIL ASSIGNMENT">DETAIL ASSIGNMENT</option>
+<option value="DISTURBANCE">DISTURBANCE</option>
+<option value="DRUGS">DRUGS</option>
+<option value="DWI">DWI</option>
+<option value="EMERGENCY NOTIFICATION">EMERGENCY NOTIFICATION</option>
+<option value="EMS RESPONSE">EMS RESPONSE</option>
+<option value="ENROUTE">ENROUTE</option>
+<option value="ESCAPEE">ESCAPEE</option>
+<option value="ESCORT">ESCORT</option>
+<option value="EXHIBITIONIST">EXHIBITIONIST</option>
+<option value="FIELD INTERROGATE">FIELD INTERROGATE</option>
+<option value="FIRE ALRM">FIRE ALRM</option>
+<option value="FIREWORKS">FIREWORKS</option>
+<option value="FLAG DOWN">FLAG DOWN</option>
+<option value="FOLLOW UP">FOLLOW UP</option>
+<option value="FOOT PATROL">FOOT PATROL</option>
+<option value="FORGED PRESCRIPTION">FORGED PRESCRIPTION</option>
+<option value="FORGERY">FORGERY</option>
+<option value="FRAUD">FRAUD</option>
+<option value="FUNERAL ESCORT">FUNERAL ESCORT</option>
+<option value="HARASSMENT">HARASSMENT</option>
+<option value="INFO">INFO</option>
+<option value="INTELLIGENCE">INTELLIGENCE</option>
+<option value="INVESTIGATION">INVESTIGATION</option>
+<option value="KEEP THE PEACE">KEEP THE PEACE</option>
+<option value="KIDNAPPING">KIDNAPPING</option>
+<option value="LARCENY">LARCENY</option>
+<option value="LARCENY IN PROGRESS">LARCENY IN PROGRESS</option>
+<option value="LAW ALRM">LAW ALRM</option>
+<option value="LEAVING SCENE">LEAVING SCENE</option>
+<option value="LINES DOWN">LINES DOWN</option>
+<option value="LIQUOR LAW">LIQUOR LAW</option>
+<option value="LITTERING">LITTERING</option>
+<option value="LOCKOUT">LOCKOUT</option>
+<option value="LOST AND FOUND">LOST AND FOUND</option>
+<option value="MAN DOWN UNK PROB">MAN DOWN UNK PROB</option>
+<option value="MEDICAL EMERGENCY">MEDICAL EMERGENCY</option>
+<option value="MENTAL HEALTH ASSIST">MENTAL HEALTH ASSIST</option>
+<option value="MINOR DETAIL">MINOR DETAIL</option>
+<option value="MSNG PRSN">MSNG PRSN</option>
+<option value="MSNG VEH">MSNG VEH</option>
+<option value="MUTUAL AID (OUT OF COUNTY)">MUTUAL AID (OUT OF COUNTY)</option>
+<option value="OD">OD</option>
+<option value="OFF DUTY ASSIGNMENT">OFF DUTY ASSIGNMENT</option>
+<option value="ONSCENE">ONSCENE</option>
+<option value="OPEN DOOR/WINDOW">OPEN DOOR/WINDOW</option>
+<option value="ORDINANCE VIOL">ORDINANCE VIOL</option>
+<option value="OTHER OFFENSE">OTHER OFFENSE</option>
+<option value="PANIC ALRM">PANIC ALRM</option>
+<option value="PEACE DISTURBANCE">PEACE DISTURBANCE</option>
+<option value="PRKNG LOT CHK">PRKNG LOT CHK</option>
+<option value="PRKNG VIOL">PRKNG VIOL</option>
+<option value="PROCESS EVIDENCE">PROCESS EVIDENCE</option>
+<option value="PROCESS PRISONER">PROCESS PRISONER</option>
+<option value="PROQA LAW">PROQA LAW</option>
+<option value="PROSTITUTION">PROSTITUTION</option>
+<option value="PROWLER">PROWLER</option>
+<option value="RECOVER PROP">RECOVER PROP</option>
+<option value="ROBBERY">ROBBERY</option>
+<option value="ROBBERY IN PROGRESS">ROBBERY IN PROGRESS</option>
+<option value="RUNAWAY">RUNAWAY</option>
+<option value="SCHEDULED ESCORT">SCHEDULED ESCORT</option>
+<option value="SCOOTER STOP">SCOOTER STOP</option>
+<option value="SECURITY CHK">SECURITY CHK</option>
+<option value="SERVE EXPARTE">SERVE EXPARTE</option>
+<option value="SERVE PAPERS">SERVE PAPERS</option>
+<option value="SERVICES CLOSED">SERVICES CLOSED</option>
+<option value="SERVICES OPEN">SERVICES OPEN</option>
+<option value="SHOPLIFTING">SHOPLIFTING</option>
+<option value="SHOTS FIRED">SHOTS FIRED</option>
+<option value="SOLICITOR">SOLICITOR</option>
+<option value="SPECIAL EVENT">SPECIAL EVENT</option>
+<option value="STALLED VEH">STALLED VEH</option>
+<option value="STATUS MOVE">STATUS MOVE</option>
+<option value="SUICIDAL SUBJ">SUICIDAL SUBJ</option>
+<option value="SUICIDE ATMPT">SUICIDE ATMPT</option>
+<option value="SUSP INCIDENT">SUSP INCIDENT</option>
+<option value="SUSP PRSN">SUSP PRSN</option>
+<option value="SUSP VEH">SUSP VEH</option>
+<option value="T TRFC STOP">T TRFC STOP</option>
+<option value="TEST">TEST</option>
+<option value="TEST LAW EVENT">TEST LAW EVENT</option>
+<option value="TRANSPORT PRISONER">TRANSPORT PRISONER</option>
+<option value="TRESPASS SUBJ">TRESPASS SUBJ</option>
+<option value="TRESPASS VEH">TRESPASS VEH</option>
+<option value="TRFC CONTROL">TRFC CONTROL</option>
+<option value="TRFC HZRD">TRFC HZRD</option>
+<option value="TRFC OBSERVATION">TRFC OBSERVATION</option>
+<option value="TTL">TTL</option>
+<option value="UNKNOWN">UNKNOWN</option>
+<option value="VANDALISM">VANDALISM</option>
+<option value="VANDALISM IN PROGRESS">VANDALISM IN PROGRESS</option>
+<option value="VEH COL">VEH COL</option>
+<option value="VEH COL EXT">VEH COL EXT</option>
+<option value="VEH COL INJ">VEH COL INJ</option>
+<option value="VEH COL PED/BIKE/MC">VEH COL PED/BIKE/MC</option>
+<option value="VEH COL PRIV PROP">VEH COL PRIV PROP</option>
+<option value="VEH COL SIT UNK">VEH COL SIT UNK</option>
+<option value="VEH FIRE">VEH FIRE</option>
+<option value="VEH REPO">VEH REPO</option>
+<option value="WALKAWAY">WALKAWAY</option>
+<option value="WARRANT">WARRANT</option>
+<option value="WEATHER EVENT">WEATHER EVENT</option>
+<option value="WPNS INCIDENT">WPNS INCIDENT</option>
+<option value="100E1 CALLER IN DNGR">100E1 CALLER IN DNGR</option>
+<option value="101C2 PAST ABDUCTION">101C2 PAST ABDUCTION</option>
+<option value="101C3 PAST CUST ABDUCTION">101C3 PAST CUST ABDUCTION</option>
+<option value="101C4 PAST ATMPT ABDUCTION">101C4 PAST ATMPT ABDUCTION</option>
+<option value="101C5 CUSTODY ISSUE">101C5 CUSTODY ISSUE</option>
+<option value="101D1 HOSTAGE SIT">101D1 HOSTAGE SIT</option>
+<option value="101D2 ABDUCTION">101D2 ABDUCTION</option>
+<option value="101D3 CUST ABDUCTION">101D3 CUST ABDUCTION</option>
+<option value="101D4 ATMPT ABDUCTION">101D4 ATMPT ABDUCTION</option>
+<option value="102B1 PAST ABUSE">102B1 PAST ABUSE</option>
+<option value="102B2 PAST NEGLECT">102B2 PAST NEGLECT</option>
+<option value="102D1 ABUSE">102D1 ABUSE</option>
+<option value="102D1W ABUSE WPN">102D1W ABUSE WPN</option>
+<option value="102D2 ABANDONMENT">102D2 ABANDONMENT</option>
+<option value="102D3 NEGLECT">102D3 NEGLECT</option>
+<option value="103A1 NON URG MSG DELIVERY">103A1 NON URG MSG DELIVERY</option>
+<option value="103A2 FOUND PROPERTY">103A2 FOUND PROPERTY</option>
+<option value="103A3 LOST PROPERTY">103A3 LOST PROPERTY</option>
+<option value="103A4 ADMINISTRATIVE">103A4 ADMINISTRATIVE</option>
+<option value="103B2 URG MSG DELIVERY">103B2 URG MSG DELIVERY</option>
+<option value="103B5 FOUND UNEXPLODED EOD">103B5 FOUND UNEXPLODED EOD</option>
+<option value="103B5 PRSN/ORG ESCORT">103B5 PRSN/ORG ESCORT</option>
+<option value="103D1 MEDICAL TRANSPORT">103D1 MEDICAL TRANSPORT</option>
+<option value="104B1 ATM ALARM">104B1 ATM ALARM</option>
+<option value="104B2 LAW ALARM">104B2 LAW ALARM</option>
+<option value="104B3 LAW ALARM">104B3 LAW ALARM</option>
+<option value="104B3 LAW ALARM SUSP ACT">104B3 LAW ALARM SUSP ACT</option>
+<option value="104C1 COM BURG ALRM">104C1 COM BURG ALRM</option>
+<option value="104C2 COM BURG ALRM">104C2 COM BURG ALRM</option>
+<option value="104C2S COM BURG ALRM SUSP ACT">104C2S COM BURG ALRM SUSP ACT</option>
+<option value="104C3 RES BURG ALRM INTRUSION">104C3 RES BURG ALRM INTRUSION</option>
+<option value="104C3S RES BURG ALRM SUSP ACT">104C3S RES BURG ALRM SUSP ACT</option>
+<option value="104C4 VEH ALRM">104C4 VEH ALRM</option>
+<option value="104C4S VEH ALRM SUSP ACT">104C4S VEH ALRM SUSP ACT</option>
+<option value="104C5 TELEMATICS ALRM">104C5 TELEMATICS ALRM</option>
+<option value="104D2 COM PANIC ALRM">104D2 COM PANIC ALRM</option>
+<option value="104D3 RES PANIC ALRM">104D3 RES PANIC ALRM</option>
+<option value="104D4 COM PANIC ALRM">104D4 COM PANIC ALRM</option>
+<option value="105A1 ANML CMPLNT">105A1 ANML CMPLNT</option>
+<option value="105A2 ANML BITE">105A2 ANML BITE</option>
+<option value="105B1 PAST ANML ATTACK">105B1 PAST ANML ATTACK</option>
+<option value="105B2 PAST ANML CMPLNT">105B2 PAST ANML CMPLNT</option>
+<option value="105B3 PAST ANML CRUELTY">105B3 PAST ANML CRUELTY</option>
+<option value="105B4 BARKING DOG">105B4 BARKING DOG</option>
+<option value="105B5 PAST ILLEGAL HUNTING">105B5 PAST ILLEGAL HUNTING</option>
+<option value="105C1 ANML CRUELTY">105C1 ANML CRUELTY</option>
+<option value="105C1W ANML CRUELTY WPN">105C1W ANML CRUELTY WPN</option>
+<option value="105C2 SUSP INCIDENT">105C2 SUSP INCIDENT</option>
+<option value="105C3 ANML CMPLNT">105C3 ANML CMPLNT</option>
+<option value="105C4 INJURED ANML">105C4 INJURED ANML</option>
+<option value="105C5 ILLEGAL HUNTING">105C5 ILLEGAL HUNTING</option>
+<option value="105D1 ANML ATTACK">105D1 ANML ATTACK</option>
+<option value="105D2 DNGRS ANML CMPLNT">105D2 DNGRS ANML CMPLNT</option>
+<option value="106B3 PAST ASSLT (SEX)">106B3 PAST ASSLT (SEX)</option>
+<option value="106B4 PAST ASSLT (SEX)">106B4 PAST ASSLT (SEX)</option>
+<option value="106B5 PAST ASSLT">106B5 PAST ASSLT</option>
+<option value="106C2 STABBING JST OCC">106C2 STABBING JST OCC</option>
+<option value="106C3 ASSLT (SEX) JST OCC">106C3 ASSLT (SEX) JST OCC</option>
+<option value="106C4 ASSLT (SEX) JST OCC">106C4 ASSLT (SEX) JST OCC</option>
+<option value="106C4G ASSLT (SEX) JST OCC GUN">106C4G ASSLT (SEX) JST OCC GUN</option>
+<option value="106C5 ASSLT JST OCC">106C5 ASSLT JST OCC</option>
+<option value="106C5G ASSLT JST OCC GUN">106C5G ASSLT JST OCC GUN</option>
+<option value="106C5W ASSLT JST OCC WPN">106C5W ASSLT JST OCC WPN</option>
+<option value="106D1 SHOOTING">106D1 SHOOTING</option>
+<option value="106D2 STABBING">106D2 STABBING</option>
+<option value="106D3 ASSLT (SEX)">106D3 ASSLT (SEX)</option>
+<option value="106D3W ASSLT (SEX) WPN">106D3W ASSLT (SEX) WPN</option>
+<option value="106D4 ASSLT (SEX)">106D4 ASSLT (SEX)</option>
+<option value="106D4W ASSLT (SEX) WPN">106D4W ASSLT (SEX) WPN</option>
+<option value="106D5 ASSLT">106D5 ASSLT</option>
+<option value="106D5G ASSLT GUN">106D5G ASSLT GUN</option>
+<option value="106D5W ASSLT WPN">106D5W ASSLT WPN</option>
+<option value="107B1 ASST AGENCY">107B1 ASST AGENCY</option>
+<option value="107B1W ASST AGENCY WPN">107B1W ASST AGENCY WPN</option>
+<option value="107C1 SERVE PAPERS">107C1 SERVE PAPERS</option>
+<option value="107C1W SERVE PAPERS WPN">107C1W SERVE PAPERS WPN</option>
+<option value="107D1 URGENT ASST AGENCY">107D1 URGENT ASST AGENCY</option>
+<option value="107D1W URGENT ASST AGENCY">107D1W URGENT ASST AGENCY</option>
+<option value="108D3 EOD FOUND">108D3 EOD FOUND</option>
+<option value="108D4 SUSP PCKG">108D4 SUSP PCKG</option>
+<option value="109C1 BOMB THRT">109C1 BOMB THRT</option>
+<option value="110B2 PAST RES BURG">110B2 PAST RES BURG</option>
+<option value="110B3 PAST COM BURG">110B3 PAST COM BURG</option>
+<option value="110C1 POSS RES BURG">110C1 POSS RES BURG</option>
+<option value="110C2 POSS COM BURG">110C2 POSS COM BURG</option>
+<option value="110C3W HOME INVSN JST OCC WPN">110C3W HOME INVSN JST OCC WPN</option>
+<option value="110C4 RES BURG JST OCC">110C4 RES BURG JST OCC</option>
+<option value="110C5 COM BURG JST OCC">110C5 COM BURG JST OCC</option>
+<option value="110D2 RES BURG">110D2 RES BURG</option>
+<option value="110D2W BURG WPN">110D2W BURG WPN</option>
+<option value="110D3 COM BURG">110D3 COM BURG</option>
+<option value="111B1 PAST DAMAGE/VANDALISM">111B1 PAST DAMAGE/VANDALISM</option>
+<option value="111B2 PAST MISCHIEF">111B2 PAST MISCHIEF</option>
+<option value="111C1 DAMAGE/VANDALISM">111C1 DAMAGE/VANDALISM</option>
+<option value="111C1W DMGE/VANDAL WPN">111C1W DMGE/VANDAL WPN</option>
+<option value="111C2 MISCHIEF">111C2 MISCHIEF</option>
+<option value="111D1 DAMAGE/VANDALISM">111D1 DAMAGE/VANDALISM</option>
+<option value="111D1W DMGE/VANDAL WPN">111D1W DMGE/VANDAL WPN</option>
+<option value="111D2 MISCHIEF">111D2 MISCHIEF</option>
+<option value="112B1 DEATH INVEST">112B1 DEATH INVEST</option>
+<option value="112D1 DEATH INVEST">112D1 DEATH INVEST</option>
+<option value="112D2 DEATH INVEST">112D2 DEATH INVEST</option>
+<option value="113A1 PAST PEACE DIST">113A1 PAST PEACE DIST</option>
+<option value="113B1 PAST DIST">113B1 PAST DIST</option>
+<option value="113B2 PEACE DIST">113B2 PEACE DIST</option>
+<option value="113B3 NUISANCE">113B3 NUISANCE</option>
+<option value="113B3W PEACE DIST WPN">113B3W PEACE DIST WPN</option>
+<option value="113B4 CIVIL MATTER">113B4 CIVIL MATTER</option>
+<option value="113B4W CIVIL MATTER WPN">113B4W CIVIL MATTER WPN</option>
+<option value="113C1 PEACE DIST">113C1 PEACE DIST</option>
+<option value="113C2 INTOX CHEM IMPAIRED">113C2 INTOX CHEM IMPAIRED</option>
+<option value="113C2W INTOX CHEM IMPAIRED WPN">113C2W INTOX CHEM IMPAIRED WPN</option>
+<option value="113D1 PHYS DIST">113D1 PHYS DIST</option>
+<option value="113D1W PHYS DIST WPN">113D1W PHYS DIST WPN</option>
+<option value="113D2 VRBL DIST">113D2 VRBL DIST</option>
+<option value="113D2W VRBL DIST WPN">113D2W VRBL DIST WPN</option>
+<option value="114B1 PAST DOMSTC">114B1 PAST DOMSTC</option>
+<option value="114B2 PAST DOMSTC">114B2 PAST DOMSTC</option>
+<option value="114C1 PHYS DOMSTC JST OCC">114C1 PHYS DOMSTC JST OCC</option>
+<option value="114C1W PHYS DOMSTC JST OCC WPN">114C1W PHYS DOMSTC JST OCC WPN</option>
+<option value="114C2 PHYS DOMSTC JST OCC">114C2 PHYS DOMSTC JST OCC</option>
+<option value="114C2 VRBL DOMSTC JST OCC">114C2 VRBL DOMSTC JST OCC</option>
+<option value="114C2W VRBL DOMSTC JST OCC WPN">114C2W VRBL DOMSTC JST OCC WPN</option>
+<option value="114C3W PHYS DOMSTC JST OCC WPN">114C3W PHYS DOMSTC JST OCC WPN</option>
+<option value="114C4 VRBL DOMSTC JST OCC">114C4 VRBL DOMSTC JST OCC</option>
+<option value="114C4W VRBL DOMSTC JST OCC WPN">114C4W VRBL DOMSTC JST OCC WPN</option>
+<option value="114D1 PHYS DOMSTC">114D1 PHYS DOMSTC</option>
+<option value="114D1W PHYS DOMSTC WPN">114D1W PHYS DOMSTC WPN</option>
+<option value="114D2 VRBL DOMSTC">114D2 VRBL DOMSTC</option>
+<option value="114D2W VRBL DOMSTC WPN">114D2W VRBL DOMSTC WPN</option>
+<option value="114D3 PHYS DOMSTC">114D3 PHYS DOMSTC</option>
+<option value="114D3W PHYS DOMSTC WPN">114D3W PHYS DOMSTC WPN</option>
+<option value="114D4 VRBL DOMSTC">114D4 VRBL DOMSTC</option>
+<option value="114D4W VRBL DOMSTC WPN">114D4W VRBL DOMSTC WPN</option>
+<option value="115B1 PAST DUI">115B1 PAST DUI</option>
+<option value="115C1 DUI">115C1 DUI</option>
+<option value="115D1 DUI">115D1 DUI</option>
+<option value="116A1 PAST DRUGS">116A1 PAST DRUGS</option>
+<option value="116A2 PAST DRUGS">116A2 PAST DRUGS</option>
+<option value="116A3 PAST DRUGS">116A3 PAST DRUGS</option>
+<option value="116B1 DRUGS">116B1 DRUGS</option>
+<option value="116C1 DRUGS">116C1 DRUGS</option>
+<option value="116D1 DRUG USE/POSSESSION">116D1 DRUG USE/POSSESSION</option>
+<option value="116D2 DRUG SALE">116D2 DRUG SALE</option>
+<option value="116D3 DRUG LAB">116D3 DRUG LAB</option>
+<option value="117D1 EXPLOSION">117D1 EXPLOSION</option>
+<option value="117D3 EXPLOSION">117D3 EXPLOSION</option>
+<option value="118B1 PAST FRAUD">118B1 PAST FRAUD</option>
+<option value="118B2 PAST FRAUD">118B2 PAST FRAUD</option>
+<option value="118C1 FRAUD">118C1 FRAUD</option>
+<option value="118D1 FRAUD">118D1 FRAUD</option>
+<option value="118D2 FRAUD">118D2 FRAUD</option>
+<option value="119A1 PAST STALKING">119A1 PAST STALKING</option>
+<option value="119A2 PAST THRT">119A2 PAST THRT</option>
+<option value="119A3 PAST HARRASSMENT">119A3 PAST HARRASSMENT</option>
+<option value="119B1 PHN THRT">119B1 PHN THRT</option>
+<option value="119B2 SOC MED THRT">119B2 SOC MED THRT</option>
+<option value="119B3 PHN HARRASSMENT">119B3 PHN HARRASSMENT</option>
+<option value="119B4 SOC MED HRSSMNT">119B4 SOC MED HRSSMNT</option>
+<option value="119C1 STALKING">119C1 STALKING</option>
+<option value="119C2 THRT">119C2 THRT</option>
+<option value="119C2 THRT WPN">119C2 THRT WPN</option>
+<option value="119C3 HARRASSMENT">119C3 HARRASSMENT</option>
+<option value="119C3W HARRASSMENT WPN">119C3W HARRASSMENT WPN</option>
+<option value="119D1 STALKING">119D1 STALKING</option>
+<option value="119D2 THRT">119D2 THRT</option>
+<option value="119D2W THRT WPN">119D2W THRT WPN</option>
+<option value="119D3 HRSSMNT">119D3 HRSSMNT</option>
+<option value="119D3 HRSSMNT WPN">119D3 HRSSMNT WPN</option>
+<option value="120B1 PAST INDECENCY">120B1 PAST INDECENCY</option>
+<option value="120B3 INDECENCY">120B3 INDECENCY</option>
+<option value="120B4 PAST PROSTITUTION">120B4 PAST PROSTITUTION</option>
+<option value="120C1 PROSTITUTION">120C1 PROSTITUTION</option>
+<option value="120D1 INDECENCY">120D1 INDECENCY</option>
+<option value="121B1 BEH PROB NONVIOL">121B1 BEH PROB NONVIOL</option>
+<option value="121B1W BEH PROB NONVIOL WPN">121B1W BEH PROB NONVIOL WPN</option>
+<option value="121C1 BEH PROB VIOLNT">121C1 BEH PROB VIOLNT</option>
+<option value="121C2 BEH PROB VIOLNT">121C2 BEH PROB VIOLNT</option>
+<option value="121C2W BEH PROB VIOLNT WPN">121C2W BEH PROB VIOLNT WPN</option>
+<option value="121D1 BEHAV PROB VIOLENT">121D1 BEHAV PROB VIOLENT</option>
+<option value="121D1W BEH PROB VIOLNT WPN">121D1W BEH PROB VIOLNT WPN</option>
+<option value="121D2 BEH PROB VIOLNT">121D2 BEH PROB VIOLNT</option>
+<option value="121D2W BEH PROB VIOLNT WPN">121D2W BEH PROB VIOLNT WPN</option>
+<option value="121D3 BEH PROB UNK IF VIOLNT">121D3 BEH PROB UNK IF VIOLNT</option>
+<option value="121D3W BEH PROB UNK VIOLNT WPN">121D3W BEH PROB UNK VIOLNT WPN</option>
+<option value="122B1 MISC INFO">122B1 MISC INFO</option>
+<option value="122B2 CURFEW VIOL">122B2 CURFEW VIOL</option>
+<option value="122D1 URGENT MISC INFO">122D1 URGENT MISC INFO</option>
+<option value="123B1 MSNG PRSN">123B1 MSNG PRSN</option>
+<option value="123B2 RUNAWAY">123B2 RUNAWAY</option>
+<option value="123B3 FOUND PRSN">123B3 FOUND PRSN</option>
+<option value="123B4 FOUND PRSN">123B4 FOUND PRSN</option>
+<option value="123C1 LOST PRSN SELF REPORT">123C1 LOST PRSN SELF REPORT</option>
+<option value="123D1 MSNG PRSN AT RISK">123D1 MSNG PRSN AT RISK</option>
+<option value="123D1W MSNG PRSN AT RISK WPN">123D1W MSNG PRSN AT RISK WPN</option>
+<option value="123D3 MSNG PRSN AT RISK">123D3 MSNG PRSN AT RISK</option>
+<option value="123D3W MSNG PRSN AT RISK WPN">123D3W MSNG PRSN AT RISK WPN</option>
+<option value="124C1 ASST OFFICER">124C1 ASST OFFICER</option>
+<option value="125A1 KEEP THE PEACE">125A1 KEEP THE PEACE</option>
+<option value="125B1 CHK WELFARE">125B1 CHK WELFARE</option>
+<option value="125B2 LOCKOUT">125B2 LOCKOUT</option>
+<option value="125C1 KEEP THE PEACE">125C1 KEEP THE PEACE</option>
+<option value="125C1W KEEP THE PEACE WPN">125C1W KEEP THE PEACE WPN</option>
+<option value="125D1 URGENT CHK WELFARE">125D1 URGENT CHK WELFARE</option>
+<option value="125D1W URGENT CHK WELFARE WPN">125D1W URGENT CHK WELFARE WPN</option>
+<option value="125D2 URGENT LOCKOUT">125D2 URGENT LOCKOUT</option>
+<option value="125D3 RECKLESS ACT">125D3 RECKLESS ACT</option>
+<option value="125D3W RECKLESS ACT WPN">125D3W RECKLESS ACT WPN</option>
+<option value="126B1 PAST ROBB">126B1 PAST ROBB</option>
+<option value="126B3 PAST CARJACK">126B3 PAST CARJACK</option>
+<option value="126C1 PRSNL ROBB JST OCC">126C1 PRSNL ROBB JST OCC</option>
+<option value="126C1G PRSNL ROBB JST OCC GUN">126C1G PRSNL ROBB JST OCC GUN</option>
+<option value="126C1W PRSNL ROBB JST OCC WPN">126C1W PRSNL ROBB JST OCC WPN</option>
+<option value="126C2 COM ROBB JST OCC">126C2 COM ROBB JST OCC</option>
+<option value="126C2W COM ROBB JST OCC WPN">126C2W COM ROBB JST OCC WPN</option>
+<option value="126D1 ROBB">126D1 ROBB</option>
+<option value="126D1G ROBB GUN">126D1G ROBB GUN</option>
+<option value="126D1W ROBB WPN">126D1W ROBB WPN</option>
+<option value="127B1 PAST SUICIDE ATMPT">127B1 PAST SUICIDE ATMPT</option>
+<option value="127B1W PAST SUICIDE ATMPT WPN">127B1W PAST SUICIDE ATMPT WPN</option>
+<option value="127B2 PAST SUICIDAL SUBJ">127B2 PAST SUICIDAL SUBJ</option>
+<option value="127D1 SUICIDE ATMPT">127D1 SUICIDE ATMPT</option>
+<option value="127D1G SUICIDE ATMPT GUN">127D1G SUICIDE ATMPT GUN</option>
+<option value="127D1W SUICIDE ATMPT WPN">127D1W SUICIDE ATMPT WPN</option>
+<option value="127D2 SUICIDAL SUBJ">127D2 SUICIDAL SUBJ</option>
+<option value="127D2G SUICIDAL SUBJ GUN">127D2G SUICIDAL SUBJ GUN</option>
+<option value="127D2W SUICIDAL SUBJ WPN">127D2W SUICIDAL SUBJ WPN</option>
+<option value="128A1 SUPPLEMENTAL INFO">128A1 SUPPLEMENTAL INFO</option>
+<option value="128A2 SUPPLEMENTAL INFO">128A2 SUPPLEMENTAL INFO</option>
+<option value="128A3 SUPPLEMENTAL INFO">128A3 SUPPLEMENTAL INFO</option>
+<option value="128A4 SUPPLEMENTAL INFO">128A4 SUPPLEMENTAL INFO</option>
+<option value="128B1 SUPPLEMENTAL INFO">128B1 SUPPLEMENTAL INFO</option>
+<option value="129B1 PAST SUSP PRSN">129B1 PAST SUSP PRSN</option>
+<option value="129B2 PAST SUSP VEH">129B2 PAST SUSP VEH</option>
+<option value="129B3 PAST SUSP INCIDENT">129B3 PAST SUSP INCIDENT</option>
+<option value="129C1 SUSP PRSN">129C1 SUSP PRSN</option>
+<option value="129C1W SUSP PRSN WPN">129C1W SUSP PRSN WPN</option>
+<option value="129C2 WANTED PRSN">129C2 WANTED PRSN</option>
+<option value="129C2W WANTED PRSN WPN">129C2W WANTED PRSN WPN</option>
+<option value="129C3 SUSP VEH">129C3 SUSP VEH</option>
+<option value="129C3W SUSP VEH WPN">129C3W SUSP VEH WPN</option>
+<option value="129C4 WANTED VEH">129C4 WANTED VEH</option>
+<option value="129C5 SUSP INCIDENT">129C5 SUSP INCIDENT</option>
+<option value="129C5W SUSP INCIDENT WPN">129C5W SUSP INCIDENT WPN</option>
+<option value="129C6 ORDER VIOL">129C6 ORDER VIOL</option>
+<option value="129C6W ORDER VIOL WPN">129C6W ORDER VIOL WPN</option>
+<option value="130B1 PAST THEFT">130B1 PAST THEFT</option>
+<option value="130B2 PAST VEH THEFT">130B2 PAST VEH THEFT</option>
+<option value="130B3 PAST THEFT">130B3 PAST THEFT</option>
+<option value="130B4 PAST ATMPT THEFT">130B4 PAST ATMPT THEFT</option>
+<option value="130B5 PAST ATMPT THEFT">130B5 PAST ATMPT THEFT</option>
+<option value="130B6 PAST ATMPT THEFT">130B6 PAST ATMPT THEFT</option>
+<option value="130C1 THEFT">130C1 THEFT</option>
+<option value="130C1W THEFT WPN">130C1W THEFT WPN</option>
+<option value="130C2 VEH THEFT">130C2 VEH THEFT</option>
+<option value="130C3 THEFT">130C3 THEFT</option>
+<option value="130C3W THEFT WPN">130C3W THEFT WPN</option>
+<option value="130D1 THEFT">130D1 THEFT</option>
+<option value="130D1W THEFT WPN">130D1W THEFT WPN</option>
+<option value="130D2 VEH THEFT">130D2 VEH THEFT</option>
+<option value="130D3 THEFT">130D3 THEFT</option>
+<option value="130D3W THEFT WPN">130D3W THEFT WPN</option>
+<option value="131A1 PAST VEH COL">131A1 PAST VEH COL</option>
+<option value="131A2 PAST LEAVE SCENE">131A2 PAST LEAVE SCENE</option>
+<option value="131B1 VEH COL">131B1 VEH COL</option>
+<option value="131B1A VEH COL ANML">131B1A VEH COL ANML</option>
+<option value="131B1B VEH COL BLKNG">131B1B VEH COL BLKNG</option>
+<option value="131B2 VEH COL MINOR INJ">131B2 VEH COL MINOR INJ</option>
+<option value="131B2B VC MINOR INJ BLKNG">131B2B VC MINOR INJ BLKNG</option>
+<option value="131B3 LEAVE SCENE">131B3 LEAVE SCENE</option>
+<option value="131B3 LEAVE SCENE BLKG">131B3 LEAVE SCENE BLKG</option>
+<option value="131B4 LEAVE SCENE INJ EMS RFSD">131B4 LEAVE SCENE INJ EMS RFSD</option>
+<option value="131C1 VEH COL SIT UNK">131C1 VEH COL SIT UNK</option>
+<option value="131C1B VEH COL SIT UNK BLKG">131C1B VEH COL SIT UNK BLKG</option>
+<option value="131C2 LEAVE SCENE SIT UNK">131C2 LEAVE SCENE SIT UNK</option>
+<option value="131C2B LEAVE SCENE SIT UNK BLK">131C2B LEAVE SCENE SIT UNK BLK</option>
+<option value="131D1 VEH COL INJ">131D1 VEH COL INJ</option>
+<option value="131D1B VEH COL INJ BLKG">131D1B VEH COL INJ BLKG</option>
+<option value="132A1 ABND VEH">132A1 ABND VEH</option>
+<option value="132A2 PAST TRFC VIOL">132A2 PAST TRFC VIOL</option>
+<option value="132B1 MINOR TRFC VIOL">132B1 MINOR TRFC VIOL</option>
+<option value="132B2 PRKNG VIOL">132B2 PRKNG VIOL</option>
+<option value="132B3 STALLED VEH">132B3 STALLED VEH</option>
+<option value="132B4 PAST ROAD RAGE">132B4 PAST ROAD RAGE</option>
+<option value="132C1 SERIOUS TRFC VIOL">132C1 SERIOUS TRFC VIOL</option>
+<option value="132C2 HZRD ROAD CONDITIONS">132C2 HZRD ROAD CONDITIONS</option>
+<option value="132C3 HZRD VEH">132C3 HZRD VEH</option>
+<option value="132D1 ROAD RAGE">132D1 ROAD RAGE</option>
+<option value="132D1W ROAD RAGE WPN">132D1W ROAD RAGE WPN</option>
+<option value="133B1 PAST TRESPASS">133B1 PAST TRESPASS</option>
+<option value="133D1 TRESPASS">133D1 TRESPASS</option>
+<option value="133D1W TRESPASS WPN">133D1W TRESPASS WPN</option>
+<option value="134D1 UNK INCIDENT">134D1 UNK INCIDENT</option>
+<option value="135B1G PAST WPNS INCIDENT">135B1G PAST WPNS INCIDENT</option>
+<option value="135B1W PAST WPNS INCIDENT">135B1W PAST WPNS INCIDENT</option>
+<option value="135B2W PAST SHOTS FIRED">135B2W PAST SHOTS FIRED</option>
+<option value="135C1 SHOTS HEARD">135C1 SHOTS HEARD</option>
+<option value="135C1G SHOTS HEARD">135C1G SHOTS HEARD</option>
+<option value="135C1W SHOTS HEARD">135C1W SHOTS HEARD</option>
+<option value="135D1G WPNS INCIDENT">135D1G WPNS INCIDENT</option>
+<option value="135D1W WPNS INCIDENT">135D1W WPNS INCIDENT</option>
+<option value="135D2G SHOTS FIRED">135D2G SHOTS FIRED</option>
+<option value="135D2W SHOTS FIRED">135D2W SHOTS FIRED</option>
+<option value="136E1 ACTIVE ASSAILANT">136E1 ACTIVE ASSAILANT</option>
+<option value="136E1G ACTIVE ASSAILANT GUN">136E1G ACTIVE ASSAILANT GUN</option>
+<option value="25B6 PSYC PROB">25B6 PSYC PROB</option>
+<option value="52C FIRE ALRM">52C FIRE ALRM</option>
+<option value="52C PULL STATION ALRM">52C PULL STATION ALRM</option>
+<option value="53A1 BLDG LOCKOUT">53A1 BLDG LOCKOUT</option>
+<option value="53B1 LOCKED IN VEH">53B1 LOCKED IN VEH</option>
+<option value="57B EXPLSN">57B EXPLSN</option>
+<option value="57B2 EXPLOSION">57B2 EXPLOSION</option>
+<option value="57B2F EXPLOSION">57B2F EXPLOSION</option>
+<option value="57C2 EXPLSN">57C2 EXPLSN</option>
+<option value="74C2 SUSP PCKG">74C2 SUSP PCKG</option>
+<option value="77A VEH COL FIRE">77A VEH COL FIRE</option>
+<option value="77A VEH COL HZRD">77A VEH COL HZRD</option>
+<option value="77B VEH COL FIRE">77B VEH COL FIRE</option>
+<option value="77B VEH COL INJ">77B VEH COL INJ</option>
+<option value="77B VEH COL INJ FIRE">77B VEH COL INJ FIRE</option>
+<option value="77B VEH COL SIT UNK">77B VEH COL SIT UNK</option>
+<option value="77B1T VEH COL INJ EXT">77B1T VEH COL INJ EXT</option>
+<option value="77B2L VEH COL FIRE EXT">77B2L VEH COL FIRE EXT</option>
+<option value="77B3T VEH COL SIT UNK EXT">77B3T VEH COL SIT UNK EXT</option>
+<option value="77C VEH COL FLUID LEAK">77C VEH COL FLUID LEAK</option>
+<option value="77C VEH COL INJ">77C VEH COL INJ</option>
+<option value="77C VEH COL INJ FIRE">77C VEH COL INJ FIRE</option>
+<option value="77C1L VEH COL INJ FIRE EXT">77C1L VEH COL INJ FIRE EXT</option>
+<option value="77C1T VEH COL INJ EXT">77C1T VEH COL INJ EXT</option>
+<option value="77C2F VEH COL FIRE">77C2F VEH COL FIRE</option>
+<option value="77C2T VEH COL EXT">77C2T VEH COL EXT</option>
+<option value="77D VEH COL BLDG">77D VEH COL BLDG</option>
+<option value="77D VEH COL EJCT FIRE">77D VEH COL EJCT FIRE</option>
+<option value="77D VEH COL EXT">77D VEH COL EXT</option>
+<option value="77D VEH COL FIRE">77D VEH COL FIRE</option>
+<option value="77D VEH COL HIGH MECH">77D VEH COL HIGH MECH</option>
+<option value="77D VEH COL MULT CAR PILE UP">77D VEH COL MULT CAR PILE UP</option>
+<option value="77D10 COM VEH COL">77D10 COM VEH COL</option>
+<option value="77D4 VEH COL PED/BIKE/MC">77D4 VEH COL PED/BIKE/MC</option>
+<option value="77D5 VEH COL EJCT">77D5 VEH COL EJCT</option>
+<option value="77D7 VEH COL UNSTEADY VEH">77D7 VEH COL UNSTEADY VEH</option>
+<option value="77D8 COM VEH COL">77D8 COM VEH COL</option>
+<option value="77D9 VEH COL UNSTEADY VEH">77D9 VEH COL UNSTEADY VEH</option>
+<option value="77D99 VEH COL EXT FIRE">77D99 VEH COL EXT FIRE</option>
+<option value="77E1 VEH COL FIRE OCCUP TRAPD">77E1 VEH COL FIRE OCCUP TRAPD</option>
+<option value="77O VEH COL FIRE">77O VEH COL FIRE</option>
+<option value="77O2 VEH COL">77O2 VEH COL</option>
+<option value="79C99 LOST PERSON">79C99 LOST PERSON</option>
+<option value="79C99A LOST PPL">79C99A LOST PPL</option>
+<option value="911 CHK">911 CHK</option>
+
+</select></span>
+</div>
+    <div><label for="val_ADDR01">Address: </label>
+<input class="mrcinput" id="val_ADDR01" name="val_ADDR01" size="25" title="Address" type="text" value=""></div>
+    <div><label for="val_CALCULA006">Location: </label>
+<select class="mrcselect relation" id="F_C_LI_CALCULA006" name="rls_CALCULA006" style="display: none;">    <option title="Equal" value="EQ">EQ</option>
+    <option title="Not equal" value="NE">NE</option>
+    <option title="Greater than or equal" value="GE">GE</option>
+    <option title="Greater than" value="GT">GT</option>
+    <option title="Less than or equal" value="LE">LE</option>
+    <option title="Less than" value="LT">LT</option>
+    <option title="In the list" value="LS">LS</option>
+    <option title="Not in the list" value="NS">NS</option>
+    <option title="In the range" value="RG">RG</option>
+    <option title="Not in the range" value="NR">NR</option>
+    <option title="Contains" value="CT">CT</option>
+    <option title="Does not Contain" value="NC">NC</option>
+    <option title="Contains all" value="CA">CA</option>
+    <option title="Contains any" value="CO">CO</option>
+    <option title="Starts with" value="SW">SW</option>
+    <option title="Does not Start with" value="NW">NW</option></select>
+<select class="mrcselect" id="val_CALCULA006" name="val_CALCULA006" title="Choose specific location of call">    <option value="" selected="selected">ALL LOCATIONS</option>
+    <option value="AS">ASHLAND</option>
+    <option value="BC">BOONE COUNTY</option>
+    <option value="CE">CENTRALIA</option>
+    <option value="CO">COLUMBIA</option>
+    <option value="HA">HALLSVILLE</option>
+    <option value="HB">HARTSBURG</option>
+    <option value="HR">HARRISBURG</option>
+    <option value="HU">HUNTSDALE</option>
+    <option value="MC">MCBAINE</option>
+    <option value="RO">ROCHEPORT</option>
+    <option value="ST">STURGEON</option></select>
+</div>
+    <div><button class="btn btn-primary" name="btn_search" type="submit"><i class="fa fa-large fa-search">&nbsp;</i> Search</button>&nbsp;<button class="btn btn-default" name="btn_reset" type="reset"><i class="fa fa-large fa-repeat">&nbsp;</i> Reset</button>
+<a class="btn btn-default excel"><i class="fa fa-large fa-file-excel-o">&nbsp;</i> Export to Excel</a>
+<a class="btn btn-default pdf"><i class="fa fa-large fa-file-pdf-o">&nbsp;</i> Export to PDF</a>
+</div>
+    </div>
+    </div>
+    </div>
+<!-- Begin Run Time Message -->
+    <div class="errortext1"></div>
+<!-- End Run Time Message -->
+<!-- Begin Data Table -->
+<script> jQuery(document).ready(function(){   changeSelected2('CALLDATE', 'RG','FORM_I00070');      var greynames=new Array("s0CALLDATE","s0CALLTIME"); setSortImage2(greynames,'FORM_I00070'); });  </script>
+    <table cellspacing="0" class="collapse data-table shadow responsive">
+        <thead>
+            <tr class="tr-paging">
+                <th class="th_left paging_row" colspan="100">&nbsp;
+<!---->
+ 78 Total Items &nbsp;|&nbsp;
+<span>
+ Page Size&nbsp;</span>
+<input class="mrcinput" name="max_rows" size="3" title="max_rowsp" type="text" value="30"> &nbsp;
+<!--  -->
+                    <div class="pagination pagination-right fixed-pagination">
+                    <ul>
+                        <li class="first">
+<a class="" data-pagetype="btn_top" href="javascript:void(0)"><i class="fa fa-angle-double-left">&nbsp;</i> <em class="first-page-text">First Page</em></a>
+</li>
+                        <li class="back">
+<a class="" data-pagetype="btn_prev" href="javascript:void(0)"><i class="fa fa-angle-left">&nbsp;</i></a>
+</li>
+                        <li class="disabled">
+<a href="#" tabindex="-1">Page 1 of 3</a>
+</li>
+                        <li>
+<a class="page-button" data-pagetype="btn_next" href="javascript:void(0)"><i class="fa fa-angle-right">&nbsp;</i></a>
+</li>
+                    </ul>
+                    </div>
+                <span class="btn btn-primary mobileOnly sortOptions"><i class="fa fa-large fa-sort"> </i> Sort Options</span></th>
+            </tr>
+<!--BEGIN_SORT_TABLE_HEADER-->
+            <tr class="table-header hideOnMobile mobileSort" id="sort_table_head">
+                <th data-col="CALLDATE" class="highlight">
+<a class="sort-col" data-field="CALLDATE" href="javascript:void(0)">Call Date <i class="fa fa-caret-down">&nbsp;</i></a>
+</th>
+                <th data-col="CALLTIME" class="highlight">
+<a class="sort-col" data-field="CALLTIME" href="javascript:void(0)">Call Time <i class="fa fa-caret-down">&nbsp;</i></a>
+</th>
+                <th data-col="INNUM">
+<a class="sort-col" data-field="INNUM" href="javascript:void(0)">Incident # <i class="fa fa-sort">&nbsp;</i></a>
+</th>
+                <th data-col="REPORT">
+<a class="sort-col" data-field="REPORT" href="javascript:void(0)">Case # <i class="fa fa-sort">&nbsp;</i></a>
+</th>
+                <th data-col="ADDR01">
+<a class="sort-col" data-field="ADDR01" href="javascript:void(0)">Address <i class="fa fa-sort">&nbsp;</i></a>
+</th>
+                <th data-col="APTLOT">
+<a class="sort-col" data-field="APTLOT" href="javascript:void(0)">Apt. Lot <i class="fa fa-sort">&nbsp;</i></a>
+</th>
+                <th data-col="EXTERNAL">
+<a class="sort-col" data-field="EXTERNAL" href="javascript:void(0)">Incident <i class="fa fa-sort">&nbsp;</i></a>
+</th>
+            </tr>
+<!--END_SORT_TABLE_HEADER-->
+<!--BEGIN_ADVANCED_SEARCH-->
+<!---->
+            <tr id="search_table_head" style="display: none;">
+                <th align="center">
+<a class="nav" href="/mrcjava/mrcclasses/filter_relationship_help.html" linkedtype="" target="_blank" title="Filter Relationship Help">?</a>
+<select class="mrcselect relation" id="F_C_LI_CALLDATE" name="rls_CALLDATE">                    <option title="Equal" value="EQ">EQ</option>
+                    <option title="Not equal" value="NE">NE</option>
+                    <option title="Greater than or equal" value="GE">GE</option>
+                    <option title="Greater than" value="GT">GT</option>
+                    <option title="Less than or equal" value="LE">LE</option>
+                    <option title="Less than" value="LT">LT</option>
+                    <option title="In the list" value="LS">LS</option>
+                    <option title="Not in the list" value="NS">NS</option>
+                    <option selected="selected" title="In the range" value="RG">RG</option>
+                    <option title="Not in the range" value="NR">NR</option>
+                    <option title="Contains" value="CT">CT</option>
+                    <option title="Does not Contain" value="NC">NC</option>
+                    <option title="Contains all" value="CA">CA</option>
+                    <option title="Contains any" value="CO">CO</option>
+                    <option title="Starts with" value="SW">SW</option>
+                    <option title="Does not Start with" value="NW">NW</option></select>
+<input class="mrcinput" id="val_CALLDATE" name="val_CALLDATE" size="6" title="val_CALLDATE" type="text" value="06/07/2023 06/08/2023"></th>
+                <th align="center">
+<select class="mrcselect relation" id="F_C_LI_CALLTIME" name="rls_CALLTIME">                    <option title="Equal" value="EQ">EQ</option>
+                    <option title="Not equal" value="NE">NE</option>
+                    <option title="Greater than or equal" value="GE">GE</option>
+                    <option title="Greater than" value="GT">GT</option>
+                    <option title="Less than or equal" value="LE">LE</option>
+                    <option title="Less than" value="LT">LT</option>
+                    <option title="In the list" value="LS">LS</option>
+                    <option title="Not in the list" value="NS">NS</option>
+                    <option title="In the range" value="RG">RG</option>
+                    <option title="Not in the range" value="NR">NR</option>
+                    <option title="Contains" value="CT">CT</option>
+                    <option title="Does not Contain" value="NC">NC</option>
+                    <option title="Contains all" value="CA">CA</option>
+                    <option title="Contains any" value="CO">CO</option>
+                    <option title="Starts with" value="SW">SW</option>
+                    <option title="Does not Start with" value="NW">NW</option></select>
+<input class="mrcinput" id="val_CALLTIME" name="val_CALLTIME" size="6" title="val_CALLTIME" type="text" value=""></th>
+                <th align="center">
+<select class="mrcselect relation" id="F_C_LI_INNUM" name="rls_INNUM">                    <option title="Equal" value="EQ">EQ</option>
+                    <option title="Not equal" value="NE">NE</option>
+                    <option title="Greater than or equal" value="GE">GE</option>
+                    <option title="Greater than" value="GT">GT</option>
+                    <option title="Less than or equal" value="LE">LE</option>
+                    <option title="Less than" value="LT">LT</option>
+                    <option title="In the list" value="LS">LS</option>
+                    <option title="Not in the list" value="NS">NS</option>
+                    <option title="In the range" value="RG">RG</option>
+                    <option title="Not in the range" value="NR">NR</option>
+                    <option title="Contains" value="CT">CT</option>
+                    <option title="Does not Contain" value="NC">NC</option>
+                    <option title="Contains all" value="CA">CA</option>
+                    <option title="Contains any" value="CO">CO</option>
+                    <option title="Starts with" value="SW">SW</option>
+                    <option title="Does not Start with" value="NW">NW</option></select>
+<input class="mrcinput" id="val_INNUM" name="val_INNUM" size="6" title="val_INNUM" type="text" value=""></th>
+                <th align="center">
+<select class="mrcselect relation" id="F_C_LI_REPORT" name="rls_REPORT">                    <option title="Equal" value="EQ">EQ</option>
+                    <option title="Not equal" value="NE">NE</option>
+                    <option title="Greater than or equal" value="GE">GE</option>
+                    <option title="Greater than" value="GT">GT</option>
+                    <option title="Less than or equal" value="LE">LE</option>
+                    <option title="Less than" value="LT">LT</option>
+                    <option title="In the list" value="LS">LS</option>
+                    <option title="Not in the list" value="NS">NS</option>
+                    <option title="In the range" value="RG">RG</option>
+                    <option title="Not in the range" value="NR">NR</option>
+                    <option title="Contains" value="CT">CT</option>
+                    <option title="Does not Contain" value="NC">NC</option>
+                    <option title="Contains all" value="CA">CA</option>
+                    <option title="Contains any" value="CO">CO</option>
+                    <option title="Starts with" value="SW">SW</option>
+                    <option title="Does not Start with" value="NW">NW</option></select>
+<input class="mrcinput" id="val_REPORT" name="val_REPORT" size="6" title="val_REPORT" type="text" value=""></th>
+                <th align="center">
+<select class="mrcselect relation" id="F_C_LI_ADDR01" name="rls_ADDR01">                    <option title="Equal" value="EQ">EQ</option>
+                    <option title="Not equal" value="NE">NE</option>
+                    <option title="Greater than or equal" value="GE">GE</option>
+                    <option title="Greater than" value="GT">GT</option>
+                    <option title="Less than or equal" value="LE">LE</option>
+                    <option title="Less than" value="LT">LT</option>
+                    <option title="In the list" value="LS">LS</option>
+                    <option title="Not in the list" value="NS">NS</option>
+                    <option title="In the range" value="RG">RG</option>
+                    <option title="Not in the range" value="NR">NR</option>
+                    <option selected="selected" title="Contains" value="CT">CT</option>
+                    <option title="Does not Contain" value="NC">NC</option>
+                    <option title="Contains all" value="CA">CA</option>
+                    <option title="Contains any" value="CO">CO</option>
+                    <option title="Starts with" value="SW">SW</option>
+                    <option title="Does not Start with" value="NW">NW</option></select>
+<input class="mrcinput" id="val_ADDR01" name="val_ADDR01" size="6" title="val_ADDR01" type="text" value=""></th>
+                <th align="center">
+<select class="mrcselect relation" id="F_C_LI_APTLOT" name="rls_APTLOT">                    <option title="Equal" value="EQ">EQ</option>
+                    <option title="Not equal" value="NE">NE</option>
+                    <option title="Greater than or equal" value="GE">GE</option>
+                    <option title="Greater than" value="GT">GT</option>
+                    <option title="Less than or equal" value="LE">LE</option>
+                    <option title="Less than" value="LT">LT</option>
+                    <option title="In the list" value="LS">LS</option>
+                    <option title="Not in the list" value="NS">NS</option>
+                    <option title="In the range" value="RG">RG</option>
+                    <option title="Not in the range" value="NR">NR</option>
+                    <option title="Contains" value="CT">CT</option>
+                    <option title="Does not Contain" value="NC">NC</option>
+                    <option title="Contains all" value="CA">CA</option>
+                    <option title="Contains any" value="CO">CO</option>
+                    <option title="Starts with" value="SW">SW</option>
+                    <option title="Does not Start with" value="NW">NW</option></select>
+<input class="mrcinput" id="val_APTLOT" name="val_APTLOT" size="6" title="val_APTLOT" type="text" value=""></th>
+                <th align="center"></th>
+            </tr>
+<!--  -->
+</thead>
+<!--END_ADVANCED_SEARCH-->
+        <tbody class="stripe" id="mrc_main_table">
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">1:00 PM</td>
+                <td class="one td_left" data-th="Incident #">2023134696</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=111-1+E+BROADWAY&amp;sll=1135582.63,1687228.00&amp;d=06%2F07%2F2023&amp;t=1%3A00%20PM&amp;i=2023134696&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1687228.00;1135582.63;102697&amp;level=7');" title="show location on a map">111-1 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">12:53 PM</td>
+                <td class="two td_left" data-th="Incident #">2023134692</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=700-201+E+BROADWAY&amp;sll=1135330.00,1688914.38&amp;d=06%2F07%2F2023&amp;t=12%3A53%20PM&amp;i=2023134692&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1688914.38;1135330.00;102697&amp;level=7');" title="show location on a map">700-201 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">12:51 PM</td>
+                <td class="one td_left" data-th="Incident #">2023134691</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=5502+HUNLEY+CT&amp;sll=1134569.13,1710287.00&amp;d=06%2F07%2F2023&amp;t=12%3A51%20PM&amp;i=2023134691&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1710287.00;1134569.13;102697&amp;level=7');" title="show location on a map">5502 HUNLEY CT</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">12:50 PM</td>
+                <td class="two td_left" data-th="Incident #">2023134689</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=701+E+BROADWAY&amp;sll=1135463.38,1688947.13&amp;d=06%2F07%2F2023&amp;t=12%3A50%20PM&amp;i=2023134689&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1688947.13;1135463.38;102697&amp;level=7');" title="show location on a map">701 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">12:49 PM</td>
+                <td class="one td_left" data-th="Incident #">2023134688</td>
+                <td class="one td_left" data-th="Case #">23002296</td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=E+OREAR+RD/N+BROWNS+STATION+DR&amp;sll=1170407.63,1708371.88&amp;d=06%2F07%2F2023&amp;t=12%3A49%20PM&amp;i=2023134688&amp;c=23002296&amp;n=131B1B%20VEH%20COL%20BLKNG -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1708371.88;1170407.63;102697&amp;level=7');" title="show location on a map">E OREAR RD/N BROWNS STATION DR</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">131B1B VEH COL BLKNG</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">12:47 PM</td>
+                <td class="two td_left" data-th="Incident #">2023134684</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=5502+HUNLEY+CT&amp;sll=1134569.13,1710287.00&amp;d=06%2F07%2F2023&amp;t=12%3A47%20PM&amp;i=2023134684&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1710287.00;1134569.13;102697&amp;level=7');" title="show location on a map">5502 HUNLEY CT</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">12:46 PM</td>
+                <td class="one td_left" data-th="Incident #">2023134682</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=6100+E+OREAR+RD&amp;sll=1170574.38,1713722.25&amp;d=06%2F07%2F2023&amp;t=12%3A46%20PM&amp;i=2023134682&amp;c=%20&amp;n=125D1%20URGENT%20CHK%20WELFARE -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1713722.25;1170574.38;102697&amp;level=7');" title="show location on a map">6100 E OREAR RD</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">125D1 URGENT CHK WELFARE</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">12:30 PM</td>
+                <td class="two td_left" data-th="Incident #">2023134669</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=2118+S+EL+CENTRO+CT&amp;sll=1126729.00,1704175.38&amp;d=06%2F07%2F2023&amp;t=12%3A30%20PM&amp;i=2023134669&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1704175.38;1126729.00;102697&amp;level=7');" title="show location on a map">2118 S EL CENTRO CT</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">12:12 PM</td>
+                <td class="one td_left" data-th="Incident #">2023134653</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=4924+KENORA+DR&amp;sll=1129275.88,1707746.38&amp;d=06%2F07%2F2023&amp;t=12%3A12%20PM&amp;i=2023134653&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1707746.38;1129275.88;102697&amp;level=7');" title="show location on a map">4924 KENORA DR</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">12:12 PM</td>
+                <td class="two td_left" data-th="Incident #">2023134651</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=12101+S+RTE+N&amp;sll=1083543.75,1678632.88&amp;d=06%2F07%2F2023&amp;t=12%3A12%20PM&amp;i=2023134651&amp;c=%20&amp;n=911%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1678632.88;1083543.75;102697&amp;level=7');" title="show location on a map">12101 S RTE N</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">911 CHK</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">12:10 PM</td>
+                <td class="one td_left" data-th="Incident #">2023134649</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=801+E+BROADWAY&amp;sll=1135468.13,1689239.38&amp;d=06%2F07%2F2023&amp;t=12%3A10%20PM&amp;i=2023134649&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1689239.38;1135468.13;102697&amp;level=7');" title="show location on a map">801 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">12:02 PM</td>
+                <td class="two td_left" data-th="Incident #">2023134634</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=8650-B+E+I70+DR+SE&amp;sll=1137659.38,1723644.13&amp;d=06%2F07%2F2023&amp;t=12%3A02%20PM&amp;i=2023134634&amp;c=%20&amp;n=911%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1723644.13;1137659.38;102697&amp;level=7');" title="show location on a map">8650-B E I70 DR SE</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">911 CHK</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">11:59 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134632</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1103-101+E+BROADWAY&amp;sll=1135430.00,1690078.75&amp;d=06%2F07%2F2023&amp;t=11%3A59%20AM&amp;i=2023134632&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1690078.75;1135430.00;102697&amp;level=7');" title="show location on a map">1103-101 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">11:52 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134627</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1107-B+E+WALNUT+ST&amp;sll=1135829.75,1690344.50&amp;d=06%2F07%2F2023&amp;t=11%3A52%20AM&amp;i=2023134627&amp;c=%20&amp;n=FOLLOW%20UP -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1690344.50;1135829.75;102697&amp;level=7');" title="show location on a map">1107-B E WALNUT ST</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">FOLLOW UP</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">11:38 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134617</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=2121-XYZ+E+COUNTY+DR&amp;sll=1154768.25,1695224.00&amp;d=06%2F07%2F2023&amp;t=11%3A38%20AM&amp;i=2023134617&amp;c=%20&amp;n=INFO -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1695224.00;1154768.25;102697&amp;level=7');" title="show location on a map">2121-XYZ E COUNTY DR</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">INFO</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">11:37 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134614</td>
+                <td class="two td_left" data-th="Case #">23002295</td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=10261+E+ENGLEWOOD+RD&amp;sll=1088235.38,1730645.00&amp;d=06%2F07%2F2023&amp;t=11%3A37%20AM&amp;i=2023134614&amp;c=23002295&amp;n=ASST%20CITIZEN%20(POLICE) -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1730645.00;1088235.38;102697&amp;level=7');" title="show location on a map">10261 E ENGLEWOOD RD</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">ASST CITIZEN (POLICE)</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">11:24 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134598</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1600+E+BROADWAY&amp;sll=1134744.75,1692801.13&amp;d=06%2F07%2F2023&amp;t=11%3A24%20AM&amp;i=2023134598&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1692801.13;1134744.75;102697&amp;level=7');" title="show location on a map">1600 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">11:11 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134585</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=6300+W+SUGAR+CREEK+DR&amp;sll=1141759.63,1660182.63&amp;d=06%2F07%2F2023&amp;t=11%3A11%20AM&amp;i=2023134585&amp;c=%20&amp;n=911%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1660182.63;1141759.63;102697&amp;level=7');" title="show location on a map">6300 W SUGAR CREEK DR</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">911 CHK</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">11:04 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134580</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=2121-XYZ+E+COUNTY+DR&amp;sll=1154768.25,1695224.00&amp;d=06%2F07%2F2023&amp;t=11%3A04%20AM&amp;i=2023134580&amp;c=%20&amp;n=911%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1695224.00;1154768.25;102697&amp;level=7');" title="show location on a map">2121-XYZ E COUNTY DR</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">911 CHK</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">10:51 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134571</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1601-100+E+BROADWAY&amp;sll=1135095.38,1692832.25&amp;d=06%2F07%2F2023&amp;t=10%3A51%20AM&amp;i=2023134571&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1692832.25;1135095.38;102697&amp;level=7');" title="show location on a map">1601-100 E BROADWAY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">10:51 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134570</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=5701+E+WATERFRONT+DRIVE+NORTH&amp;sll=1142557.75,1711302.50&amp;d=06%2F07%2F2023&amp;t=10%3A51%20AM&amp;i=2023134570&amp;c=%20&amp;n=911%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1711302.50;1142557.75;102697&amp;level=7');" title="show location on a map">5701 E WATERFRONT DRIVE NORTH</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">911 CHK</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">10:42 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134561</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=9901+E+MOUNT+HOPE+RD&amp;sll=1161116.25,1730788.25&amp;d=06%2F07%2F2023&amp;t=10%3A42%20AM&amp;i=2023134561&amp;c=%20&amp;n=111D1%20DAMAGE%2FVANDALISM -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1730788.25;1161116.25;102697&amp;level=7');" title="show location on a map">9901 E MOUNT HOPE RD</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">111D1 DAMAGE/VANDALISM</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">10:41 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134559</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1431-201+CINNAMON+HILL+LN&amp;sll=1128744.63,1699677.13&amp;d=06%2F07%2F2023&amp;t=10%3A41%20AM&amp;i=2023134559&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1699677.13;1128744.63;102697&amp;level=7');" title="show location on a map">1431-201 CINNAMON HILL LN</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">10:41 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134558</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1221-212+E+WALNUT+ST&amp;sll=1135931.88,1691013.75&amp;d=06%2F07%2F2023&amp;t=10%3A41%20AM&amp;i=2023134558&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1691013.75;1135931.88;102697&amp;level=7');" title="show location on a map">1221-212 E WALNUT ST</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">10:38 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134556</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=9371+N+REAMS+RD&amp;sll=1174378.25,1741317.50&amp;d=06%2F07%2F2023&amp;t=10%3A38%20AM&amp;i=2023134556&amp;c=%20&amp;n=911%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1741317.50;1174378.25;102697&amp;level=7');" title="show location on a map">9371 N REAMS RD</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">911 CHK</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">10:32 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134551</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1+RAY+YOUNG+DR&amp;sll=1127609.25,1697411.75&amp;d=06%2F07%2F2023&amp;t=10%3A32%20AM&amp;i=2023134551&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1697411.75;1127609.25;102697&amp;level=7');" title="show location on a map">1 RAY YOUNG DR</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">10:32 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134550</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=5690+N+HILARY+CT&amp;sll=1158337.25,1687734.25&amp;d=06%2F07%2F2023&amp;t=10%3A32%20AM&amp;i=2023134550&amp;c=%20&amp;n=114D2%20VRBL%20DOMSTC -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1687734.25;1158337.25;102697&amp;level=7');" title="show location on a map">5690 N HILARY CT</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">114D2 VRBL DOMSTC</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">10:27 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134546</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=1107-B+E+WALNUT+ST&amp;sll=1135829.75,1690344.50&amp;d=06%2F07%2F2023&amp;t=10%3A27%20AM&amp;i=2023134546&amp;c=%20&amp;n=SERVE%20PAPERS -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1690344.50;1135829.75;102697&amp;level=7');" title="show location on a map">1107-B E WALNUT ST</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">SERVE PAPERS</td>
+            </tr>
+<!--   -->
+            <tr class="odd">
+                <td class="one td_left" data-th="Call Date">06/07/2023</td>
+                <td class="one td_left" data-th="Call Time">10:19 AM</td>
+                <td class="one td_left" data-th="Incident #">2023134540</td>
+                <td class="one td_left" data-th="Case #"> </td>
+                <td class="one td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=14330+N+HWY+YY&amp;sll=1199122.25,1670708.25&amp;d=06%2F07%2F2023&amp;t=10%3A19%20AM&amp;i=2023134540&amp;c=%20&amp;n=SECURITY%20CHK -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1670708.25;1199122.25;102697&amp;level=7');" title="show location on a map">14330 N HWY YY</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="one td_left" data-th="Incident">SECURITY CHK</td>
+            </tr>
+<!--   -->
+            <tr class="even">
+                <td class="two td_left" data-th="Call Date">06/07/2023</td>
+                <td class="two td_left" data-th="Call Time">10:19 AM</td>
+                <td class="two td_left" data-th="Incident #">2023134539</td>
+                <td class="two td_left" data-th="Case #"> </td>
+                <td class="two td_left" data-th="Address">
+<!-- If/Else statement to remove addresses -->
+<!--  -->
+<!-- If/Else statement to make links to GIS if coords exist -->
+<!--  -->
+<!-- https://maps.showmeboone.com/viewers/sd_DispatchMap/?q=421+N+RANGELINE+RD&amp;sll=1135770.25,1724316.25&amp;d=06%2F07%2F2023&amp;t=10%3A19%20AM&amp;i=2023134539&amp;c=%20&amp;n=118B2%20PAST%20FRAUD -->
+<a href="javascript:popmap('https://maps.showmeboone.com/viewers/sd_incidentviewer/index.html?marker=1724316.25;1135770.25;102697&amp;level=7');" title="show location on a map">421 N RANGELINE RD</a>
+<!--  -->
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Apt. Lot">
+<!--  -->
+
+<!--  -->
+</td>
+                <td class="two td_left" data-th="Incident">118B2 PAST FRAUD</td>
+            </tr>
+<!--   -->
+</tbody>
+    </table>
+<!-- End data table -->
+<!-- End Background Table -->
+<div id="hiddenfields" class="back" contenteditable="false">
+<input type="hidden" name="slnk" value="0">
+<input type="hidden" name="sort_col" value="CALLDATE">
+<input type="hidden" name="sort_typ" value="1">
+<input type="hidden" name="cur_sort_col" value="">
+<input type="hidden" name="reorder" value="N">
+<input type="hidden" name="pageName" value="">
+<input type="hidden" name="preview" value="0">
+<input type="hidden" name="debug" value="0">
+<input type="hidden" name="pageNum" value="1">
+<input type="hidden" name="total_pages" value="3">
+<input type="hidden" name="total_rows" value="78">
+<input type="hidden" name="ajax_form" id="ajax_form" value="1">
+<input type="hidden" name="auto_refresh" value="0">
+<input type="hidden" name="excel" id="toexcel" value="0">
+<input type="hidden" name="use_udview" id="use_udview" value="0">
+<input type="hidden" name="val_CALCULA006" id="savedSearchLocation" value="">
+          </div></form>
