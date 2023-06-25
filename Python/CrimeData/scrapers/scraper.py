@@ -1,5 +1,4 @@
 import time
-
 import requests
 import crimedict
 import numpy
@@ -8,11 +7,13 @@ from bs4 import BeautifulSoup
 def grab_indice_from_wrapper(wrapper, index_desired):
     return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired], wrapper[4][index_desired]]
 
+
 def in_BCSO_dict(query):
     for key in crimedict.bcsodict.keys():
         if query in key:
             return True
     return False
+
 
 def get_BCSO_dict_value(query):
     correct_key = None
@@ -24,6 +25,7 @@ def get_BCSO_dict_value(query):
         return crimedict.bcsodict.get(correct_key)
     else:
         return "Invalid"
+
 
 def convert_time(bad_time):
     if bad_time[-2:] == "AM" and bad_time[:2] == "12":
@@ -38,6 +40,7 @@ def convert_time(bad_time):
             return twentyfour_time + bad_time[1:-2]
     else:
         return bad_time[:-2]
+
 
 # Send a GET request to the webpage
 def run_BSCO_scrape(startDate, endDate, rowCount):
@@ -111,8 +114,6 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
         incident_instance[x] = incident_instance[x].getText().strip()
         if in_BCSO_dict(incident_instance[x]):
             incident_instance[x] = get_BCSO_dict_value(incident_instance[x])
-            #print(incident_instance[x])
-            #print(x)
         else:
             indicies_to_delete.append(x)
         addresses[x] = addresses[x].getText().strip()
@@ -137,7 +138,6 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
         call_times[x] = convert_time(call_times[x])
 
     incident_wrapper = [call_dates, call_times, addresses, incident_instance, incident_numbers]
-    #print(incident_instance)
     num_of_incidents = len(incident_wrapper[0])
     output_file = open("BCSOdbready.txt", "a")
     for val in range(0, num_of_incidents):
