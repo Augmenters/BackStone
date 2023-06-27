@@ -15,6 +15,7 @@ namespace Library.Models.Business
         public Address Address { get; set; }
         public string Info { get; set; }
         public IEnumerable<YelpHour> Hours { get; set; }
+        public IEnumerable<YelpCategory> Categories { get; set; }
 
         public bool Validate()
         {
