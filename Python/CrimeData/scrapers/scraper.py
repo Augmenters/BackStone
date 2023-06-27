@@ -1,43 +1,65 @@
-import time
-
+#import time
 import requests
+import datetime
 import crimedict
-import numpy
 from bs4 import BeautifulSoup
 
-def grab_indice_from_wrapper(wrapper, index_desired):
-    return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired], wrapper[4][index_desired]]
-
-def in_BCSO_dict(query):
+def is_violent_BCSO_crime(incident_type):
     for key in crimedict.bcsodict.keys():
-        if query in key:
+        if incident_type in key:
             return True
     return False
 
-def get_BCSO_dict_value(query):
-    correct_key = None
+def map_from_BCSO_incident_type(query):
     for key in crimedict.bcsodict.keys():
         if query in key:
-            correct_key = key
-            break
-    if correct_key is not None:
-        return crimedict.bcsodict.get(correct_key)
-    else:
-        return "Invalid"
+            return crimedict.bcsodict.get(key)
+    return "Invalid"
 
-def convert_time(bad_time):
-    if bad_time[-2:] == "AM" and bad_time[:2] == "12":
-        return "00" + bad_time[2:-2]
-    elif bad_time[-2:] == "AM":
-        return "0" + bad_time[:-2]
-    elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
-        if bad_time[:2] == "11":
-            return "23" + bad_time[1:-2]
+def convert_time(twelve_hour_format):
+    twenty_four_hour_format = ""
+    if twelve_hour_format[-2:] == "AM":
+        if len(twelve_hour_format) == 8:
+            if twelve_hour_format[:2] == "12":
+                return "00" + twelve_hour_format[3:6]
+            else:
+                return twelve_hour_format[:6]
         else:
-            twentyfour_time = str(int(bad_time[:1]) + 12)
-            return twentyfour_time + bad_time[1:-2]
+            return "0" + twelve_hour_format[:6]
     else:
-        return bad_time[:-2]
+        hours_minutes = twelve_hour_format.split(":")
+        return (str(int(hours_minutes[0]) + 12) + ":" + twelve_hour_format[1][:2])   
+
+def parse_response(response):
+    data = []
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    incident_types = soup.findAll("td", attrs={"data-th": "Incident"})
+    addresses = soup.findAll("td", attrs={"data-th": "Address"})
+    call_dates = soup.findAll("td", attrs={"data-th": "Call Date"})
+    call_times = soup.findAll("td", attrs={"data-th": "Call Time"})
+    incident_numbers = soup.findAll("td", attrs={"data-th": "Incident #"})
+
+    x = 0
+    while x < len(incident_types):
+        incident_types[x] = incident_types[x].getText().strip()
+        if is_violent_BCSO_crime(incident_types[x]):
+            incident_type = map_from_BCSO_incident_type(incident_types[x])
+            address = addresses[x].getText().strip()
+            call_date = call_dates[x].getText().strip()
+            call_time = call_times[x].getText().strip()
+            incident_number = incident_numbers[x].getText().strip()
+            
+            day_month_year = call_date.split("/")
+            twenty_four_hour_call_time = convert_time(call_time)
+            twenty_four_hour_call_time = twenty_four_hour_call_time.split(":")
+            datetime_of_incident = datetime.datetime(int(day_month_year[2]), int(day_month_year[0]), int(day_month_year[1]), int(twenty_four_hour_call_time[0]), int(twenty_four_hour_call_time[1]))
+
+            data.append({"Incident ID": incident_number, "Type": incident_type, "Address": address, "Date/Time of Incident": datetime_of_incident})
+        x += 1
+        
+
+    return data
 
 # Send a GET request to the webpage
 def run_BSCO_scrape(startDate, endDate, rowCount):
@@ -52,8 +74,8 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36",
     }
 
-    incidentType = ""
     # "" = view all
+    incident_type = ""
     address = ""
     location = ''
 
@@ -61,7 +83,7 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
         'startDate' : startDate,
         'endDate' : endDate,
         'rls_EXTERNAL': 'CT',
-        'val_EXTERNAL' : incidentType,
+        'val_EXTERNAL' : incident_type,
         'val_ADDR01' : address,
         'rls_CALCULA006': 'EQ',
         'val_CALCULA006' : location,
@@ -87,8 +109,8 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
         'preview': '0',
         'debug': '0',
         'pageNum': '1',
-        'total_pages': '13935',
-        'total_rows': '418033',
+        'total_pages': '',
+        'total_rows': '',
         'ajax_form': '1',
         'auto_refresh': '0',
         'excel': '0',
@@ -97,54 +119,16 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
     }
 
     response = requests.post(url, headers=headers, data=parameters)
-    soup = BeautifulSoup(response.text, "html.parser")
-    incident_instance = soup.findAll("td", attrs={"data-th": "Incident"})
-    addresses = soup.findAll("td", attrs={"data-th": "Address"})
-    call_dates = soup.findAll("td", attrs={"data-th": "Call Date"})
-    call_times = soup.findAll("td", attrs={"data-th": "Call Time"})
-    incident_numbers = soup.findAll("td", attrs={"data-th": "Incident #"})
+    
+    data = parse_response(response)
 
-    #Filter out the instances we do not want
-    x = 0
-    indicies_to_delete = []
-    while x < len(incident_instance):
-        incident_instance[x] = incident_instance[x].getText().strip()
-        if in_BCSO_dict(incident_instance[x]):
-            incident_instance[x] = get_BCSO_dict_value(incident_instance[x])
-            #print(incident_instance[x])
-            #print(x)
-        else:
-            indicies_to_delete.append(x)
-        addresses[x] = addresses[x].getText().strip()
-        call_dates[x] = call_dates[x].getText().strip()
-        call_times[x] = call_times[x].getText().strip()
-        incident_numbers[x] = incident_numbers[x].getText().strip()
-        x += 1
+    #num_of_incidents = len(data)
+    #output_file = open("BCSOdbready.txt", "w")
+    #for val in range(0, num_of_incidents):
+    #    output_file.write()
+    #output_file.close()
 
-    temp_incidents_instance = numpy.array(incident_instance)
-    temp_addresses = numpy.array(addresses)
-    temp_cd = numpy.array(call_dates)
-    temp_ct = numpy.array(call_times)
-    temp_in = numpy.array(incident_numbers)
-
-    incident_instance = numpy.delete(temp_incidents_instance, indicies_to_delete).tolist()
-    addresses = numpy.delete(temp_addresses, indicies_to_delete).tolist()
-    call_dates = numpy.delete(temp_cd, indicies_to_delete).tolist()
-    call_times = numpy.delete(temp_ct, indicies_to_delete).tolist()
-    incident_numbers = numpy.delete(temp_in, indicies_to_delete).tolist()
-
-    for x in range(0, len(call_times)):
-        call_times[x] = convert_time(call_times[x])
-
-    incident_wrapper = [call_dates, call_times, addresses, incident_instance, incident_numbers]
-    #print(incident_instance)
-    num_of_incidents = len(incident_wrapper[0])
-    output_file = open("BCSOdbready.txt", "a")
-    for val in range(0, num_of_incidents):
-        output_file.write(",".join(i for i in grab_indice_from_wrapper(incident_wrapper, val)) + "\n")
-    output_file.close()
-
-#run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
+#run_BSCO_scrape('01/01/2023', '01/31/2023', 30)
 #time.sleep(120)
 #run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
 #time.sleep(120)
