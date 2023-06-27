@@ -21,14 +21,17 @@ def convert_time(twelve_hour_format):
     if twelve_hour_format[-2:] == "AM":
         if len(twelve_hour_format) == 8:
             if twelve_hour_format[:2] == "12":
-                return "00" + twelve_hour_format[3:6]
+                return "00" + twelve_hour_format[2:5]
             else:
                 return twelve_hour_format[:6]
         else:
-            return "0" + twelve_hour_format[:6]
+            return "0" + twelve_hour_format[:5]
     else:
         hours_minutes = twelve_hour_format.split(":")
-        return (str(int(hours_minutes[0]) + 12) + ":" + twelve_hour_format[1][:2])   
+        if hours_minutes[0] == "12":
+            return hours_minutes[0] + ":" + hours_minutes[1][:2]
+        else:
+            return (str(int(hours_minutes[0]) + 12) + ":" + hours_minutes[1][:2])   
 
 def parse_response(response):
     data = []
@@ -55,7 +58,7 @@ def parse_response(response):
             twenty_four_hour_call_time = twenty_four_hour_call_time.split(":")
             datetime_of_incident = datetime.datetime(int(day_month_year[2]), int(day_month_year[0]), int(day_month_year[1]), int(twenty_four_hour_call_time[0]), int(twenty_four_hour_call_time[1]))
 
-            data.append({"Incident ID": incident_number, "Type": incident_type, "Address": address, "Date/Time of Incident": datetime_of_incident})
+            data.append({"Incident ID": incident_number, "Type": incident_type, "Address": address, "Date/Time of Incident": datetime_of_incident.strftime("%m/%d,%Y @ %H:%M")})
         x += 1
         
 
@@ -123,12 +126,12 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
     data = parse_response(response)
 
     #num_of_incidents = len(data)
-    #output_file = open("BCSOdbready.txt", "w")
+    #output_file = open("BCSOdbready.txt", "a")
     #for val in range(0, num_of_incidents):
-    #    output_file.write()
+    #    output_file.write(",".join((data[val].values())) + "\n")
     #output_file.close()
 
-#run_BSCO_scrape('01/01/2023', '01/31/2023', 30)
+#run_BSCO_scrape('01/01/2023', '01/31/2023', 1000)
 #time.sleep(120)
 #run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
 #time.sleep(120)
