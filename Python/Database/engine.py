@@ -8,7 +8,7 @@ from sqlalchemy.exc import OperationalError
 user = os.getenv("POSTGRES_USER")
 password = os.getenv("POSTGRES_PASSWORD")
 db_name = os.getenv("POSTGRES_DB")
-host = os.getenv("POSTGRES_HOST", "db")
+host = os.getenv("POSTGRES_HOST", "database")
 
 CONNECTION_STRING = f"postgresql+psycopg2://{user}:{password}@{host}:5432/{db_name}"
 
