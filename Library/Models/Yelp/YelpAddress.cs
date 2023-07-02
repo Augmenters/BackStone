@@ -17,7 +17,7 @@ namespace Library.Models.Yelp
         [JsonProperty("city")]
         public string City { get; set; }
 
-        [JsonProperty("zip_code")]
+        [JsonProperty("postal_code")]
         public string ZipCode { get; set; }
 
         [JsonProperty("country")]

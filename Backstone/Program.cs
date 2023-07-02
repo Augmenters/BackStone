@@ -10,7 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ConfigureLogging();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -35,8 +39,6 @@ app.UseSwaggerUI(options =>
     options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
 });
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
 app.Run();
 

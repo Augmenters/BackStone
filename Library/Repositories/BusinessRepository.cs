@@ -116,7 +116,11 @@ namespace Library.Repositories
 
                     poi.Hours = openHours;
                 }
-                
+
+                poi.Categories = business.Categories != null
+                               ? business.Categories
+                               : new List<YelpCategory>();
+
                 POIs.Add(poi);
             }
             return POIs;

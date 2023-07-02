@@ -105,10 +105,17 @@ namespace Library.DataAccess
 									price 
 									location
 									{ 
-										address1 
+										address1
+                                        address2
 										city 
-										state 
-									} 
+										state
+                                        postal_code
+									}
+                                    categories 
+                                    {
+                                        title
+                                        alias
+                                    }
 									hours
 									{ 
 										open
