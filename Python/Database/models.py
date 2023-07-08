@@ -1,24 +1,26 @@
-from sqlalchemy import BigInteger, Column, ForeignKey, Integer, SmallInteger, String, Table
+from sqlalchemy import BigInteger, Column, ForeignKey, Integer, SmallInteger, String, Table, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 metadata = Base.metadata
 
+class Address(Base):
+    __tablename__ = 'addresses'
+    __table_args__ = (
+        UniqueConstraint("number", "street", "unit", "city", "zipcode"),
+    )
 
-t_addresses = Table(
-    'addresses', metadata,
-    Column('id', BigInteger),
-    Column('number', Integer),
-    Column('street', String(255)),
-    Column('unit', String(255)),
-    Column('city', String(255)),
-    Column('state', String(255)),
-    Column('zipcode', SmallInteger),
-    Column('longitude', String(255)),
-    Column('latitude', String(255)),
-    Column('geohash', String(255))
-)
+    id = Column(BigInteger, primary_key=True)
+    number = Column(Integer, nullable=False)
+    street = Column(String(255), nullable=False)
+    unit = Column(String(255), nullable=True)
+    city = Column(String(255), nullable=False)
+    state = Column(String(255), nullable=False)
+    zipcode = Column(String(10), nullable=False)
+    longitude = Column(String(255), nullable=False)
+    latitude = Column(String(255), nullable=False)
+    geohash = Column(String(255), nullable=True)
 
 
 class Agency(Base):
