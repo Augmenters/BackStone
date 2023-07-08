@@ -1,7 +1,8 @@
 import json
+import time
 import os
 from models import Base, Address
-from engine import CONNECTION_STRING, create_database_engine
+from engine import CONNECTION_STRING, create_database_engine, insert_data
 from sqlalchemy.orm import Session
 
 def insert_addresses(engine, file):
@@ -17,32 +18,33 @@ def insert_addresses(engine, file):
 
             if hash not in hashes_set:
                 address = create_address_from_json(address_json)
-                addresses.append(address)
+                if address:
+                    addresses.append(address)
                 hashes_set.add(hash)
 
-    with Session(engine) as session:
-        print(f"Inserting {len(addresses)} addresses")
-        session.add_all(addresses)
-        session.commit()
+    unique_key = ["number", "street", "unit", "city", "zipcode"]
 
+    insert_data(engine, addresses, Address, natural_key=unique_key)
 
 def create_address_from_json(address_json):
 
     address_data = address_json["properties"]
     coordinates = address_json["geometry"]["coordinates"]
 
-    address = Address(
-        id = address_data["hash"],
-        number = int(address_data["number"]) if address_data["number"] else None,
-        street = address_data["street"],
-        unit = address_data["unit"] if address_data["unit"] else None,
-        city = address_data["city"],
-        state = None,
-        zipcode = int(address_data["postcode"]) if address_data["postcode"] else None,
-        longitude = coordinates[0] ,
-        latitude = coordinates[1],
-        geohash = None
-    )
+    address = {
+        "number": int(address_data["number"]) if address_data["number"] else None,
+        "street": address_data["street"].lower() if address_data["street"] else None,
+        "unit": address_data["unit"].lower() if address_data["unit"] else None,
+        "city": address_data["city"].lower(),
+        "state": "MO".lower(),
+        "zipcode": address_data["postcode"] if address_data["postcode"] else None,
+        "longitude": coordinates[0] ,
+        "latitude": coordinates[1],
+        "geohash": None
+    }
+
+    if not address["number"] or not address["street"] or not address["city"] or not address["zipcode"]:
+        return None
 
     return address
 
@@ -56,6 +58,9 @@ if __name__ == "__main__":
     print("Creating database tables...")
     Base.metadata.create_all(engine)
     print("Tables created!")
+    time.sleep(3)
 
     insert_addresses(engine, "boone-county-addresses.geojson")
     print("Inserted addresses")
+
+

@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Column, ForeignKey, Integer, SmallInteger, String, Table
+from sqlalchemy import BigInteger, Column, ForeignKey, Integer, SmallInteger, String, Table, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -7,16 +7,19 @@ metadata = Base.metadata
 
 class Address(Base):
     __tablename__ = 'addresses'
+    __table_args__ = (
+        UniqueConstraint("number", "street", "unit", "city", "zipcode"),
+    )
 
-    id = Column(String(255), primary_key=True)
-    number = Column(Integer, nullable=True)
-    street = Column(String(255))
+    id = Column(BigInteger, primary_key=True)
+    number = Column(Integer, nullable=False)
+    street = Column(String(255), nullable=False)
     unit = Column(String(255), nullable=True)
-    city = Column(String(255))
-    state = Column(String(255))
-    zipcode = Column(Integer, nullable=True)
-    longitude = Column(String(255))
-    latitude = Column(String(255))
+    city = Column(String(255), nullable=False)
+    state = Column(String(255), nullable=False)
+    zipcode = Column(String(10), nullable=False)
+    longitude = Column(String(255), nullable=False)
+    latitude = Column(String(255), nullable=False)
     geohash = Column(String(255), nullable=True)
 
 
