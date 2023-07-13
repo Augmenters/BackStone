@@ -20,6 +20,11 @@ namespace Library.Repositories.Utilities
             SeriLogger.Error(ex, message ?? ex.Message);
         }
 
+        public static void LogInfo(string message)
+        {
+            SeriLogger.Information(message);
+        }
+
         public static void ConfigureLogging(this ILoggingBuilder builder)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

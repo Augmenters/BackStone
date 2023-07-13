@@ -3,6 +3,7 @@ import time
 import os
 from models import Base, Address
 from engine import CONNECTION_STRING, create_database_engine, insert_data
+from stored_procedures import create_stored_procedures
 from sqlalchemy.orm import Session
 
 def insert_addresses(engine, file):
@@ -60,7 +61,8 @@ if __name__ == "__main__":
     print("Tables created!")
     time.sleep(3)
 
+    create_stored_procedures(engine)
+    print("Created stored procedures")
+
     insert_addresses(engine, "boone-county-addresses.geojson")
     print("Inserted addresses")
-
-

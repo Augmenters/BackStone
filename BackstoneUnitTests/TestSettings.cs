@@ -9,6 +9,8 @@ namespace UnitTests
     {
         public string YelpApiBaseUrl => throw new NotImplementedException();
 
+        public string BackstoneDB => throw new NotImplementedException();
+
         public string YelpGraphQLUrl => throw new NotImplementedException();
 
         public string YelpApiKey => throw new NotImplementedException();
