@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY ./ /app
 
+ENV PYTHONPATH=/app
+
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-WORKDIR /app/Database
-
-CMD ["python", "initialize_db.py"]
+CMD ["python", "Python/Database/initialize_db.py"]

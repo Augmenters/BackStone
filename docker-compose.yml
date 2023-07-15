@@ -33,6 +33,8 @@ services:
       dockerfile: Dockerfile.Database
     env_file:
       - .env
+    depends_on:
+      - database
 
   celery_worker:
     build:

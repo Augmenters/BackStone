@@ -1,8 +1,8 @@
 import json
 import time
 import os
-from models import Base, Address
-from engine import CONNECTION_STRING, create_database_engine, insert_data
+from Python.Database.models import Base, Address
+from Python.Database.engine import CONNECTION_STRING, create_database_engine, insert_data
 from sqlalchemy.orm import Session
 
 def insert_addresses(engine, file):
@@ -31,20 +31,20 @@ def create_address_from_json(address_json):
     address_data = address_json["properties"]
     coordinates = address_json["geometry"]["coordinates"]
 
+    if not address_data["number"] or not address_data["street"] or not address_data["city"] or not address_data["postcode"]:
+        return None
+
     address = {
-        "number": int(address_data["number"]) if address_data["number"] else None,
-        "street": address_data["street"].lower() if address_data["street"] else None,
-        "unit": address_data["unit"].lower() if address_data["unit"] else None,
+        "number": int(address_data["number"]),
+        "street": address_data["street"].lower(),
+        "unit": address_data["unit"].lower() if address_data["unit"] else "",
         "city": address_data["city"].lower(),
         "state": "MO".lower(),
-        "zipcode": address_data["postcode"] if address_data["postcode"] else None,
+        "zipcode": address_data["postcode"],
         "longitude": coordinates[0] ,
         "latitude": coordinates[1],
         "geohash": None
     }
-
-    if not address["number"] or not address["street"] or not address["city"] or not address["zipcode"]:
-        return None
 
     return address
 

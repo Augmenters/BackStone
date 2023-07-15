@@ -1,4 +1,4 @@
-from celery_app import celery_app
+from Python.CrimeData.celery_app import celery_app
 
 @celery_app.task
 def add(x, y):
