@@ -1,6 +1,6 @@
 import time
 import requests
-import crimedict
+from scrapers import crimedict
 import numpy
 from bs4 import BeautifulSoup
 
