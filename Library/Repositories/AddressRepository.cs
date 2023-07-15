@@ -25,7 +25,6 @@ namespace Library.Repositories
         public Result HashUnhashedAddresses()
         {
             var addresses = dataAccess.GetUnhashedAddresses();
-
             if (addresses == null || !addresses.Any())
                 return new Result { IsSuccessful = false, ErrorId = HttpStatusCode.NotFound };
 
@@ -38,28 +37,7 @@ namespace Library.Repositories
                 hashedAddresses.Add((address.id, hash));
             }
 
-            return SaveAddressHashes(hashedAddresses);
-        }
-
-        private Result SaveAddressHashes(IEnumerable<(int id, string hash)> addresses)
-        {
-            var result = new Result { IsSuccessful = true };
-            var count = 0;
-
-            foreach (var entry in addresses)
-            {
-                var updateResult = dataAccess.SaveAddressHash(entry);
-
-                if (!updateResult.IsSuccessful)
-                    return updateResult;
-
-                count++;
-
-                if (count % 1000 == 0)
-                    LoggingProvider.LogInfo($"Hashed {count} addresses out of {addresses.Count()}");
-            }
-
-            return result;
+            return dataAccess.SaveAddressHashes(hashedAddresses);
         }
     }
 }

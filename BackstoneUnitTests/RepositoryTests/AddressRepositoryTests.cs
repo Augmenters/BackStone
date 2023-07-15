@@ -43,7 +43,7 @@ namespace UnitTests.RepositoryTests
             A.CallTo(() => fakeGridRepository.GenerateHash(A<Coordinate>.Ignored))
              .Returns(hash);
 
-            A.CallTo(() => fakeAddressDataAccess.SaveAddressHash(A<(int, string)>.Ignored))
+            A.CallTo(() => fakeAddressDataAccess.SaveAddressHashes(A<IEnumerable<(int, string)>>.Ignored))
              .Returns(new Result() { IsSuccessful = true });
 
             //Act
@@ -51,7 +51,7 @@ namespace UnitTests.RepositoryTests
 
             //Assert
             Assert.IsTrue(result.IsSuccessful);
-            A.CallTo(() => fakeAddressDataAccess.SaveAddressHash(A<(int, string)>.Ignored))
+            A.CallTo(() => fakeAddressDataAccess.SaveAddressHashes(A<IEnumerable<(int, string)>>.Ignored))
              .MustHaveHappened();
         }
 
@@ -71,7 +71,7 @@ namespace UnitTests.RepositoryTests
             Assert.IsTrue(result.ErrorId == HttpStatusCode.NotFound);
             A.CallTo(() => fakeGridRepository.GenerateHash(A<Coordinate>.Ignored))
              .MustNotHaveHappened();
-            A.CallTo(() => fakeAddressDataAccess.SaveAddressHash(A<(int, string)>.Ignored))
+            A.CallTo(() => fakeAddressDataAccess.SaveAddressHashes(A<IEnumerable<(int, string)>>.Ignored))
              .MustNotHaveHappened();
         }
     }

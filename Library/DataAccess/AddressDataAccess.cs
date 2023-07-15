@@ -4,6 +4,7 @@ using Library.DataAccess.Interfaces;
 using Library.Models;
 using Library.Repositories.Utilities;
 using Library.Repositories.Utilities.Interfaces;
+using Newtonsoft.Json;
 using Npgsql;
 
 namespace Library.DataAccess
@@ -49,16 +50,16 @@ namespace Library.DataAccess
             }
         }
 
-        public Result SaveAddressHash((int id, string hash) address)
+        public Result SaveAddressHashes(IEnumerable<(int address_id, string hash)> addresses)
 		{
             try
             {
+                var json = JsonConvert.SerializeObject(addresses.Select(x => new { address_id = x.address_id, hash = x.hash }));
                 using (var connection = NpgsqlDataSource.Create(settings.BackstoneDB))
                 using (var command = connection.CreateCommand("mw_update_address_hash"))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-					command.Parameters.AddWithValue("@address_id", NpgsqlTypes.NpgsqlDbType.Bigint, address.id);
-                    command.Parameters.AddWithValue("@hash", NpgsqlTypes.NpgsqlDbType.Varchar, address.hash);
+					command.Parameters.AddWithValue(NpgsqlTypes.NpgsqlDbType.Json, json);
 
 					command.ExecuteNonQuery();
                 }
