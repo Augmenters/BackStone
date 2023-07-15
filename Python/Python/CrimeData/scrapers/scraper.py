@@ -170,12 +170,12 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
         crime = {
             "incident_id": incident_numbers[index],
             "agency_id": AGENCY_ID,
-            "time_slot_id": 0,
+            "time_slot_id": 1,
             "type": incident_instance[index],
         }
         crimes.append(crime)
 
-    unique_key = ["incident_id"]
+    unique_key = ["agency_id", "incident_id"]
 
     insert_data(engine, crimes, Crime, natural_key=unique_key)
 

@@ -32,21 +32,26 @@ class Agency(Base):
 
 class TimeSlot(Base):
     __tablename__ = 'time_slots'
+    __table_args__ = (
+        UniqueConstraint("day_of_week", "time_of_day"),
+    )
 
     id = Column(SmallInteger, primary_key=True)
-    day_of_week = Column(String(255))
-    time_of_day = Column(String(255))
+    day_of_week = Column(String(255), nullable=False)
+    time_of_day = Column(String(255), nullable=False)
 
 
 class Crime(Base):
     __tablename__ = 'crimes'
+    __table_args__ = (
+        UniqueConstraint("agency_id", "incident_id"),
+    )
 
     id = Column(BigInteger, primary_key=True)
     agency_id = Column(ForeignKey('agencies.id'))
     incident_id = Column(BigInteger)
     time_slot_id = Column(ForeignKey('time_slots.id'))
-    # TODO: Add actual crime columns
-    crime_columns = Column(String(255))
+    type = Column(String(255))
 
     agency = relationship('Agency')
     time_slot = relationship('TimeSlot')

@@ -1,7 +1,7 @@
 import json
 import time
 import os
-from Python.Database.models import Base, Address, Crime
+from Python.Database.models import Base, Address, Agency, TimeSlot
 from Python.Database.engine import CONNECTION_STRING, create_database_engine, insert_data
 from sqlalchemy.orm import Session
 
@@ -65,7 +65,25 @@ def insert_default_agencies(engine):
         },
     ]
 
-    insert_data(engine, agencies, Crime, natural_key=["id"])
+    insert_data(engine, agencies, Agency, natural_key=["id"])
+
+def insert_timeslots(engine):
+
+    timeslots = []
+
+    days_of_week = [1, 2, 3, 4, 5, 6, 7]
+    times_of_day = [1, 2, 3]
+
+    for day in days_of_week:
+
+        for time in times_of_day:
+
+            timeslots.append({
+                "day_of_week": str(day),
+                "time_of_day": str(time)
+            })
+
+    insert_data(engine, timeslots, TimeSlot, natural_key=["day_of_week", "time_of_day"])
 
 
 
@@ -79,9 +97,15 @@ if __name__ == "__main__":
     print("Tables created!")
     time.sleep(3)
 
+    insert_timeslots(engine)
+    print("Timeslots inserted")
+
+    insert_default_agencies(engine)
+    print("Agencies inserted")
+
     insert_addresses(engine, "boone-county-addresses.geojson")
     print("Inserted addresses")
 
-    #insert_default_agencies(engine)
+    
 
 
