@@ -7,4 +7,4 @@ COPY ./ /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 
-CMD ["celery", "-A", "Python.CrimeData.celery_app:celery_app", "worker", "-l", "info"]
+CMD ["/bin/bash", "Python/CrimeData/celery_start.sh"]
