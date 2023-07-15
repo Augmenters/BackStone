@@ -1,7 +1,7 @@
 import json
 import time
 import os
-from Python.Database.models import Base, Address
+from Python.Database.models import Base, Address, Crime
 from Python.Database.engine import CONNECTION_STRING, create_database_engine, insert_data
 from sqlalchemy.orm import Session
 
@@ -48,6 +48,25 @@ def create_address_from_json(address_json):
 
     return address
 
+def insert_default_agencies(engine):
+
+    agencies = [
+        {
+            "id": 1,
+            "name": "BSCO"
+        },
+                {
+            "id": 2,
+            "name": "CPD"
+        },
+                {
+            "id": 3,
+            "name": "MUPD"
+        },
+    ]
+
+    insert_data(engine, agencies, Crime, natural_key=["id"])
+
 
 
 if __name__ == "__main__":
@@ -62,5 +81,7 @@ if __name__ == "__main__":
 
     insert_addresses(engine, "boone-county-addresses.geojson")
     print("Inserted addresses")
+
+    #insert_default_agencies(engine)
 
 

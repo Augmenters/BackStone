@@ -43,6 +43,10 @@ services:
     environment:
       REDIS_HOST: broker
       REDIS_PORT: 6379
+    depends_on:
+      - database
+      - datbase_initializer
+      - broker
   
   elasticsearch:
     container_name: elasticsearch
