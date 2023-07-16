@@ -119,5 +119,5 @@ if __name__ == "__main__":
     insert_addresses(engine, "boone-county-addresses.geojson")
     print("Inserted addresses")
 
-    # time.sleep(10)
-    # hash_addresses()
+    time.sleep(10)
+    hash_addresses()
