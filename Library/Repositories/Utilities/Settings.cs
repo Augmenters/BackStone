@@ -7,6 +7,8 @@ namespace Library.Repositories.Utilities
 {
     public class Settings : ISettings
     {
+        public string BackstoneDB { get; private set; }
+
         public string YelpApiBaseUrl { get; private set; }
         public string YelpGraphQLUrl { get; private set; }
 
@@ -24,6 +26,8 @@ namespace Library.Repositories.Utilities
             GridPrecision = int.Parse(configuration.GetSection("AppSettings")["GridPrecision"]);
 
             YelpApiKey = Environment.GetEnvironmentVariable("YelpApiKey");
+
+            BackstoneDB = ConnectionStringBuilder.Build(configuration);
 
             if (string.IsNullOrWhiteSpace(YelpApiKey))
             {

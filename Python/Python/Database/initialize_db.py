@@ -1,9 +1,12 @@
 import json
 import time
 import os
+import requests
 from Python.Database.models import Base, Address, Agency, TimeSlot
 from Python.Database.engine import CONNECTION_STRING, create_database_engine, insert_data
-from sqlalchemy.orm import Session
+from Python.Database.stored_procedures import create_stored_procedures
+
+backstone_host = os.getenv("BACKSTONE_HOST", "backstone")
 
 def insert_addresses(engine, file):
 
@@ -86,6 +89,14 @@ def insert_timeslots(engine):
     insert_data(engine, timeslots, TimeSlot, natural_key=["day_of_week", "time_of_day"])
 
 
+def hash_addresses():
+    request = f"http://{backstone_host}/Address/HashUnhashed"
+    print(request)
+    result = requests.get(request)
+    if result.status_code == 200:
+        print("Successfully hashed addresses")
+    else:
+        print("Failed to hash addresses")
 
 if __name__ == "__main__":
     print("Connection string: ", CONNECTION_STRING)
@@ -102,10 +113,11 @@ if __name__ == "__main__":
 
     insert_default_agencies(engine)
     print("Agencies inserted")
+    create_stored_procedures(engine)
+    print("Created stored procedures")
 
     insert_addresses(engine, "boone-county-addresses.geojson")
     print("Inserted addresses")
 
-    
-
-
+    # time.sleep(10)
+    # hash_addresses()

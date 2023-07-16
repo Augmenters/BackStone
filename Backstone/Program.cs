@@ -1,5 +1,6 @@
 ﻿using Geohash;
 using Library.DataAccess;
+using Library.DataAccess.Interfaces;
 using Library.Repositories;
 using Library.Repositories.Interfaces;
 using Library.Repositories.Utilities;
@@ -23,6 +24,8 @@ builder.Services.AddScoped<Geohasher>();
 builder.Services.AddScoped<IGridRepository, GridRepository>();
 builder.Services.AddScoped<IYelpDataAccess, YelpDataAccess>();
 builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
+builder.Services.AddScoped<IAddressDataAccess, AddressDataAccess>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 var cacheSize = builder.Services.BuildServiceProvider().GetRequiredService<ISettings>().CacheSize;
 builder.Services.AddMemoryCache(x => new MemoryCacheOptions().SizeLimit = cacheSize);
