@@ -10,8 +10,8 @@ from Python.Database.engine import insert_data
 
 AGENCY_ID = 1
 
-def grab_indice_from_wrapper(wrapper, index_desired):
-    return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired]]
+# def grab_indice_from_wrapper(wrapper, index_desired):
+#     return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired]]
 
 
 def in_BCSO_dict(query):
@@ -33,19 +33,19 @@ def get_BCSO_dict_value(query):
         return "Invalid"
 
 
-def convert_time(bad_time):
-    if bad_time[-2:] == "AM" and bad_time[:2] == "12":
-        return "00" + bad_time[2:-2]
-    elif bad_time[-2:] == "AM":
-        return "0" + bad_time[:-2]
-    elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
-        if bad_time[:2] == "11":
-            return "23" + bad_time[1:-2]
-        else:
-            twentyfour_time = str(int(bad_time[:1]) + 12)
-            return twentyfour_time + bad_time[1:-2]
-    else:
-        return bad_time[:-2]
+# def convert_time(bad_time):
+#     if bad_time[-2:] == "AM" and bad_time[:2] == "12":
+#         return "00" + bad_time[2:-2]
+#     elif bad_time[-2:] == "AM":
+#         return "0" + bad_time[:-2]
+#     elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
+#         if bad_time[:2] == "11":
+#             return "23" + bad_time[1:-2]
+#         else:
+#             twentyfour_time = str(int(bad_time[:1]) + 12)
+#             return twentyfour_time + bad_time[1:-2]
+#     else:
+#         return bad_time[:-2]
 
 
 # Send a GET request to the webpage

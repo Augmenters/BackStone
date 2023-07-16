@@ -1,5 +1,5 @@
 
-sleep 40s
+sleep 1m
 
 python -c "from Python.CrimeData.tasks import BSCO_collect; BSCO_collect.delay()"
 
