@@ -7,6 +7,7 @@ using Library.DataAccess;
 using Library.Models.Yelp;
 using Library.Models.Business;
 using Library.Repositories.Utilities;
+using Library.DataAccess.Interfaces;
 
 namespace Backstone.Controllers
 {
@@ -14,14 +15,11 @@ namespace Backstone.Controllers
     [Route("Business")]
     public class LocationController : ControllerBase
     {
-        private readonly IBusinessRepository locationRepository;
-        private readonly IYelpDataAccess yelpDataAccess;
+        private readonly IBusinessRepository businessRepository;
 
-        public LocationController(IBusinessRepository locationRepository,
-                                  IYelpDataAccess yelpDataAccess)
+        public LocationController(IBusinessRepository locationRepository)
         {
-            this.locationRepository = locationRepository;
-            this.yelpDataAccess = yelpDataAccess;
+            this.businessRepository = locationRepository;
         }
 
         /// <summary>
@@ -43,7 +41,7 @@ namespace Backstone.Controllers
                 if (latitude == 0 || longitude == 0)
                     return BadRequest();
 
-                var result = await locationRepository.GetPOIs(new Coordinate() { Latitude = latitude, Longitude = longitude });
+                var result = await businessRepository.GetPOIs(new Coordinate() { Latitude = latitude, Longitude = longitude });
 
                 if (!result.IsSuccessful)
                     return Problem(detail: result.ErrorMessage, statusCode: (int)result.ErrorId);
@@ -76,7 +74,7 @@ namespace Backstone.Controllers
                 if (string.IsNullOrWhiteSpace(businessId))
                     return BadRequest();
 
-                var result = await yelpDataAccess.GetReviews(businessId);
+                var result = await businessRepository.GetReviews(businessId);
 
                 if (!result.IsSuccessful)
                     return Problem(detail: result.ErrorMessage, statusCode: (int)result.ErrorId);

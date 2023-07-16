@@ -3,6 +3,7 @@ using System.Net;
 using FakeItEasy;
 using Geohash;
 using Library.DataAccess;
+using Library.DataAccess.Interfaces;
 using Library.Models;
 using Library.Models.Business;
 using Library.Models.Yelp;
@@ -12,7 +13,7 @@ using Library.Repositories.Utilities.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using NUnit.Framework;
 
-namespace BackstoneUnitTests.RepositoryTests
+namespace UnitTests.RepositoryTests
 {
     public class BusinessRepositoryTests
     {

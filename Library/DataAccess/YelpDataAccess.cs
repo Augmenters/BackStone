@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Collections.ObjectModel;
 using System.Net;
 using Library.Repositories.Utilities.Interfaces;
+using Library.DataAccess.Interfaces;
 
 namespace Library.DataAccess
 {

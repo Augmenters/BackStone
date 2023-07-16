@@ -3,7 +3,7 @@ using Library.Models;
 using Library.Models.Business;
 using Library.Models.Yelp;
 
-namespace Library.DataAccess
+namespace Library.DataAccess.Interfaces
 {
 	public interface IYelpDataAccess
 	{

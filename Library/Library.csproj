@@ -15,6 +15,7 @@
     <None Remove="Repositories\Utilities\" />
     <None Remove="Repositories\Interfaces\" />
     <None Remove="Repositories\Utilities\Interfaces\" />
+    <None Remove="DataAccess\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataAccess\" />
@@ -25,6 +26,7 @@
     <Folder Include="Repositories\Utilities\" />
     <Folder Include="Repositories\Interfaces\" />
     <Folder Include="Repositories\Utilities\Interfaces\" />
+    <Folder Include="DataAccess\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -45,5 +47,7 @@
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
   </ItemGroup>
 </Project>

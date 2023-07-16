@@ -23,6 +23,8 @@ namespace IntegrationTests
 
         public string YelpApiKey => Environment.GetEnvironmentVariable("YelpApiKey");
 
+        public string BackstoneDB => ConnectionStringBuilder.Build(config);
+
         public double SearchRadius => double.Parse(config.GetSection("AppSettings")["SearchRadius"]);
 
         public long CacheSize => throw new NotImplementedException();
