@@ -1,11 +1,17 @@
 import time
 import requests
-import crimedict
+from Python.CrimeData.scrapers import crimedict
 import numpy
 from bs4 import BeautifulSoup
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
+from Python.Database.models import Crime
+from Python.Database.engine import insert_data
 
-def grab_indice_from_wrapper(wrapper, index_desired):
-    return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired], wrapper[4][index_desired]]
+AGENCY_ID = 1
+
+# def grab_indice_from_wrapper(wrapper, index_desired):
+#     return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired]]
 
 
 def in_BCSO_dict(query):
@@ -27,28 +33,33 @@ def get_BCSO_dict_value(query):
         return "Invalid"
 
 
-def convert_time(bad_time):
-    if bad_time[-2:] == "AM" and bad_time[:2] == "12":
-        return "00" + bad_time[2:-2]
-    elif bad_time[-2:] == "AM":
-        return "0" + bad_time[:-2]
-    elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
-        if bad_time[:2] == "11":
-            return "23" + bad_time[1:-2]
-        else:
-            twentyfour_time = str(int(bad_time[:1]) + 12)
-            return twentyfour_time + bad_time[1:-2]
-    else:
-        return bad_time[:-2]
+# def convert_time(bad_time):
+#     if bad_time[-2:] == "AM" and bad_time[:2] == "12":
+#         return "00" + bad_time[2:-2]
+#     elif bad_time[-2:] == "AM":
+#         return "0" + bad_time[:-2]
+#     elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
+#         if bad_time[:2] == "11":
+#             return "23" + bad_time[1:-2]
+#         else:
+#             twentyfour_time = str(int(bad_time[:1]) + 12)
+#             return twentyfour_time + bad_time[1:-2]
+#     else:
+#         return bad_time[:-2]
 
 
 # Send a GET request to the webpage
-def run_BSCO_scrape(startDate, endDate, rowCount):
+def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     #Date format MM/DD/YYYY
     #Row count 1 < x < 10000
     #Will crash if more than 10000, the sheriffs website cannot handle the load
-    if(startDate == "" or endDate == "" or rowCount == ""):
+    if(not startDate or not endDate or rowCount == ""):
         return None
+    
+    startDateStr = startDate.strftime('%m/%d/%Y')
+    endDateStr = endDate.strftime('%m/%d/%Y')
+
+
     url = 'https://report.boonecountymo.org/mrcjava/servlet/SH01_MP.I00070s'
 
     headers = {
@@ -61,8 +72,8 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
     location = ''
 
     parameters = {
-        'startDate' : startDate,
-        'endDate' : endDate,
+        'startDate' : startDateStr,
+        'endDate' : endDateStr,
         'rls_EXTERNAL': 'CT',
         'val_EXTERNAL' : incidentType,
         'val_ADDR01' : address,
@@ -70,7 +81,7 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
         'val_CALCULA006' : location,
         'max_rows' : rowCount,
         'rls_CALLDATE': 'RG',
-        'val_CALLDATE': '' + startDate + ' ' + endDate,
+        'val_CALLDATE': '' + startDateStr + ' ' + endDateStr,
         'rls_CALLTIME': 'EQ',
         'val_CALLTIME': '',
         'rls_INNUM': 'EQ',
@@ -134,17 +145,70 @@ def run_BSCO_scrape(startDate, endDate, rowCount):
     call_times = numpy.delete(temp_ct, indicies_to_delete).tolist()
     incident_numbers = numpy.delete(temp_in, indicies_to_delete).tolist()
 
-    for x in range(0, len(call_times)):
-        call_times[x] = convert_time(call_times[x])
+    call_datetimes = []
+    for x in range(0, len(call_dates)):
 
-    incident_wrapper = [call_dates, call_times, addresses, incident_instance, incident_numbers]
+        call_date = call_dates[x]
+        call_time = call_times[x]
+
+        # Combine date and time into a single string
+        call_datetime_string = f"{call_date} {call_time}"
+
+        # Convert the combined string into a datetime object
+        call_datetime = datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
+
+        call_datetimes.append(call_datetime)
+
+    incident_wrapper = [call_datetimes, addresses, incident_instance, incident_numbers]
     num_of_incidents = len(incident_wrapper[0])
-    output_file = open("BCSOdbready.txt", "a")
-    for val in range(0, num_of_incidents):
-        output_file.write(",".join(i for i in grab_indice_from_wrapper(incident_wrapper, val)) + "\n")
-    output_file.close()
 
-#run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
+    crimes = []    
+    for index in range(0, num_of_incidents):
+
+        # TODO: Get agency id from db
+        # TODO: Convert time to timeslot id
+        crime = {
+            "incident_id": incident_numbers[index],
+            "agency_id": AGENCY_ID,
+            "time_slot_id": 1,
+            "type": incident_instance[index],
+        }
+        crimes.append(crime)
+
+    unique_key = ["agency_id", "incident_id"]
+
+    insert_data(engine, crimes, Crime, natural_key=unique_key)
+
+    # # TODO: Get crime id from returned ids of crime insert
+    # crime_address = {
+    #     "crime_id": 1,
+    #     "address": addresses[index]
+    # }
+
+    
+
+def collect_BSCO_crime_data(start_date, end_date, engine):
+
+    row_count = 10000
+
+    while start_date < end_date:
+
+        month_ahead_date = start_date + relativedelta(months=1)
+
+        if end_date < month_ahead_date:
+
+            print(f"Collecting data from {start_date.strftime('%m/%d/%Y'),} to {end_date.strftime('%m/%d/%Y'),}")
+            run_BSCO_scrape(start_date, end_date, row_count, engine)
+            start_date = end_date
+
+        else:
+            print(f"Collecting data from {start_date.strftime('%m/%d/%Y'),} to {month_ahead_date.strftime('%m/%d/%Y'),}")
+            run_BSCO_scrape(start_date, month_ahead_date, row_count, engine)
+            start_date = month_ahead_date
+
+    
+
+# run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
 #time.sleep(120)
 #run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
 #time.sleep(120)

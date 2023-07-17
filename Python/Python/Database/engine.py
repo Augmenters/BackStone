@@ -105,7 +105,6 @@ def insert_data(engine, data, table, natural_key, on_conflict_update = True):
         )
 
     with engine.connect() as connection:
-        print(connection)
         connection.execute(stmnt)
             
     return True

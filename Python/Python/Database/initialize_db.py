@@ -2,10 +2,9 @@ import json
 import time
 import os
 import requests
-from models import Base, Address
-from engine import CONNECTION_STRING, create_database_engine, insert_data
-from stored_procedures import create_stored_procedures
-from sqlalchemy.orm import Session
+from Python.Database.models import Base, Address, Agency, TimeSlot
+from Python.Database.engine import CONNECTION_STRING, create_database_engine, insert_data
+from Python.Database.stored_procedures import create_stored_procedures
 
 backstone_host = os.getenv("BACKSTONE_HOST", "backstone")
 
@@ -52,6 +51,44 @@ def create_address_from_json(address_json):
 
     return address
 
+def insert_default_agencies(engine):
+
+    agencies = [
+        {
+            "id": 1,
+            "name": "BSCO"
+        },
+                {
+            "id": 2,
+            "name": "CPD"
+        },
+                {
+            "id": 3,
+            "name": "MUPD"
+        },
+    ]
+
+    insert_data(engine, agencies, Agency, natural_key=["id"])
+
+def insert_timeslots(engine):
+
+    timeslots = []
+
+    days_of_week = [1, 2, 3, 4, 5, 6, 7]
+    times_of_day = [1, 2, 3]
+
+    for day in days_of_week:
+
+        for time in times_of_day:
+
+            timeslots.append({
+                "day_of_week": str(day),
+                "time_of_day": str(time)
+            })
+
+    insert_data(engine, timeslots, TimeSlot, natural_key=["day_of_week", "time_of_day"])
+
+
 def hash_addresses():
     request = f"http://{backstone_host}/Address/HashUnhashed"
     print(request)
@@ -71,6 +108,11 @@ if __name__ == "__main__":
     print("Tables created!")
     time.sleep(3)
 
+    insert_timeslots(engine)
+    print("Timeslots inserted")
+
+    insert_default_agencies(engine)
+    print("Agencies inserted")
     create_stored_procedures(engine)
     print("Created stored procedures")
 

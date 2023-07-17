@@ -7,6 +7,7 @@ services:
         - "32771:80"
     env_file:
         - settings.env
+        - .env
     build:
       context: .
       dockerfile: Backstone/Dockerfile
@@ -35,6 +36,8 @@ services:
       dockerfile: Dockerfile.Database
     env_file:
       - .env
+    depends_on:
+      - database
 
   celery_worker:
     build:
@@ -43,6 +46,12 @@ services:
     environment:
       REDIS_HOST: broker
       REDIS_PORT: 6379
+    env_file:
+      - .env
+    depends_on:
+      - database
+      - datbase_initializer
+      - broker
 
 volumes:
   backstone_persistent_data:
