@@ -57,11 +57,10 @@ class Crime(Base):
     time_slot = relationship('TimeSlot')
 
 
-class CrimeAddress(Crime):
+class CrimeAddress(Base):
     __tablename__ = 'crime_addresses'
 
     crime_id = Column(ForeignKey('crimes.id'), primary_key=True)
-    # TODO: Add actual address columns
     address = Column(String(255))
 
 
