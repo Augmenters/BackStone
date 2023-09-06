@@ -55,7 +55,7 @@ def remove_duplicates_by_uniques(data, uniques):
     return unique_data
 
 
-def insert_data(engine, data, table, natural_key, on_conflict_update = True):
+def insert_data(engine, data, table, natural_key, return_columns=[], on_conflict_update = True):
 
     if isinstance(data, list) is False:
         
@@ -78,11 +78,13 @@ def insert_data(engine, data, table, natural_key, on_conflict_update = True):
     
     data = remove_duplicates_by_uniques(data, natural_key)
 
+    returning_args = [getattr(table, column) for column in return_columns]
+
     # creates insert on table
     # that returns cols specificed in returning_args
     # and inserts the data specified in data
     # NOTE: if return_columns does not have an values this still works
-    stmnt = postgresql.insert(table).values(data)
+    stmnt = postgresql.insert(table).returning(*returning_args).values(data)
 
     if on_conflict_update:
 
@@ -104,8 +106,17 @@ def insert_data(engine, data, table, natural_key, on_conflict_update = True):
             index_elements=natural_key
         )
 
-    with engine.connect() as connection:
-        connection.execute(stmnt)
+    if return_columns:
+        with engine.connect() as connection:
+            result = connection.execute(stmnt).fetchall()
+
+            data = [dict(row) for row in result]
             
-    return True
+            return data
+    else:
+
+        with engine.connect() as connection:
+            connection.execute(stmnt)
+            
+        return True
 
