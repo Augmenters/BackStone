@@ -1,7 +1,8 @@
 import os
 import time
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine 
+from sqlalchemy import select
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.exc import OperationalError
 
@@ -119,4 +120,3 @@ def insert_data(engine, data, table, natural_key, return_columns=[], on_conflict
             connection.execute(stmnt)
             
         return True
-

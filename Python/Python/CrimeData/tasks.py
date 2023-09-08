@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from Python.CrimeData.celery_app import celery_app
-from Python.CrimeData.scrapers.scraper import collect_BSCO_crime_data
+from Python.CrimeData.scrapers.scraper import collect_BSCO_crime_data, getCordinates
 
 @celery_app.task
 def BSCO_collect():
@@ -13,4 +13,8 @@ def BSCO_collect():
 
     collect_BSCO_crime_data(start_date, end_date, engine)
 
-
+@celery_app.task
+def getCordinates(): 
+    from Python.CrimeData.celery_app import engine
+    print(engine)
+    print("I AM HERE")
