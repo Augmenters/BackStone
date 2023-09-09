@@ -53,7 +53,7 @@ namespace IntegrationTests.RepositoryTests
             RemoveAddressHash(addressId);
 
             //Act
-            var result = dataAccess.SaveAddressHash((1, newHash));
+            var result = dataAccess.SaveAddressHashes(new[] { (1, newHash) });
 
             //Assert
             var hashFromDb = GetAddressHash(addressId);
