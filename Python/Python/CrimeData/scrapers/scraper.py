@@ -4,7 +4,8 @@ from Python.CrimeData.scrapers import crimedict
 import numpy
 from bs4 import BeautifulSoup
 from dateutil.relativedelta import relativedelta
-from datetime import datetime
+import datetime
+import sqlalchemy as s
 from Python.Database.models import Crime, CrimeAddress
 from Python.Database.engine import insert_data
 
@@ -145,6 +146,10 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     call_times = numpy.delete(temp_ct, indicies_to_delete).tolist()
     incident_numbers = numpy.delete(temp_in, indicies_to_delete).tolist()
 
+
+    time_slot_map = get_timeslot_map(engine)
+
+    time_slot_ids = []
     call_datetimes = []
     for x in range(0, len(call_dates)):
 
@@ -155,9 +160,17 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
         call_datetime_string = f"{call_date} {call_time}"
 
         # Convert the combined string into a datetime object
-        call_datetime = datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
+        call_datetime = datetime.datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
 
         call_datetimes.append(call_datetime)
+
+        day_of_week, time_of_day = datetime_to_timeslot_id(call_datetime)
+
+        time_slot_tuple = tuple((day_of_week, time_of_day))
+
+        time_slot_id = time_slot_map[tuple((day_of_week, time_of_day))]
+
+        time_slot_ids.append(time_slot_id)
 
     incident_wrapper = [call_datetimes, addresses, incident_instance, incident_numbers]
     num_of_incidents = len(incident_wrapper[0])
@@ -166,11 +179,10 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     for index in range(0, num_of_incidents):
 
         # TODO: Get agency id from db
-        # TODO: Convert time to timeslot id
         crime = {
             "incident_id": incident_numbers[index],
             "agency_id": AGENCY_ID,
-            "time_slot_id": 1,
+            "time_slot_id": time_slot_ids[index],
             "type": incident_instance[index],
         }
         crimes.append(crime)
@@ -217,7 +229,42 @@ def collect_BSCO_crime_data(start_date, end_date, engine):
             run_BSCO_scrape(start_date, month_ahead_date, row_count, engine)
             start_date = month_ahead_date
 
-    
+def datetime_to_timeslot_id(crime_datetime):
+
+    day_of_week = crime_datetime.isoweekday() % 7 + 1  
+
+    # Determine the time of day range
+    if crime_datetime.time() < datetime.time(6, 0):  # 12am to 5:59:59am
+        time_of_day = 1
+    elif crime_datetime.time() < datetime.time(12, 0):  # 6am to 11:59:59am
+        time_of_day = 2
+    elif crime_datetime.time() < datetime.time(18, 0):  # 12pm to 5:59:59pm
+        time_of_day = 3
+    else:  # 6pm to 11:59:59pm
+        time_of_day = 4
+
+    return day_of_week, time_of_day
+
+def get_timeslot_map(engine):
+
+    query = s.text("""
+        Select * from time_slots
+    """)
+
+    rows = engine.execute(query).fetchall()
+
+    time_slot_map = {}
+    for row in rows:
+        row = dict(row)
+
+        id = row["id"]
+        day_of_week = int(row["day_of_week"])
+        time_of_day = int(row["time_of_day"])
+        time_slot_tuple = tuple((day_of_week, time_of_day))
+
+        time_slot_map[time_slot_tuple] = id
+
+    return time_slot_map
 
 # run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
 #time.sleep(120)

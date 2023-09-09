@@ -75,7 +75,7 @@ def insert_timeslots(engine):
     timeslots = []
 
     days_of_week = [1, 2, 3, 4, 5, 6, 7]
-    times_of_day = [1, 2, 3]
+    times_of_day = [1, 2, 3, 4]
 
     for day in days_of_week:
 
