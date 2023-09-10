@@ -3,6 +3,8 @@ using Library.Models.Crime;
 using Library.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Library.DataAccess.Interfaces;
+using Library.Repositories.Interfaces;
 
 namespace Backstone.Controllers
 {
@@ -10,9 +12,13 @@ namespace Backstone.Controllers
     [Route("Crime")]
     public class CrimeController : ControllerBase
     {
+        private readonly ICrimeRepository crimeRepository;
+        private readonly ICrimeDataAccess crimeDataAccess;
 
-        public CrimeController()
+        public CrimeController(ICrimeRepository crimeRepository, ICrimeDataAccess crimeDataAccess)
         {
+            this.crimeRepository = crimeRepository;
+            this.crimeDataAccess = crimeDataAccess;
         }
 
         /// <summary>
@@ -25,11 +31,18 @@ namespace Backstone.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(IEnumerable<CrimeResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CrimeSearch(int timeSlotId)
+        public async Task<IActionResult> GetCrimes(int timeSlotId)
         {
             try
             {
-                return Ok();
+                if (timeSlotId == 0)
+                    return BadRequest();
+
+                var result = crimeRepository.GetCrimes(timeSlotId);
+
+                return result != null
+                     ? Ok(result)
+                     : NotFound();
             }
             catch (Exception ex)
             {
@@ -52,7 +65,11 @@ namespace Backstone.Controllers
         {
             try
             {
-                return Ok();
+                var result = crimeDataAccess.GetTimeSlots();
+
+                return result != null
+                     ? Ok(result)
+                     : NotFound();
             }
             catch (Exception ex)
             {
