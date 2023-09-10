@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup
 from dateutil.relativedelta import relativedelta
 from Python.Database.models import Crime
 from Python.Database.engine import insert_data
-import crimedict
 
 AGENCY_ID = 1
 
