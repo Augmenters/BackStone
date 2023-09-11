@@ -7,7 +7,8 @@ import numpy
 import csv
 from bs4 import BeautifulSoup
 from dateutil.relativedelta import relativedelta
-from Python.Database.models import Crime
+from datetime import datetime
+from Python.Database.models import Crime, CrimeAddress
 from Python.Database.engine import insert_data
 
 AGENCY_ID = 1
@@ -177,15 +178,26 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
+    return_columns = ["id", "incident_id"]
 
-    insert_data(engine, crimes, Crime, natural_key=unique_key)
+    result = insert_data(engine, crimes, Crime, return_columns=return_columns, natural_key=unique_key)
 
-    # # TODO: Get crime id from returned ids of crime insert
-    # crime_address = {
-    #     "crime_id": 1,
-    #     "address": addresses[index]
-    # }
+    incident_id_map = {item['incident_id']: item['id'] for item in result}
 
+    crime_addresses = []    
+    for index in range(0, num_of_incidents):
+
+        incident_id = int(incident_numbers[index])
+        crime_id = incident_id_map[incident_id]
+
+        address = {
+            "crime_id": crime_id,
+            "address": addresses[index],
+        }
+        crime_addresses.append(address)
+
+    unique_key = ["crime_id"]
+    insert_data(engine, crime_addresses, CrimeAddress, natural_key=unique_key)
     
 
 def collect_BSCO_crime_data(start_date, end_date, engine):

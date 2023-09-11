@@ -57,11 +57,10 @@ class Crime(Base):
     time_slot = relationship('TimeSlot')
 
 
-class CrimeAddress(Crime):
+class CrimeAddress(Base):
     __tablename__ = 'crime_addresses'
 
     crime_id = Column(ForeignKey('crimes.id'), primary_key=True)
-    # TODO: Add actual address columns
     address = Column(String(255))
 
 
@@ -70,8 +69,7 @@ class TimeSlotGrid(Base):
 
     time_slot_id = Column(ForeignKey('time_slots.id'), primary_key=True, nullable=False)
     grid_hash = Column(String(255), primary_key=True, nullable=False)
-    # TODO: Add actual status column
-    stats = Column(String(255))
+    crime_count = Column(BigInteger)
 
     time_slot = relationship('TimeSlot')
 
