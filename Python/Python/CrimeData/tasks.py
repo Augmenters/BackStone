@@ -1,7 +1,8 @@
 from datetime import datetime
 
 from Python.CrimeData.celery_app import celery_app
-from Python.CrimeData.scrapers.scraper import collect_BSCO_crime_data, getCordinates
+from Python.CrimeData.scrapers.scraper import collect_BSCO_crime_data   
+from Python.CrimeData.locationHandling.address import getCrimeCordinates
 
 @celery_app.task
 def BSCO_collect():
@@ -16,5 +17,4 @@ def BSCO_collect():
 @celery_app.task
 def getCordinates(): 
     from Python.CrimeData.celery_app import engine
-    print(engine)
-    print("I AM HERE")
+    getCrimeCordinates(engine)

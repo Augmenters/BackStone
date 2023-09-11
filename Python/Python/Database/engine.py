@@ -56,7 +56,7 @@ def remove_duplicates_by_uniques(data, uniques):
     return unique_data
 
 
-def insert_data(engine, data, table, natural_key, return_columns=[], on_conflict_update = True):
+def insert_data(engine, data, table, natural_key="", return_columns=[], on_conflict_update = True):
 
     if isinstance(data, list) is False:
         
@@ -76,8 +76,8 @@ def insert_data(engine, data, table, natural_key, return_columns=[], on_conflict
     if isinstance(data[0], dict) is False: 
         print("Must be list of dicts")
         return False
-    
-    data = remove_duplicates_by_uniques(data, natural_key)
+    if natural_key != "":
+        data = remove_duplicates_by_uniques(data, natural_key)
 
     returning_args = [getattr(table, column) for column in return_columns]
 
