@@ -1,7 +1,10 @@
-import time
 import requests
+import calendar
+import datetime
+import re
 from Python.CrimeData.scrapers import crimedict
 import numpy
+import csv
 from bs4 import BeautifulSoup
 from dateutil.relativedelta import relativedelta
 import datetime
@@ -59,7 +62,6 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     
     startDateStr = startDate.strftime('%m/%d/%Y')
     endDateStr = endDate.strftime('%m/%d/%Y')
-
 
     url = 'https://report.boonecountymo.org/mrcjava/servlet/SH01_MP.I00070s'
 
@@ -265,6 +267,87 @@ def get_timeslot_map(engine):
         time_slot_map[time_slot_tuple] = id
 
     return time_slot_map
+def send_and_store_request_CPD(startDate, endDate):
+    session = requests.Session()
+    agency_url = "https://www.como.gov/CMS/911dispatch/police.php"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36",
+    }
+    parameters = {
+        'type':'',
+        'keyword':'',
+        'Start_Date':startDate,
+        'End_Date': endDate
+    }
+
+    session.post(agency_url, headers=headers, data=parameters)
+
+    file_url = "https://www.como.gov/CMS/911dispatch/police_csvexport.php"
+    
+    download = session.get(file_url)
+
+    decoded_content = download.content.decode('utf-8')
+
+    cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+    my_list = list(cr)
+    del my_list[0]
+    data = []
+
+
+    for incident in my_list:
+        if is_violent_CPD_crime(incident[3]):
+            incident_date_time = convert_CPD_time_to_datetime(incident[1])
+            data.append({"Incident ID": incident[0], "Type": map_from_CPD_incident_type(incident[3]), "Address": incident[2], "Date/Time of Incident": incident_date_time})
+        else:
+            pass
+
+    
+    session.close()
+    
+    return data
+
+def is_violent_CPD_crime(incident_type):
+    for key in crimedict.cpddict.keys():
+        if incident_type in key:
+            return True
+    return False
+
+def map_from_CPD_incident_type(incident_type):
+    for key in crimedict.cpddict.keys():
+        if incident_type in key:
+            return crimedict.cpddict.get(key)
+    return None
+
+def convert_CPD_time_to_datetime(raw_datetime):
+    matches = re.search(r"([0-9]{1,2}[/][0-9]{1,2}[/][0-9]{1,4}) ([0-9]{1,2}[:][0-9]{1,2})[:][0-9]{2}[ ]([A-Z]{2})", raw_datetime)
+    date = matches.group(1)
+    time = matches.group(2)
+    day_cycle = matches.group(3)
+
+    completeTime = "" + date + " " + time + " " + day_cycle
+   
+    datetime_of_incident = datetime.datetime.strptime(completeTime, '%m/%d/%Y %I:%M %p')
+    return datetime_of_incident
+
+def run_CPD_scrape(startDate, endDate):
+    #Assuming datetimes are given
+    currentDate = startDate
+
+    while currentDate != endDate:
+        daysInMonth = str(calendar.monthrange(currentDate.year, currentDate.month)[1])
+
+        if (currentDate.month == endDate.month) and (currentDate.year == endDate.year):
+            requestDict = send_and_store_request_CPD(currentDate.strftime("%Y-%m-%d"), endDate.strftime("%Y-%m-%d"))
+            #TODO SEND REQUEST DICT TO DB
+            currentDate = endDate
+        else:
+            requestDict = send_and_store_request_CPD(currentDate.strftime("%Y-%m-01"), currentDate.strftime("%Y-%m-" + daysInMonth))
+            #TODO SEND REQUEST DICT TO DB
+            if currentDate.month == 12:
+                currentDate = currentDate + relativedelta(years = 1)
+                currentDate = currentDate.replace(month=1)
+            else:
+                currentDate = currentDate + relativedelta(months = 1)
 
 # run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
 #time.sleep(120)
@@ -275,3 +358,10 @@ def get_timeslot_map(engine):
 #run_BSCO_scrape('04/01/2023', '04/30/2023', 10000)
 #time.sleep(120)
 #run_BSCO_scrape('05/01/2023', '05/31/2023', 10000)
+#run_CPD_scrape("2023-06-10", "2023-06-11")
+
+
+#startTest = datetime.datetime(2023, 6, 1)
+#endTest = datetime.datetime(2023, 7, 1)
+
+#run_CPD_scrape(startTest, endTest)
