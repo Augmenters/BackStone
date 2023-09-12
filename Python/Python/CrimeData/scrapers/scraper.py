@@ -170,7 +170,7 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
 
         time_slot_tuple = tuple((day_of_week, time_of_day))
 
-        time_slot_id = time_slot_map[tuple((day_of_week, time_of_day))]
+        time_slot_id = time_slot_map[time_slot_tuple]
 
         time_slot_ids.append(time_slot_id)
 
@@ -233,7 +233,7 @@ def collect_BSCO_crime_data(start_date, end_date, engine):
 
 def datetime_to_timeslot_id(crime_datetime):
 
-    day_of_week = crime_datetime.isoweekday() % 7 + 1  
+    day_of_week = crime_datetime.strftime('%A')
 
     # Determine the time of day range
     if crime_datetime.time() < datetime.time(6, 0):  # 12am to 5:59:59am
@@ -260,7 +260,7 @@ def get_timeslot_map(engine):
         row = dict(row)
 
         id = row["id"]
-        day_of_week = int(row["day_of_week"])
+        day_of_week = row["day_of_week"]
         time_of_day = int(row["time_of_day"])
         time_slot_tuple = tuple((day_of_week, time_of_day))
 
