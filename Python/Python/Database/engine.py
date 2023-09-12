@@ -63,10 +63,11 @@ def insert_data(engine, data, table, natural_key, return_columns=[], on_conflict
         # convert it to a list with one value
         if isinstance(data, dict) is True:
             data = [data]
-
         else:
             print("Data must be a list or a dict")
             return False
+
+        data = remove_duplicates_by_uniques(data, natural_key)
 
     if len(data) == 0:
 
