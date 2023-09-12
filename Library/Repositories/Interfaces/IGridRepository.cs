@@ -9,6 +9,7 @@ namespace Library.Repositories.Interfaces
         Coordinate DecodeHash(string hash);
         bool CheckCoordinateInHash(string hash, Coordinate coordinate);
         IEnumerable<GridBox> GenerateGrid(Coordinate coordinate);
+        IEnumerable<Coordinate> GetBoundingBoxCoordinates(string geohash);
     }
 }
 

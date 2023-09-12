@@ -21,11 +21,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ISettings, Settings>();
 builder.Services.AddScoped<Geohasher>();
-builder.Services.AddScoped<IGridRepository, GridRepository>();
 builder.Services.AddScoped<IYelpDataAccess, YelpDataAccess>();
-builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
+builder.Services.AddScoped<ICrimeDataAccess, CrimeDataAccess>();
 builder.Services.AddScoped<IAddressDataAccess, AddressDataAccess>();
+builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IGridRepository, GridRepository>();
+builder.Services.AddScoped<ICrimeRepository, CrimeRepository>();
 
 var cacheSize = builder.Services.BuildServiceProvider().GetRequiredService<ISettings>().CacheSize;
 builder.Services.AddMemoryCache(x => new MemoryCacheOptions().SizeLimit = cacheSize);
