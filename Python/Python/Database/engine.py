@@ -1,8 +1,7 @@
 import os
 import time
 
-from sqlalchemy import create_engine 
-from sqlalchemy import select
+from sqlalchemy import create_engine
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.exc import OperationalError
 
