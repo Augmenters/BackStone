@@ -1,32 +1,8 @@
 import sqlalchemy as s
-import time
-from sqlalchemy import create_engine
-from sqlalchemy.exc import OperationalError
 import re
-from Database.engine import insert_data
-from Database.models import t_crime_coordinates
-
-CONNECTION_STRING = f"postgresql+psycopg2://backstone_user:password@127.0.0.1:5432/base_db"
 
 
-def create_database_engine(url, **kwargs):
-
-    while True:
-        try:
-            print("Connecting to Postgres...")
-            engine = create_engine(url, **kwargs)
-            connection = engine.connect()
-            connection.close()
-            return engine
-        except OperationalError as e:
-            print("Postgres is not ready. Waiting...")
-            time.sleep(2)
-            continue
-
-
-def get_data():
-    engine = create_database_engine(CONNECTION_STRING)
-
+def get_data(engine):
     query = s.text("""
         SELECT crime_addresses.crime_id, crime_addresses.address
         FROM crime_addresses
@@ -79,6 +55,6 @@ def processData(engine, data):
     return crimeCordinates
 
 def getCrimeCordinates(engine):
-    data = get_data()
+    data = get_data(engine)
     crimeCordinates = processData(engine, data)
     print(crimeCordinates)

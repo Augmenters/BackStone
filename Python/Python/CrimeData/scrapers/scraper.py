@@ -217,11 +217,6 @@ def collect_BSCO_crime_data(start_date, end_date, engine):
             run_BSCO_scrape(start_date, month_ahead_date, row_count, engine)
             start_date = month_ahead_date
 
-def getCordinates():
-    crimeAdresses = CrimeAddress.querey.all()
-    for address in crimeAdresses: 
-        print(address)
-
 # run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
 #time.sleep(120)
 #run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
