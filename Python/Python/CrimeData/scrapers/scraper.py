@@ -301,6 +301,7 @@ def run_CPD_scrape(startDate, endDate):
             else:
                 currentDate = currentDate + relativedelta(months = 1)
 
+                
 # run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
 #time.sleep(120)
 #run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
