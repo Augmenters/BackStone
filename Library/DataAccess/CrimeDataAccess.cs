@@ -47,7 +47,6 @@ namespace Library.DataAccess
             }
         }
 
-        //Will need to change
         public IEnumerable<TimeSlot> GetTimeSlots()
         {
             try
@@ -62,7 +61,8 @@ namespace Library.DataAccess
                         var timeSlot = new TimeSlot()
                         {
                             Id = int.Parse(reader["id"]?.ToString()),
-                            DayOfWeek = int.Parse(reader["day_of_week"]?.ToString())
+                            TimeOfDay = int.Parse(reader["time_of_day"]?.ToString()),
+                            DayOfWeek = reader["day_of_week"]?.ToString()
                         };
 
                         timeSlots.Add(timeSlot);

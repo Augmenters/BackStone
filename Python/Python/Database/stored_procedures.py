@@ -54,6 +54,9 @@ def create_stored_procedures(engine):
         con.execute(gt_unhashed_addresses)
         print("created procedure gt_unhashed_addresses")
 
+        con.execute(gt_time_slots)
+        print("created procedure gt_time_slots")
+
         con.execute(gt_crime_by_timeslot_id)
         print("created procedure gt_crime_by_timeslot_id")
 
