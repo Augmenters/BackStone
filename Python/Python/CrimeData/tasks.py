@@ -6,6 +6,7 @@ from Python.CrimeData.locationHandling.address import getCrimeCordinates
 
 @celery_app.task
 def BSCO_collect():
+    print("Collecting BSCO")
 
     from Python.CrimeData.celery_app import engine
     
@@ -16,5 +17,22 @@ def BSCO_collect():
 
 @celery_app.task
 def getCordinates(): 
+    print("Resolving addresses to coordinates")
     from Python.CrimeData.celery_app import engine
     getCrimeCordinates(engine)
+
+
+@celery_app.task
+def CPD_Collect(): 
+    from Python.CrimeData.celery_app import engine
+    print("Collecting CPD")
+
+@celery_app.task
+def MUPD_Collect(): 
+    from Python.CrimeData.celery_app import engine
+    print("Collecitng MUPD")
+
+@celery_app.task
+def compute_stats(): 
+    from Python.CrimeData.celery_app import engine
+    print("Computing stats")
