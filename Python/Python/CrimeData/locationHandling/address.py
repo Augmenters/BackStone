@@ -36,23 +36,28 @@ def getCordinates(engine, address):
         else:
             return None
 
-def processData(engine, data):
-    crimeCordinates = []
 
+def insertCrimeData(engine, entry):
+    qt = "INSERT INTO crime_coordinates(crime_id, longitude, latitude) \
+            VALUES (" + entry["crime_id"] + "," + entry["longitude"] + ","\
+            + entry["latitude"] + ");"
+
+    query = s.text(qt)
+    engine.execute(query)
+
+
+def processData(engine, data):
     for entry in data:
         address = entry["address"]
         cordinates = getCordinates(engine, address)
-        print(cordinates)
 
         if cordinates:
             cordinateEntry = {
-                "crime_id": entry["crime_id"],
-                "latitude": cordinates[0][0],
-                "longitude": cordinates[0][1],
+                "crime_id": str(entry["crime_id"]),
+                "latitude": str(cordinates[0][0]),
+                "longitude": str(cordinates[0][1]),
             }
-
-            crimeCordinates.append(cordinateEntry)
-    return crimeCordinates
+            insertCrimeData(engine, cordinateEntry)
 
 def getCrimeCordinates(engine):
     data = get_data(engine)
