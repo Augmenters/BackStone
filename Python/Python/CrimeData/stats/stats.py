@@ -41,6 +41,7 @@ def computeStats(engine):
     for key, count in map.items():
         time_slot_id, geohash = key
 
-    qt = "INSERT INTO time_slot_grids(time_slot_id, grid_hash, count) \
-            VALUES (" + str(time_slot_id) + "," + geohash + ","\
-            + str(count) + ");"
+        qt = f"INSERT INTO time_slot_grids(time_slot_id, grid_hash, crime_count) \
+            VALUES ({str(time_slot_id)}, '{geohash}', {str(count)});"
+        
+        engine.execute(s.text(qt))

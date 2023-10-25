@@ -17,6 +17,15 @@ AGENCY_ID = 1
 # def grab_indice_from_wrapper(wrapper, index_desired):
 #     return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired]]
 
+def create_crime_dict(incident_id, agency_id, time_slot_id, type):
+
+    return {
+        "incident_id": incident_id,
+        "agency_id": agency_id,
+        "time_slot_id": time_slot_id,
+        "type": type,
+    }
+
 
 def in_BCSO_dict(query):
     for key in crimedict.bcsodict.keys():
@@ -180,13 +189,7 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     crimes = []    
     for index in range(0, num_of_incidents):
 
-        # TODO: Get agency id from db
-        crime = {
-            "incident_id": incident_numbers[index],
-            "agency_id": AGENCY_ID,
-            "time_slot_id": time_slot_ids[index],
-            "type": incident_instance[index],
-        }
+        crime = create_crime_dict(incident_numbers[index], AGENCY_ID, time_slot_ids[index], incident_instance[index])
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
@@ -267,7 +270,7 @@ def get_timeslot_map(engine):
         time_slot_map[time_slot_tuple] = id
 
     return time_slot_map
-def send_and_store_request_CPD(startDate, endDate):
+def collect_CPD_data(startDate, endDate, engine):
     session = requests.Session()
     agency_url = "https://www.como.gov/CMS/911dispatch/police.php"
     headers = {
@@ -293,19 +296,53 @@ def send_and_store_request_CPD(startDate, endDate):
     del my_list[0]
     data = []
 
-
+    incident_id_address_map = {}
     for incident in my_list:
         if is_violent_CPD_crime(incident[3]):
             incident_date_time = convert_CPD_time_to_datetime(incident[1])
-            data.append({"Incident ID": incident[0], "Type": map_from_CPD_incident_type(incident[3]), "Address": incident[2], "Date/Time of Incident": incident_date_time})
+
+            agency_id = 2
+            time_slot_id = 1
+            incident_id = int(incident[0])
+            address = incident[2]
+            crime_type = map_from_CPD_incident_type(incident[3])
+
+            crime = create_crime_dict(incident_id, agency_id, time_slot_id, crime_type)
+            data.append(crime)
+
+            incident_id_address_map[incident_id] = address
+
+            #data.append({"Incident ID": incident[0], "Type": map_from_CPD_incident_type(incident[3]), "Address": incident[2], "Date/Time of Incident": incident_date_time})
         else:
             pass
 
-    
+    unique_key = ["agency_id", "incident_id"]
+    return_columns = ["id", "incident_id"]
+    result = insert_data(engine, data, Crime, return_columns=return_columns, natural_key=unique_key)
+
+    incident_id_map = {item['incident_id']: item['id'] for item in result}
+    print(incident_id_map)
+
+    crime_addresses = []    
+    for crime in data:
+
+        incident_id = crime["incident_id"]
+
+        crime_id = incident_id_map[incident_id]
+        address = incident_id_address_map[incident_id]
+        
+        address = {
+            "crime_id": crime_id,
+            "address": address,
+        }
+        crime_addresses.append(address)
+
+    unique_key = ["crime_id"]
+    insert_data(engine, crime_addresses, CrimeAddress, natural_key=unique_key)
+
+
     session.close()
     
-    return data
-
 def is_violent_CPD_crime(incident_type):
     for key in crimedict.cpddict.keys():
         if incident_type in key:
@@ -329,7 +366,7 @@ def convert_CPD_time_to_datetime(raw_datetime):
     datetime_of_incident = datetime.datetime.strptime(completeTime, '%m/%d/%Y %I:%M %p')
     return datetime_of_incident
 
-def run_CPD_scrape(startDate, endDate):
+def run_CPD_scrape(startDate, endDate, engine):
     #Assuming datetimes are given
     currentDate = startDate
 
@@ -337,12 +374,10 @@ def run_CPD_scrape(startDate, endDate):
         daysInMonth = str(calendar.monthrange(currentDate.year, currentDate.month)[1])
 
         if (currentDate.month == endDate.month) and (currentDate.year == endDate.year):
-            requestDict = send_and_store_request_CPD(currentDate.strftime("%Y-%m-%d"), endDate.strftime("%Y-%m-%d"))
-            #TODO SEND REQUEST DICT TO DB
+            collect_CPD_data(currentDate.strftime("%Y-%m-%d"), endDate.strftime("%Y-%m-%d"), engine)
             currentDate = endDate
         else:
-            requestDict = send_and_store_request_CPD(currentDate.strftime("%Y-%m-01"), currentDate.strftime("%Y-%m-" + daysInMonth))
-            #TODO SEND REQUEST DICT TO DB
+            collect_CPD_data(currentDate.strftime("%Y-%m-01"), currentDate.strftime("%Y-%m-" + daysInMonth), engine)
             if currentDate.month == 12:
                 currentDate = currentDate + relativedelta(years = 1)
                 currentDate = currentDate.replace(month=1)
