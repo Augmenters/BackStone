@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net;
 using Library.DataAccess;
 using Library.DataAccess.Interfaces;
@@ -15,27 +16,33 @@ namespace Library.Repositories
 	{
         private readonly IYelpDataAccess yelpDataAccess;
         private readonly IGridRepository gridRepository;
+        private readonly IAddressDataAccess addressDataAccess;
         private readonly ICacheHelper cache;
 
 		public BusinessRepository(IYelpDataAccess yelpDataAccess,
                                   IGridRepository gridRepository,
+                                  IAddressDataAccess addressDataAccess,
                                   ICacheHelper cache)
 		{
             this.yelpDataAccess = yelpDataAccess;
             this.gridRepository = gridRepository;
+            this.addressDataAccess = addressDataAccess;
             this.cache = cache;
 		}
 
         public async Task<DataResult<IEnumerable<POI>>> GetPOIs(Coordinate coordinate)
         {
-            var POIList = new List<POI>();
+            var POIList = new ConcurrentBag<POI>();
             var gridBoxes = gridRepository.GenerateGrid(coordinate);
 
             await Parallel.ForEachAsync(gridBoxes, async (box, token) =>
             {
                 if (cache.TryGetValue<IEnumerable<POI>>(box.GeoHash, out var cachedPOIs))
                 {
-                    POIList.AddRange(cachedPOIs!);
+                    foreach (var poi in cachedPOIs!)
+                    {
+                        POIList.Add(poi);
+                    }
                 }
                 else
                 {
@@ -49,15 +56,63 @@ namespace Library.Repositories
 
                     var converted = MapYelpToPOI(result.Data);
                     var valid = RemovePOIsOutsideOfBox(box.GeoHash, converted).ToList();
-                    cache.Set(box.GeoHash, valid);
+                    var allAddresses = FillOpenAddressSlots(box.GeoHash, valid);
+                    cache.Set(box.GeoHash, allAddresses);
 
-                    POIList.AddRange(valid);
+                    foreach(var poi in allAddresses)
+                    {
+                        POIList.Add(poi);
+                    }
                 }
             });
 
             return POIList.Any()
                  ? new DataResult<IEnumerable<POI>> { IsSuccessful = true, Data = POIList }
                  : new DataResult<IEnumerable<POI>> { IsSuccessful = false, ErrorId = HttpStatusCode.NotFound, ErrorMessage = "No POIs returned from search" };
+        }
+
+        private IEnumerable<POI> FillOpenAddressSlots(string hash, List<POI> poisInHash)
+        {
+            var openAddresses = addressDataAccess.GetAddressesInHash(hash)?.ToList();
+
+            if (!openAddresses?.Any() ?? false)
+                return poisInHash;
+
+            foreach(var poi in poisInHash)
+            {
+                var match = openAddresses.FirstOrDefault(x =>
+                {
+                    return poi.Address.Line1.ToLower().Contains(x.Number.ToString())
+                        && poi.Address.Line1.ToLower().Contains(x.Street)
+                        && poi.Address.City.ToLower().Contains(x.City);
+                });
+
+                if(match != null)
+                    openAddresses.Remove(match);
+            }
+
+            foreach(var address in openAddresses)
+            {
+                var line1 = string.Join(' ', address.Number, address.Street, address.Unit);
+                poisInHash.Add(new POI()
+                {
+                    Address = new Address()
+                    {
+                        Line1 = line1,
+                        City = address.City,
+                        State = address.State,
+                        Zip = address.Zip
+                    },
+                    BusinessName = string.Join(' ', "Open Address:", line1),
+                    Coordinates = new Coordinate()
+                    {
+                        Latitude = double.Parse(address.Latitude),
+                        Longitude = double.Parse(address.Longitude)
+                    }
+                }) ;
+            }
+
+            return poisInHash;
         }
 
         public async Task<DataResult<BusinessReviewsResponse>> GetReviews(string businessId)
