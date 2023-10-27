@@ -36,5 +36,4 @@ def MUPD_Collect():
 @celery_app.task
 def compute_stats(): 
     from Python.CrimeData.celery_app import engine
-    print("Computing stats")
-
+    computeStats(engine)
