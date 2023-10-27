@@ -77,6 +77,7 @@ class CrimeCoordinate(Base):
     __tablename__ = 'crime_coordinates'
 
     crime_id = Column(ForeignKey('crimes.id'), primary_key=True)
+    grid_hash = Column(String(255))
     longitude = Column(String(255))
     latitude = Column(String(255))
 
