@@ -38,7 +38,7 @@ def getCordinates(engine, address):
         if street.startswith("block"):
             street = street[5:].strip()
 
-        qt = "SELECT addresses.longitude, addresses.latitude FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%';"
+        qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%';"
         query = s.text(qt)
         result = engine.execute(query).fetchall()
 
@@ -53,10 +53,10 @@ def getCordinates(engine, address):
 
 
 def insertCrimeData(engine, entry):
-    qt = "INSERT INTO crime_coordinates(crime_id, longitude, latitude) \
+    print(entry)
+    qt = "INSERT INTO crime_coordinates(crime_id, longitude, latitude, grid_hash) \
             VALUES (" + entry["crime_id"] + "," + entry["longitude"] + ","\
-            + entry["latitude"] + ");"
-
+            + entry["latitude"] + ",'" + entry["geohash"] + "');"
     query = s.text(qt)
     engine.execute(query)
 
@@ -71,6 +71,7 @@ def processData(engine, data):
                 "crime_id": str(entry["crime_id"]),
                 "latitude": str(cordinates[0][0]),
                 "longitude": str(cordinates[0][1]),
+                "geohash": str(cordinates[0][2]),
             }
             insertCrimeData(engine, cordinateEntry)
 

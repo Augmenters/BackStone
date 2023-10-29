@@ -13,16 +13,17 @@ def getCrimes(engine):
     return crimes
 
 
-def getCordinates(engine, crime_id):
-    qt = "SELECT crime_coordinates.longitude, crime_coordinates.latitude \
+def getHash(engine, crime_id):
+    qt = "SELECT crime_coordinates.grid_hash \
         FROM crime_coordinates \
         WHERE crime_coordinates.crime_id=" + str(crime_id) + ";"
     query = s.text(qt)
     result = engine.execute(query).fetchall()
-
-    cordinates = [dict(row) for row in result]
-    print(cordinates)
-    return cordinates
+    data = [dict(row) for row in result]
+    if len(data) == 1:
+        return data
+    else:
+        return None
 
 
 def cordinatesToHash(long, lat):
@@ -37,8 +38,9 @@ def computeStats(engine):
     print("Computing stats")
     for entry in crimes:
         time_slot_id = int(entry["time_slot_id"])
-        geoHash = cordinatesToHash(float(entry["longitude"]), float(entry["latitude"]))
-        map[(time_slot_id, str(geoHash))] += 1
+        geo_hash = getHash(engine, time_slot_id)
+        if geo_hash is not None:
+            map[(time_slot_id, str(geo_hash[0]["grid_hash"]))] += 1
 
     for key, count in map.items():
         time_slot_id, geohash = key

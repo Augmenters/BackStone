@@ -23,18 +23,18 @@ def getCordinates():
 
 
 @celery_app.task
-def CPD_Collect(): 
+def CPD_Collect():
     from Python.CrimeData.celery_app import engine
     print("Collecting CPD...")
     run_CPD_scrape(start_date, end_date, engine)
 
 @celery_app.task
-def MUPD_Collect(): 
+def MUPD_Collect():
     from Python.CrimeData.celery_app import engine
     print("Collecitng MUPD...")
 
 @celery_app.task
-def compute_stats(): 
+def compute_stats():
     from Python.CrimeData.celery_app import engine
     print("Computing stats...")
     computeStats(engine)
