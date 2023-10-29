@@ -99,7 +99,6 @@ def hash_addresses():
         print("Failed to hash addresses")
 
 if __name__ == "__main__":
-    print("Connection string: ", CONNECTION_STRING)
 
     engine = create_database_engine(CONNECTION_STRING)
 

@@ -22,9 +22,7 @@ def init_worker(**kwargs):
 
     from Python.Database.engine import CONNECTION_STRING, create_database_engine 
 
-    print("Create database connection for worker")
-    print(f"Connection string: {CONNECTION_STRING}")
-
+    print("Creating database connection for worker")
     global engine
     engine = create_database_engine(CONNECTION_STRING, poolclass=StaticPool)
 

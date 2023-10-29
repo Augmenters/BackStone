@@ -15,8 +15,17 @@ def get_data(engine):
     data = [dict(row) for row in result]
     return data
 
+def parse_address(address):
+
+    number = None
+    street = None
+
+
+    return number, street
+
 
 def getCordinates(engine, address):
+    
     pattern = r'\d+\s+\w+\s+\w+'
 
     if re.match(pattern, address):
@@ -25,16 +34,22 @@ def getCordinates(engine, address):
 
         # formats address stirng
         address.strip()
-        street = re.sub(r'^\d+\s*', '', address)
+        street = re.sub(r'^\d+\s*', '', address).strip().lower()
+        if street.startswith("block"):
+            street = street[5:].strip()
 
         qt = "SELECT addresses.longitude, addresses.latitude FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%';"
         query = s.text(qt)
         result = engine.execute(query).fetchall()
 
         if len(result) == 1:
+            print(f"Address matched and found: {address}. Address: {address}. Number: {number}. Street: {street}.")
             return result
         else:
+            print(f"Address not found in database. Address: {address}. Number: {number}. Street: {street}.")
             return None
+        
+    print(f"Address did not match regex: {address}")
 
 
 def insertCrimeData(engine, entry):
@@ -60,6 +75,8 @@ def processData(engine, data):
             insertCrimeData(engine, cordinateEntry)
 
 def getCrimeCordinates(engine):
+    print("Getting crime addresses that need resolved")
     data = get_data(engine)
+    
+    print("Resolving crime addresses to coordinates and inserting them")
     crimeCordinates = processData(engine, data)
-    print(crimeCordinates)

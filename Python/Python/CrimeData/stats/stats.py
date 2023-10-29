@@ -30,9 +30,11 @@ def cordinatesToHash(long, lat):
 
 
 def computeStats(engine):
+    print("Getting all the crimes to compute new stats")
     crimes = getCrimes(engine)
     map = defaultdict(int)
 
+    print("Computing stats")
     for entry in crimes:
         time_slot_id = int(entry["time_slot_id"])
         geoHash = cordinatesToHash(float(entry["longitude"]), float(entry["latitude"]))
