@@ -6,7 +6,7 @@ from Python.CrimeData.locationHandling.address import getCrimeCordinates
 from Python.CrimeData.stats.stats import computeStats
 
 start_date = datetime(2023, 1, 1)
-end_date = datetime.now()
+end_date = datetime(2023, 1, 15)
 
 @celery_app.task
 def BSCO_collect():

@@ -12,8 +12,6 @@ import sqlalchemy as s
 from Python.Database.models import Crime, CrimeAddress
 from Python.Database.engine import insert_data
 
-AGENCY_ID = 1
-
 # def grab_indice_from_wrapper(wrapper, index_desired):
 #     return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired]]
 
@@ -189,7 +187,7 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     crimes = []    
     for index in range(0, num_of_incidents):
 
-        crime = create_crime_dict(incident_numbers[index], AGENCY_ID, time_slot_ids[index], incident_instance[index])
+        crime = create_crime_dict(incident_numbers[index], 1, time_slot_ids[index], incident_instance[index])
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
@@ -377,12 +375,12 @@ def run_CPD_scrape(startDate, endDate, engine):
         if endDate < month_ahead_date:
 
             print(f"Collecting CPD crimes between {startDate.strftime('%m/%d/%Y'),} and {endDate.strftime('%m/%d/%Y'),}")
-            run_BSCO_scrape(startDate, endDate, row_count, engine)
+            collect_CPD_data(startDate, endDate, engine)
             startDate = endDate
 
         else:
             print(f"Collecting CPD crimes between {startDate.strftime('%m/%d/%Y'),} and {month_ahead_date.strftime('%m/%d/%Y'),}")
-            run_BSCO_scrape(startDate, month_ahead_date, row_count, engine)
+            collect_CPD_data(startDate, month_ahead_date, engine)
             startDate = month_ahead_date
 
 
