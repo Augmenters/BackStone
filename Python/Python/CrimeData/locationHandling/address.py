@@ -50,21 +50,33 @@ def parse_CPD_address(address):
             street = street[5:].strip()
 
     return number, street
+
+
+def find_address_in_db(engine, number, street):
+
+    qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%' LIMIT 1;"
+    query = s.text(qt)
+    result = engine.execute(query).fetchall()
+
+
+def find_nearby_address(engine, number, street):
+
+    qt = f"SELECT addresses.longitude, addresses.latitude, addresses.geohash, addresses.number FROM addresses WHERE addresses.street LIKE '%{street.lower()}%' ORDER BY ABS(addresses.number - {number}) LIMIT 1;"
+    query = s.text(qt)
+    result = engine.execute(query).fetchall()
+
+    if len(result) == 1:
+        return result
+    else:
+        return []
   
-  
+
 def getBscoCordinates(engine, address):
     
-    pattern = r'(?P<number>\d+)(?:-[A-Za-z0-9]+)?\s+(?P<street>.+)$'
+    number, street = parse_BSCO_address(address)
+    if number and street:
 
-    match = re.match(pattern, address)
-    if match:
-        # Extract the data using group names
-        number = match.group('number')
-        street = match.group('street')
-
-        qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%' LIMIT 1;"
-        query = s.text(qt)
-        result = engine.execute(query).fetchall()
+        result = find_address_in_db(engine, number, street)
 
         if len(result) == 1:
             #print(f"BCSO Address matched and found: {address}. Address: {address}. Number: {number}. Street: {street}.")
@@ -81,23 +93,12 @@ def getBscoCordinates(engine, address):
 
 def getCpdCoordinates(engine, address):
     
-    pattern = r'\d+\s+\w+\s+\w+'
+    street, number = parse_CPD_address(address)
 
-    if re.match(pattern, address):
-        # Gets street numebr
-        number = address.split()[0]
+    if street and number:
 
-        # formats address stirng
-        address.strip()
-        street = re.sub(r'^\d+\s*', '', address).strip().lower()
-        if street.startswith("block"):
-            street = street[5:].strip()
-
-        qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%' LIMIT 1;"
-        query = s.text(qt)
-        result = engine.execute(query).fetchall()
+        result = find_address_in_db(engine, number, street)
         
-
         if len(result) == 1:
             #print(f"CPD Address matched and found: {address}. Address: {address}. Number: {number}. Street: {street}.")
             return result
@@ -110,17 +111,6 @@ def getCpdCoordinates(engine, address):
             return None
         
     #print(f"CPD Address did not match regex: {address}")
-
-def find_nearby_address(engine, number, street):
-
-    qt = f"SELECT addresses.longitude, addresses.latitude, addresses.geohash, addresses.number FROM addresses WHERE addresses.street LIKE '%{street.lower()}%' ORDER BY ABS(addresses.number - {number}) LIMIT 1;"
-    query = s.text(qt)
-    result = engine.execute(query).fetchall()
-
-    if len(result) == 1:
-        return result
-    else:
-        return []
 
 
 def insertCrimeData(engine, entry):
