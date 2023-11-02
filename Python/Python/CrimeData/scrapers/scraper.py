@@ -44,21 +44,6 @@ def get_BCSO_dict_value(query):
         return "Invalid"
 
 
-# def convert_time(bad_time):
-#     if bad_time[-2:] == "AM" and bad_time[:2] == "12":
-#         return "00" + bad_time[2:-2]
-#     elif bad_time[-2:] == "AM":
-#         return "0" + bad_time[:-2]
-#     elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
-#         if bad_time[:2] == "11":
-#             return "23" + bad_time[1:-2]
-#         else:
-#             twentyfour_time = str(int(bad_time[:1]) + 12)
-#             return twentyfour_time + bad_time[1:-2]
-#     else:
-#         return bad_time[:-2]
-
-
 # Send a GET request to the webpage
 def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     #Date format MM/DD/YYYY
@@ -364,9 +349,6 @@ def convert_CPD_time_to_datetime(raw_datetime):
     return datetime_of_incident
 
 def run_CPD_scrape(startDate, endDate, engine):
-
-
-    row_count = 10000
 
     while startDate < endDate:
 
