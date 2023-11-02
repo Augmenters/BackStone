@@ -17,15 +17,41 @@ def get_data(engine, agency_id):
     data = [dict(row) for row in result]
     return data
 
-def parse_address(address):
+def parse_BSCO_address(address):
 
     number = None
     street = None
 
+    pattern = r'(?P<number>\d+)(?:-[A-Za-z0-9]+)?\s+(?P<street>.+)$'
+
+    match = re.match(pattern, address)
+    if match:
+        # Extract the data using group names
+        number = match.group('number')
+        street = match.group('street')
 
     return number, street
 
+def parse_CPD_address(address):
 
+    number = None
+    street = None
+
+    pattern = r'\d+\s+\w+\s+\w+'
+
+    if re.match(pattern, address):
+        # Gets street numebr
+        number = address.split()[0]
+
+        # formats address stirng
+        address.strip()
+        street = re.sub(r'^\d+\s*', '', address).strip().lower()
+        if street.startswith("block"):
+            street = street[5:].strip()
+
+    return number, street
+  
+  
 def getBscoCordinates(engine, address):
     
     pattern = r'(?P<number>\d+)(?:-[A-Za-z0-9]+)?\s+(?P<street>.+)$'
@@ -67,7 +93,7 @@ def getCpdCoordinates(engine, address):
         if street.startswith("block"):
             street = street[5:].strip()
 
-        qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%';"
+        qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%' LIMIT 1;"
         query = s.text(qt)
         result = engine.execute(query).fetchall()
         
@@ -95,8 +121,6 @@ def find_nearby_address(engine, number, street):
         return result
     else:
         return []
-
-
 
 
 def insertCrimeData(engine, entry):
