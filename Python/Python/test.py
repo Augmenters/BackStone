@@ -2,9 +2,13 @@ import pytest
 import sys
 import random
 import string
+from datetime import datetime
 
 
-from CrimeData.locationHandling.address import parse_BSCO_address, parse_CPD_address
+from Python.CrimeData.locationHandling.address import parse_BSCO_address, parse_CPD_address
+from Python.CrimeData.scrapers.scraper import convert_CPD_time_to_datetime
+
+
 
 def get_random_string(length):
     # choose from all lowercase letter
@@ -71,3 +75,12 @@ def test_parse_CPD_address_with_block():
 
     assert number == expected_number
     assert street == street
+
+def test_convert_CPD_time_to_datetime():
+
+    CPD_time = "1/14/2023 12:40:32 PM"
+    expected_datetime = datetime(year=2023, month=1, day=14, hour=12, minute=40, second=32)
+
+    assert convert_CPD_time_to_datetime(CPD_time) == expected_datetime
+
+

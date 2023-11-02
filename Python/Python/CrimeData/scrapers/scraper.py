@@ -338,14 +338,10 @@ def map_from_CPD_incident_type(incident_type):
     return None
 
 def convert_CPD_time_to_datetime(raw_datetime):
-    matches = re.search(r"([0-9]{1,2}[/][0-9]{1,2}[/][0-9]{1,4}) ([0-9]{1,2}[:][0-9]{1,2})[:][0-9]{2}[ ]([A-Z]{2})", raw_datetime)
-    date = matches.group(1)
-    time = matches.group(2)
-    day_cycle = matches.group(3)
 
-    completeTime = "" + date + " " + time + " " + day_cycle
-   
-    datetime_of_incident = datetime.datetime.strptime(completeTime, '%m/%d/%Y %I:%M %p')
+    date_format = "%m/%d/%Y %I:%M:%S %p"
+    datetime_of_incident = datetime.datetime.strptime(raw_datetime, date_format)
+
     return datetime_of_incident
 
 def run_CPD_scrape(startDate, endDate, engine):

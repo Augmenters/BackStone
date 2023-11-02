@@ -54,9 +54,12 @@ def parse_CPD_address(address):
 
 def find_address_in_db(engine, number, street):
 
+    result = []
     qt = "SELECT addresses.longitude, addresses.latitude, addresses.geohash FROM addresses WHERE addresses.number='" + number + "' AND addresses.street LIKE '%" + street.lower() + "%' LIMIT 1;"
     query = s.text(qt)
     result = engine.execute(query).fetchall()
+
+    return result
 
 
 def find_nearby_address(engine, number, street):
