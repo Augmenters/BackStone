@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 from Python.CrimeData.locationHandling.address import parse_BSCO_address, parse_CPD_address
-from Python.CrimeData.scrapers.scraper import convert_CPD_time_to_datetime
+from Python.CrimeData.scrapers.scraper import convert_CPD_time_to_datetime, datetime_to_timeslot_id
 
 
 
@@ -83,4 +83,31 @@ def test_convert_CPD_time_to_datetime():
 
     assert convert_CPD_time_to_datetime(CPD_time) == expected_datetime
 
+@pytest.mark.parametrize("datetime, expected_day_of_week", [
+    (datetime(year=2023, month=10, day=29, hour=1), "Sunday"),
+    (datetime(year=2023, month=10, day=30, hour=1), "Monday"),
+    (datetime(year=2023, month=10, day=31, hour=1), "Tuesday"),
+    (datetime(year=2023, month=11, day=1, hour=1), "Wednesday"),
+    (datetime(year=2023, month=11, day=2, hour=1), "Thursday"),
+    (datetime(year=2023, month=11, day=3, hour=1), "Friday"),
+    (datetime(year=2023, month=11, day=4, hour=1), "Saturday"),
+])
+def test_datetime_to_timeslot_id_time_day_of_week_conversion(datetime, expected_day_of_week):
+    day_of_week, _ = datetime_to_timeslot_id(datetime)
+    assert day_of_week == expected_day_of_week
+
+
+@pytest.mark.parametrize("datetime, expected_time_of_day", [
+    (datetime(year=2023, month=11, day=1, hour=0), 1),
+    (datetime(year=2023, month=11, day=1, hour=6), 2),
+    (datetime(year=2023, month=11, day=1, hour=12), 3),
+    (datetime(year=2023, month=11, day=1, hour=18), 4),
+    (datetime(year=2023, month=11, day=1, hour=1), 1),
+    (datetime(year=2023, month=11, day=1, hour=7), 2),
+    (datetime(year=2023, month=11, day=1, hour=13), 3),
+    (datetime(year=2023, month=11, day=1, hour=19), 4),
+])
+def test_datetime_to_timeslot_id_time_day_of_week_conversion(datetime, expected_time_of_day):
+    _, time_of_day = datetime_to_timeslot_id(datetime)
+    assert time_of_day == expected_time_of_day
 
