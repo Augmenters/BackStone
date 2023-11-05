@@ -96,7 +96,7 @@ def getBscoCordinates(engine, address):
 
 def getCpdCoordinates(engine, address):
     
-    street, number = parse_CPD_address(address)
+    number, street = parse_CPD_address(address)
 
     if street and number:
 

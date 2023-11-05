@@ -24,6 +24,23 @@ def create_crime_dict(incident_id, agency_id, time_slot_id, type):
         "type": type,
     }
 
+def split_into_monthly_collection_intervals(start_date, end_date):
+
+    intervals = []
+    while start_date < end_date:
+
+        month_ahead_date = start_date + relativedelta(days=30)
+
+        if end_date < month_ahead_date:
+            intervals.append({"start": start_date, "end": end_date})
+            return intervals
+        
+        
+        intervals.append({"start": start_date, "end": month_ahead_date})
+        start_date = month_ahead_date
+
+    return intervals
+
 
 def in_BCSO_dict(query):
     for key in crimedict.bcsodict.keys():
@@ -201,21 +218,14 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
 def collect_BSCO_crime_data(start_date, end_date, engine):
 
     row_count = 10000
+    intervals = split_into_monthly_collection_intervals(start_date, end_date)
+    for x in intervals:
+        start = x["start"]
+        end = x["end"]
 
-    while start_date < end_date:
+        print(f"Collecting BSCO crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
+        run_BSCO_scrape(start, end, row_count, engine)
 
-        month_ahead_date = start_date + relativedelta(months=1)
-
-        if end_date < month_ahead_date:
-
-            print(f"Collecting BSCO crimes between {start_date.strftime('%m/%d/%Y'),} and {end_date.strftime('%m/%d/%Y'),}")
-            run_BSCO_scrape(start_date, end_date, row_count, engine)
-            start_date = end_date
-
-        else:
-            print(f"Collecting BSCO crimes between {start_date.strftime('%m/%d/%Y'),} and {month_ahead_date.strftime('%m/%d/%Y'),}")
-            run_BSCO_scrape(start_date, month_ahead_date, row_count, engine)
-            start_date = month_ahead_date
 
 def datetime_to_timeslot_id(crime_datetime):
 
@@ -346,42 +356,13 @@ def convert_CPD_time_to_datetime(raw_datetime):
 
 def run_CPD_scrape(startDate, endDate, engine):
 
-    while startDate < endDate:
+    intervals = split_into_monthly_collection_intervals(startDate, endDate)
+    for x in intervals:
+        start = x["start"]
+        end = x["end"]
 
-        month_ahead_date = startDate + relativedelta(months=1)
-
-        if endDate < month_ahead_date:
-
-            print(f"Collecting CPD crimes between {startDate.strftime('%m/%d/%Y'),} and {endDate.strftime('%m/%d/%Y'),}")
-            collect_CPD_data(startDate, endDate, engine)
-            startDate = endDate
-
-        else:
-            print(f"Collecting CPD crimes between {startDate.strftime('%m/%d/%Y'),} and {month_ahead_date.strftime('%m/%d/%Y'),}")
-            collect_CPD_data(startDate, month_ahead_date, engine)
-            startDate = month_ahead_date
-
-
-
-    # #Assuming datetimes are given
-    # currentDate = startDate
-
-    # while currentDate != endDate:
-    #     daysInMonth = str(calendar.monthrange(currentDate.year, currentDate.month)[1])
-
-    #     if (currentDate.month == endDate.month) and (currentDate.year == endDate.year):
-
-    #         print(f"Collecting CPD crimes between {currentDate.strftime('%m/%d/%Y')} and {endDate.strftime('%m/%d/%Y')}")
-    #         collect_CPD_data(currentDate.strftime("%Y-%m-%d"), endDate.strftime("%Y-%m-%d"), engine)
-    #         currentDate = endDate
-    #     else:
-    #         print(f"Collecting CPD crimes between {currentDate} and {endDate}")
-    #         collect_CPD_data(currentDate.strftime("%Y-%m-01"), currentDate.strftime("%Y-%m-" + daysInMonth), engine)
-    #         if currentDate.month == 12:
-    #             currentDate = currentDate + relativedelta(years = 1)
-    #             currentDate = currentDate.replace(month=1)
-    #         else:
-    #             currentDate = currentDate + relativedelta(months = 1)
+        print(f"Collecting CPD crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
+        collect_CPD_data(start, end, engine)
 
                 
 # run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)

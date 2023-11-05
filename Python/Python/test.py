@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 from Python.CrimeData.locationHandling.address import parse_BSCO_address, parse_CPD_address
-from Python.CrimeData.scrapers.scraper import convert_CPD_time_to_datetime, datetime_to_timeslot_id
+from Python.CrimeData.scrapers.scraper import convert_CPD_time_to_datetime, datetime_to_timeslot_id, split_into_monthly_collection_intervals
 
 
 
@@ -110,4 +110,35 @@ def test_datetime_to_timeslot_id_time_day_of_week_conversion(datetime, expected_
 def test_datetime_to_timeslot_id_time_day_of_week_conversion(datetime, expected_time_of_day):
     _, time_of_day = datetime_to_timeslot_id(datetime)
     assert time_of_day == expected_time_of_day
+
+
+def test_split_into_monthly_collection_intervals_with_less_than_month_interval():
+
+    start_date = datetime(year=2023, month=11, day=1)
+    end_date = datetime(year=2023, month=11, day=12)
+    expected_intervals = [{"start": start_date, "end": end_date}]
+
+    assert split_into_monthly_collection_intervals(start_date, end_date) == expected_intervals
+
+
+def test_split_into_monthly_collection_intervals_with_dates_in_different_months():
+
+    start_date = datetime(year=2023, month=10, day=20)
+    end_date = datetime(year=2023, month=11, day=12)
+    expected_intervals = [{"start": start_date, "end": end_date}]
+
+    assert split_into_monthly_collection_intervals(start_date, end_date) == expected_intervals
+
+
+def test_split_into_monthly_collection_intervals_with_dates_that_span_multiple_months():
+
+    start_date = datetime(year=2023, month=8, day=20)
+    end_date = datetime(year=2023, month=11, day=12)
+    expected_intervals = [
+        {"start": start_date, "end": datetime(year=2023, month=9, day=19)},
+        {"start": datetime(year=2023, month=9, day=19), "end": datetime(year=2023, month=10, day=19)},
+        {"start": datetime(year=2023, month=10, day=19), "end": end_date}
+    ]
+
+    assert split_into_monthly_collection_intervals(start_date, end_date) == expected_intervals
 
