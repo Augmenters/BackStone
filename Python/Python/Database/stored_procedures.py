@@ -38,6 +38,33 @@ def create_stored_procedures(engine):
                                   end; $$
                                   language 'plpgsql';"""
 
+    gt_addresses_in_gridhash = """create or replace function gt_addresses_in_gridhash(gridhash varchar)
+                                  returns table (id bigint,
+                                  	number int,
+                                  	street varchar(255),
+                                  	unit varchar(255), 
+                                  	city varchar(255),
+                                  	state varchar(255), 
+                                  	zipcode varchar(255),
+                                  	longitude varchar(255),
+                                  	latitude varchar(255)) as $$
+                                  begin
+                                        return query
+                                        select
+                                        a.id,
+                                        a.number,
+                                        a.street,
+                                        a.unit,
+                                        a.city,
+                                        a.state,
+                                        a.zipcode,
+                                        a.longitude,
+                                        a.latitude
+                                        from addresses as a
+                                        where a.geohash = gridhash;
+                                  end; $$
+                                  language 'plpgsql';"""
+
     mw_update_address_hash = """create or replace procedure mw_update_address_hash(json)
                                 language 'plpgsql' 
                                 as $$
@@ -54,8 +81,14 @@ def create_stored_procedures(engine):
         con.execute(gt_unhashed_addresses)
         print("created procedure gt_unhashed_addresses")
 
+        con.execute(gt_time_slots)
+        print("created procedure gt_time_slots")
+
         con.execute(gt_crime_by_timeslot_id)
         print("created procedure gt_crime_by_timeslot_id")
 
         con.execute(mw_update_address_hash)
         print("created procedure mw_update_address_hash")
+
+        con.execute(gt_addresses_in_gridhash)
+        print("created procedure gt_addresses_in_gridhash")

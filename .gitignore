@@ -13,3 +13,4 @@ obj/
 .DS_Store
 Backstone/.DS_Store
 *.idea
+**/site-packages/**

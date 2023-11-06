@@ -73,10 +73,11 @@ class TimeSlotGrid(Base):
 
     time_slot = relationship('TimeSlot')
 
+class CrimeCoordinate(Base):
+    __tablename__ = 'crime_coordinates'
 
-t_crime_coordinates = Table(
-    'crime_coordinates', metadata,
-    Column('crime_id', ForeignKey('crimes.id')),
-    Column('longitude', String(255)),
-    Column('latitude', String(255))
-)
+    crime_id = Column(ForeignKey('crimes.id'), primary_key=True)
+    grid_hash = Column(String(255))
+    longitude = Column(String(255))
+    latitude = Column(String(255))
+

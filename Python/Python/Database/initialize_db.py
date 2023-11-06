@@ -74,8 +74,8 @@ def insert_timeslots(engine):
 
     timeslots = []
 
-    days_of_week = [1, 2, 3, 4, 5, 6, 7]
-    times_of_day = [1, 2, 3]
+    days_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    times_of_day = [1, 2, 3, 4]
 
     for day in days_of_week:
 
@@ -99,7 +99,6 @@ def hash_addresses():
         print("Failed to hash addresses")
 
 if __name__ == "__main__":
-    print("Connection string: ", CONNECTION_STRING)
 
     engine = create_database_engine(CONNECTION_STRING)
 

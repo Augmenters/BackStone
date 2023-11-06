@@ -50,6 +50,42 @@ namespace Library.DataAccess
             }
         }
 
+        public IEnumerable<OpenAddress> GetAddressesInHash(string hash)
+        {
+            try
+            {
+                var addresses = new List<OpenAddress>();
+                using (var connection = NpgsqlDataSource.Create(settings.BackstoneDB))
+                using (var command = connection.CreateCommand($"SELECT * from gt_addresses_in_gridhash('{hash}')"))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var address = new OpenAddress()
+                        {
+                            Number = int.Parse(reader["number"]?.ToString()),
+                            Street = reader["street"]?.ToString(),
+                            Unit = reader["unit"]?.ToString(),
+                            City = reader["city"]?.ToString(),
+                            State = reader["state"]?.ToString(),
+                            Zip = reader["zipcode"]?.ToString(),
+                            Longitude = reader["longitude"]?.ToString(),
+                            Latitude = reader["latitude"]?.ToString()
+                        };
+
+                        addresses.Add(address);
+                    }
+                }
+
+                return addresses;
+            }
+            catch (Exception ex)
+            {
+                ex.Log("Failed to get addresses in hash");
+                return null;
+            }
+        }
+
         public Result SaveAddressHashes(IEnumerable<(int address_id, string hash)> addresses)
 		{
             try
