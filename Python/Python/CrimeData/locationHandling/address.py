@@ -68,7 +68,7 @@ def find_nearby_address(engine, number, street):
     query = s.text(qt)
     result = engine.execute(query).fetchall()
 
-    if len(result) == 1:
+    if result:
         return result
     else:
         return []
@@ -81,12 +81,12 @@ def getBscoCordinates(engine, address):
 
         result = find_address_in_db(engine, number, street)
 
-        if len(result) == 1:
+        if result:
             #print(f"BCSO Address matched and found: {address}. Address: {address}. Number: {number}. Street: {street}.")
             return result
         else:
             result = find_nearby_address(engine, number, street)
-            if len(result) == 1:
+            if result:
                 return result
             
             print(f"BCSO Address not found in database. Address: {address}. Number: {number}. Street: {street.lower()}.")
@@ -102,12 +102,12 @@ def getCpdCoordinates(engine, address):
 
         result = find_address_in_db(engine, number, street)
         
-        if len(result) == 1:
+        if result:
             #print(f"CPD Address matched and found: {address}. Address: {address}. Number: {number}. Street: {street}.")
             return result
         else:
             result = find_nearby_address(engine, number, street)
-            if len(result) == 1:
+            if result:
                 return result
             
             print(f"CPD Address not found in database. Address: {address}. Number: {number}. Street: {street}.")
