@@ -12,10 +12,34 @@ import sqlalchemy as s
 from Python.Database.models import Crime, CrimeAddress
 from Python.Database.engine import insert_data
 
-AGENCY_ID = 1
-
 # def grab_indice_from_wrapper(wrapper, index_desired):
 #     return [wrapper[0][index_desired], wrapper[1][index_desired], wrapper[2][index_desired], wrapper[3][index_desired]]
+
+def create_crime_dict(incident_id, agency_id, time_slot_id, type):
+
+    return {
+        "incident_id": incident_id,
+        "agency_id": agency_id,
+        "time_slot_id": time_slot_id,
+        "type": type,
+    }
+
+def split_into_monthly_collection_intervals(start_date, end_date):
+
+    intervals = []
+    while start_date < end_date:
+
+        month_ahead_date = start_date + relativedelta(days=30)
+
+        if end_date < month_ahead_date:
+            intervals.append({"start": start_date, "end": end_date})
+            return intervals
+        
+        
+        intervals.append({"start": start_date, "end": month_ahead_date})
+        start_date = month_ahead_date
+
+    return intervals
 
 
 def in_BCSO_dict(query):
@@ -35,21 +59,6 @@ def get_BCSO_dict_value(query):
         return crimedict.bcsodict.get(correct_key)
     else:
         return "Invalid"
-
-
-# def convert_time(bad_time):
-#     if bad_time[-2:] == "AM" and bad_time[:2] == "12":
-#         return "00" + bad_time[2:-2]
-#     elif bad_time[-2:] == "AM":
-#         return "0" + bad_time[:-2]
-#     elif bad_time[-2:] == "PM" and bad_time[:2] != "12":
-#         if bad_time[:2] == "11":
-#             return "23" + bad_time[1:-2]
-#         else:
-#             twentyfour_time = str(int(bad_time[:1]) + 12)
-#             return twentyfour_time + bad_time[1:-2]
-#     else:
-#         return bad_time[:-2]
 
 
 # Send a GET request to the webpage
@@ -180,13 +189,7 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     crimes = []    
     for index in range(0, num_of_incidents):
 
-        # TODO: Get agency id from db
-        crime = {
-            "incident_id": incident_numbers[index],
-            "agency_id": AGENCY_ID,
-            "time_slot_id": time_slot_ids[index],
-            "type": incident_instance[index],
-        }
+        crime = create_crime_dict(incident_numbers[index], 1, time_slot_ids[index], incident_instance[index])
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
@@ -215,21 +218,14 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
 def collect_BSCO_crime_data(start_date, end_date, engine):
 
     row_count = 10000
+    intervals = split_into_monthly_collection_intervals(start_date, end_date)
+    for x in intervals:
+        start = x["start"]
+        end = x["end"]
 
-    while start_date < end_date:
+        print(f"Collecting BSCO crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
+        run_BSCO_scrape(start, end, row_count, engine)
 
-        month_ahead_date = start_date + relativedelta(months=1)
-
-        if end_date < month_ahead_date:
-
-            print(f"Collecting data from {start_date.strftime('%m/%d/%Y'),} to {end_date.strftime('%m/%d/%Y'),}")
-            run_BSCO_scrape(start_date, end_date, row_count, engine)
-            start_date = end_date
-
-        else:
-            print(f"Collecting data from {start_date.strftime('%m/%d/%Y'),} to {month_ahead_date.strftime('%m/%d/%Y'),}")
-            run_BSCO_scrape(start_date, month_ahead_date, row_count, engine)
-            start_date = month_ahead_date
 
 def datetime_to_timeslot_id(crime_datetime):
 
@@ -267,7 +263,7 @@ def get_timeslot_map(engine):
         time_slot_map[time_slot_tuple] = id
 
     return time_slot_map
-def send_and_store_request_CPD(startDate, endDate):
+def collect_CPD_data(startDate, endDate, engine):
     session = requests.Session()
     agency_url = "https://www.como.gov/CMS/911dispatch/police.php"
     headers = {
@@ -293,19 +289,52 @@ def send_and_store_request_CPD(startDate, endDate):
     del my_list[0]
     data = []
 
-
+    incident_id_address_map = {}
     for incident in my_list:
         if is_violent_CPD_crime(incident[3]):
             incident_date_time = convert_CPD_time_to_datetime(incident[1])
-            data.append({"Incident ID": incident[0], "Type": map_from_CPD_incident_type(incident[3]), "Address": incident[2], "Date/Time of Incident": incident_date_time})
+
+            agency_id = 2
+            time_slot_id = 1
+            incident_id = int(incident[0])
+            address = incident[2]
+            crime_type = map_from_CPD_incident_type(incident[3])
+
+            crime = create_crime_dict(incident_id, agency_id, time_slot_id, crime_type)
+            data.append(crime)
+
+            incident_id_address_map[incident_id] = address
+
+            #data.append({"Incident ID": incident[0], "Type": map_from_CPD_incident_type(incident[3]), "Address": incident[2], "Date/Time of Incident": incident_date_time})
         else:
             pass
 
-    
+    unique_key = ["agency_id", "incident_id"]
+    return_columns = ["id", "incident_id"]
+    result = insert_data(engine, data, Crime, return_columns=return_columns, natural_key=unique_key)
+
+    incident_id_map = {item['incident_id']: item['id'] for item in result}
+
+    crime_addresses = []    
+    for crime in data:
+
+        incident_id = crime["incident_id"]
+
+        crime_id = incident_id_map[incident_id]
+        address = incident_id_address_map[incident_id]
+        
+        address = {
+            "crime_id": crime_id,
+            "address": address,
+        }
+        crime_addresses.append(address)
+
+    unique_key = ["crime_id"]
+    insert_data(engine, crime_addresses, CrimeAddress, natural_key=unique_key)
+
+
     session.close()
     
-    return data
-
 def is_violent_CPD_crime(incident_type):
     for key in crimedict.cpddict.keys():
         if incident_type in key:
@@ -319,35 +348,21 @@ def map_from_CPD_incident_type(incident_type):
     return None
 
 def convert_CPD_time_to_datetime(raw_datetime):
-    matches = re.search(r"([0-9]{1,2}[/][0-9]{1,2}[/][0-9]{1,4}) ([0-9]{1,2}[:][0-9]{1,2})[:][0-9]{2}[ ]([A-Z]{2})", raw_datetime)
-    date = matches.group(1)
-    time = matches.group(2)
-    day_cycle = matches.group(3)
 
-    completeTime = "" + date + " " + time + " " + day_cycle
-   
-    datetime_of_incident = datetime.datetime.strptime(completeTime, '%m/%d/%Y %I:%M %p')
+    date_format = "%m/%d/%Y %I:%M:%S %p"
+    datetime_of_incident = datetime.datetime.strptime(raw_datetime, date_format)
+
     return datetime_of_incident
 
-def run_CPD_scrape(startDate, endDate):
-    #Assuming datetimes are given
-    currentDate = startDate
+def run_CPD_scrape(startDate, endDate, engine):
 
-    while currentDate != endDate:
-        daysInMonth = str(calendar.monthrange(currentDate.year, currentDate.month)[1])
+    intervals = split_into_monthly_collection_intervals(startDate, endDate)
+    for x in intervals:
+        start = x["start"]
+        end = x["end"]
 
-        if (currentDate.month == endDate.month) and (currentDate.year == endDate.year):
-            requestDict = send_and_store_request_CPD(currentDate.strftime("%Y-%m-%d"), endDate.strftime("%Y-%m-%d"))
-            #TODO SEND REQUEST DICT TO DB
-            currentDate = endDate
-        else:
-            requestDict = send_and_store_request_CPD(currentDate.strftime("%Y-%m-01"), currentDate.strftime("%Y-%m-" + daysInMonth))
-            #TODO SEND REQUEST DICT TO DB
-            if currentDate.month == 12:
-                currentDate = currentDate + relativedelta(years = 1)
-                currentDate = currentDate.replace(month=1)
-            else:
-                currentDate = currentDate + relativedelta(months = 1)
+        print(f"Collecting CPD crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
+        collect_CPD_data(start, end, engine)
 
                 
 # run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)

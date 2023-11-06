@@ -31,9 +31,11 @@ def cordinatesToHash(long, lat):
 
 
 def computeStats(engine):
+    print("Getting all the crimes to compute new stats")
     crimes = getCrimes(engine)
     map = defaultdict(int)
 
+    print("Computing stats")
     for entry in crimes:
         time_slot_id = int(entry["time_slot_id"])
         geo_hash = getHash(engine, time_slot_id)
@@ -43,8 +45,7 @@ def computeStats(engine):
     for key, count in map.items():
         time_slot_id, geohash = key
 
-        qt = "INSERT INTO time_slot_grids(time_slot_id, grid_hash, crime_count) \
-            VALUES (" + str(time_slot_id) + ",'" + geohash + "'," \
-            + str(count) + ");"
-        query = s.text(qt)
-        result = engine.execute(query)
+        qt = f"INSERT INTO time_slot_grids(time_slot_id, grid_hash, crime_count) \
+            VALUES ({str(time_slot_id)}, '{geohash}', {str(count)});"
+        
+        engine.execute(s.text(qt))
