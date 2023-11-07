@@ -289,13 +289,21 @@ def collect_CPD_data(startDate, endDate, engine):
     del my_list[0]
     data = []
 
+    time_slot_map = get_timeslot_map(engine)
+
+
     incident_id_address_map = {}
     for incident in my_list:
         if is_violent_CPD_crime(incident[3]):
             incident_date_time = convert_CPD_time_to_datetime(incident[1])
 
+            day_of_week, time_of_day = datetime_to_timeslot_id(incident_date_time)
+
+            time_slot_tuple = tuple((day_of_week, time_of_day))
+
+            time_slot_id = time_slot_map[time_slot_tuple]
+
             agency_id = 2
-            time_slot_id = 1
             incident_id = int(incident[0])
             address = incident[2]
             crime_type = map_from_CPD_incident_type(incident[3])
