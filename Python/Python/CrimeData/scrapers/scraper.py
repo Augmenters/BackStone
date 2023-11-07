@@ -414,7 +414,7 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
             address_holder.append(cells[3].text.strip())
             call_datetime_string = f"{cells[0].text.strip()} {cells[1].text.strip()}"
 
-            call_datetime = datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
+            call_datetime = datetime.datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
             datetime_holder.append(call_datetime)
         else:
             continue
@@ -426,13 +426,7 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
     for index in range(0, num_of_incidents):
 
         # TODO: Get agency id from db
-        # TODO: Convert time to timeslot id
-        crime = {
-            "incident_id": incident_number_holder[index],
-            "agency_id": AGENCY_ID,
-            "time_slot_id": 1,
-            "type": incident_holder[index],
-        }
+        crime = create_crime_dict(incident_number_holder[index], 3, 3, incident_holder[index])
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
