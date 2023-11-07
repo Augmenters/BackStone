@@ -399,12 +399,15 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
     del rows[0]
     #Remove the headers row
 
+    time_slot_map = get_timeslot_map(engine)
+
     #type of incident
     incident_holder = []
     #agency specific numeric for incident
     incident_number_holder = []
     address_holder = []
     datetime_holder = []
+    time_slot_ids = []
     for row in rows:
         cells = row.findChildren('td')
         #0 is date, 1 is time, 3 is address, 4 is incident type
@@ -416,6 +419,14 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
 
             call_datetime = datetime.datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
             datetime_holder.append(call_datetime)
+
+            day_of_week, time_of_day = datetime_to_timeslot_id(call_datetime)
+
+            time_slot_tuple = tuple((day_of_week, time_of_day))
+
+            time_slot_id = time_slot_map[time_slot_tuple]
+
+            time_slot_ids.append(time_slot_id)
         else:
             continue
 
@@ -426,7 +437,7 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
     for index in range(0, num_of_incidents):
 
         # TODO: Get agency id from db
-        crime = create_crime_dict(incident_number_holder[index], 3, 3, incident_holder[index])
+        crime = create_crime_dict(incident_number_holder[index], 3, time_slot_ids[index], incident_holder[index])
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
