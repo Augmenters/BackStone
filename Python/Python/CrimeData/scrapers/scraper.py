@@ -436,19 +436,30 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
     crimes = []    
     for index in range(0, num_of_incidents):
 
-        # TODO: Get agency id from db
         crime = create_crime_dict(incident_number_holder[index], 3, time_slot_ids[index], incident_holder[index])
         crimes.append(crime)
 
     unique_key = ["agency_id", "incident_id"]
+    return_columns = ["id", "incident_id"]
 
-    insert_data(engine, crimes, Crime, natural_key=unique_key)
+    result = insert_data(engine, crimes, Crime, return_columns=return_columns, natural_key=unique_key)
 
-    # # TODO: Get crime id from returned ids of crime insert
-    # crime_address = {
-    #     "crime_id": 1,
-    #     "address": addresses[index]
-    # }
+    incident_id_map = {item['incident_id']: item['id'] for item in result}
+
+    crime_addresses = []    
+    for index in range(0, num_of_incidents):
+
+        incident_id = int(incident_number_holder[index])
+        crime_id = incident_id_map[incident_id]
+
+        address = {
+            "crime_id": crime_id,
+            "address": address_holder[index],
+        }
+        crime_addresses.append(address)
+
+    unique_key = ["crime_id"]
+    insert_data(engine, crime_addresses, CrimeAddress, natural_key=unique_key)
 
 
 def run_MUPD_scrape(start_date, end_date, engine):
