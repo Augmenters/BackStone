@@ -5,7 +5,7 @@ import string
 from datetime import datetime
 
 
-from Python.CrimeData.locationHandling.address import parse_BSCO_address, parse_CPD_address
+from Python.CrimeData.locationHandling.address import parse_BSCO_address, parse_CPD_address, parse_MUPD_address
 from Python.CrimeData.scrapers.scraper import convert_CPD_time_to_datetime, datetime_to_timeslot_id, split_into_monthly_collection_intervals
 
 
@@ -75,6 +75,20 @@ def test_parse_CPD_address_with_block():
 
     assert number == expected_number
     assert street == street
+
+def test_parse_MUPD_address_with_conventional_addresses():
+
+
+
+    address_1 = "301 E STEWART RD"
+    number, street = parse_MUPD_address(address_1)
+    assert number == "301"
+    assert street == "E STEWART RD"
+
+    address_2 = "25 e conley rd"
+    number, street = parse_MUPD_address(address_2)
+    assert number == "25"
+    assert street == "e conley rd"
 
 def test_convert_CPD_time_to_datetime():
 
