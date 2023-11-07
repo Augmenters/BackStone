@@ -471,40 +471,12 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
 
 
 def run_MUPD_scrape(start_date, end_date, engine):
-    #Takes start and end datetime objects for range of data to collect
     row_count = 10000
 
-    while start_date < end_date:
+    intervals = split_into_monthly_collection_intervals(start_date, end_date)
+    for x in intervals:
+        start = x["start"]
+        end = x["end"]
 
-        month_ahead_date = start_date + relativedelta(months=1)
-
-        if end_date < month_ahead_date:
-
-            print(f"Collecting data from {start_date.strftime('%m/%d/%Y'),} to {end_date.strftime('%m/%d/%Y'),}")
-            scraping_MUPD(start_date, end_date, row_count, engine)
-            start_date = end_date
-
-        else:
-            print(f"Collecting data from {start_date.strftime('%m/%d/%Y'),} to {month_ahead_date.strftime('%m/%d/%Y'),}")
-            scraping_MUPD(start_date, month_ahead_date, row_count, engine)
-            start_date = month_ahead_date
-# run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('03/01/2023', '03/31/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('04/01/2023', '04/30/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('05/01/2023', '05/31/2023', 10000)
-#run_CPD_scrape("2023-06-10", "2023-06-11")
-
-
-#startTest = datetime.datetime(2023, 6, 1)
-#endTest = datetime.datetime(2023, 7, 1)
-
-#run_CPD_scrape(startTest, endTest)
-
-#x = datetime.datetime(2023, 10, 2)
-#y = datetime.datetime(2023, 10, 29)
-#run_MUPD_scrape(x, y, "engine")
+        print(f"Collecting MUPD crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
+        scraping_MUPD(start, end, row_count, engine)
