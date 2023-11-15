@@ -191,6 +191,13 @@ def getCrimeCordinates(engine):
     print("Resolving BCSO crime addresses to coordinates and inserting them")
     processData(engine, data, bsco_agency_id)
 
+    cpd_agency_id = 2
+    print("Getting CPD crime addresses that need resolved")
+    data = get_data(engine, cpd_agency_id)
+    
+    print("Resolving CPD crime addresses to coordinates and inserting them")
+    processData(engine, data, cpd_agency_id)
+
     mupd_agency_id = 3
     print("Getting MUPD crime addresses that need resolved")
     data = get_data(engine, mupd_agency_id)
