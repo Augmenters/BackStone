@@ -25,11 +25,6 @@ def getHash(engine, crime_id):
     else:
         return None
 
-
-def cordinatesToHash(long, lat):
-    return pgh.encode(long, lat)
-
-
 def computeStats(engine):
     print("Getting all the crimes to compute new stats")
     crimes = getCrimes(engine)
@@ -38,9 +33,11 @@ def computeStats(engine):
     print("Computing stats")
     for entry in crimes:
         time_slot_id = int(entry["time_slot_id"])
-        geo_hash = getHash(engine, time_slot_id)
+        geo_hash = getHash(engine, int(entry["id"]))
         if geo_hash is not None:
             map[(time_slot_id, str(geo_hash[0]["grid_hash"]))] += 1
+
+    print(f"Map: {map}")
 
     for key, count in map.items():
         time_slot_id, geohash = key
