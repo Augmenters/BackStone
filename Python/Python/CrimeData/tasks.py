@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from Python.CrimeData.celery_app import celery_app
-from Python.CrimeData.scrapers.scraper import collect_BSCO_crime_data, run_CPD_scrape  
+from Python.CrimeData.scrapers.scraper import collect_BSCO_crime_data, run_CPD_scrape, run_MUPD_scrape
 from Python.CrimeData.locationHandling.address import getCrimeCordinates
 from Python.CrimeData.stats.stats import computeStats
 
@@ -32,6 +32,7 @@ def CPD_Collect():
 def MUPD_Collect():
     from Python.CrimeData.celery_app import engine
     print("Collecitng MUPD...")
+    run_MUPD_scrape(start_date, end_date, engine)
 
 @celery_app.task
 def compute_stats():

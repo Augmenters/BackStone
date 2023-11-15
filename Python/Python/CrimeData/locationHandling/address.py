@@ -51,6 +51,21 @@ def parse_CPD_address(address):
 
     return number, street
 
+def parse_MUPD_address(address):
+
+    pattern = r'(?P<number>\d+)\s+(?P<street>.+)$'
+
+    match = re.match(pattern, address)
+
+    if match:
+        number = match.group('number')
+        street = match.group('street')
+
+        return number, street
+       
+    else:
+        return None, None
+
 
 def find_address_in_db(engine, number, street):
 
@@ -115,6 +130,26 @@ def getCpdCoordinates(engine, address):
         
     #print(f"CPD Address did not match regex: {address}")
 
+def getMupdCoordinates(engine, address):
+    
+    number, street = parse_MUPD_address(address)
+
+    if street and number:
+
+        result = find_address_in_db(engine, number, street)
+        
+        if result:
+            #print(f"MUPD Address matched and found: {address}. Address: {address}. Number: {number}. Street: {street}.")
+            return result
+        else:
+            result = find_nearby_address(engine, number, street)
+            if result:
+                return result
+            
+            print(f"MUPD Address not found in database. Address: {address}. Number: {number}. Street: {street}.")
+            return None
+
+    #print(f"CPD Address did not match regex: {address}")
 
 def insertCrimeData(engine, entry):
     qt = "INSERT INTO crime_coordinates(crime_id, longitude, latitude, grid_hash) \
@@ -156,11 +191,11 @@ def getCrimeCordinates(engine):
     print("Resolving BCSO crime addresses to coordinates and inserting them")
     processData(engine, data, bsco_agency_id)
 
-    cpd_agency_id = 2
-    print("Getting CPD crime addresses that need resolved")
-    data = get_data(engine, cpd_agency_id)
-    print(f"CPD addresses that need resolved: {len(data)}")
+    mupd_agency_id = 3
+    print("Getting MUPD crime addresses that need resolved")
+    data = get_data(engine, mupd_agency_id)
+    print(f"MUPD addresses that need resolved: {len(data)}")
     
-    print("Resolving CPD crime addresses to coordinates and inserting them")
-    processData(engine, data, cpd_agency_id)
+    print("Resolving MUPD crime addresses to coordinates and inserting them")
+    processData(engine, data, mupd_agency_id)
 

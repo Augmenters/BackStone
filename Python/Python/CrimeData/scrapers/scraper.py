@@ -289,13 +289,21 @@ def collect_CPD_data(startDate, endDate, engine):
     del my_list[0]
     data = []
 
+    time_slot_map = get_timeslot_map(engine)
+
+
     incident_id_address_map = {}
     for incident in my_list:
         if is_violent_CPD_crime(incident[3]):
             incident_date_time = convert_CPD_time_to_datetime(incident[1])
 
+            day_of_week, time_of_day = datetime_to_timeslot_id(incident_date_time)
+
+            time_slot_tuple = tuple((day_of_week, time_of_day))
+
+            time_slot_id = time_slot_map[time_slot_tuple]
+
             agency_id = 2
-            time_slot_id = 1
             incident_id = int(incident[0])
             address = incident[2]
             crime_type = map_from_CPD_incident_type(incident[3])
@@ -364,20 +372,111 @@ def run_CPD_scrape(startDate, endDate, engine):
         print(f"Collecting CPD crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
         collect_CPD_data(start, end, engine)
 
-                
-# run_BSCO_scrape('01/01/2023', '01/31/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('02/01/2023', '02/28/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('03/01/2023', '03/31/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('04/01/2023', '04/30/2023', 10000)
-#time.sleep(120)
-#run_BSCO_scrape('05/01/2023', '05/31/2023', 10000)
-#run_CPD_scrape("2023-06-10", "2023-06-11")
+def is_violent_MUPD_crime(incident_type):
+    for key in crimedict.mupddict.keys():
+        if incident_type in key:
+            return True
+    return False
+
+def scraping_MUPD(start_date, end_date, row_count, engine):
+    startDateStr = start_date.strftime('%Y-%m-%d')
+    endDateStr = end_date.strftime('%Y-%m-%d')
+
+    url = 'http://muop-mupdreports.missouri.edu/dilog.php'
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36",
+    }
+
+    # "" = view all
+    location = ''
+
+    parameters = {
+        'from_date' : startDateStr,
+        'to_date' : endDateStr,
+        'type': 'View-All',
+        'address' : location,
+        'page_size' : str(row_count),
+        'set' : 'Set',
+    }
+
+    response = requests.post(url, headers=headers, data=parameters)
+    soup = BeautifulSoup(response.text, "html.parser")
+    table = soup.findChild('table')
+    rows = table.findChildren('tr')
+    del rows[0]
+    #Remove the headers row
+
+    time_slot_map = get_timeslot_map(engine)
+
+    #type of incident
+    incident_holder = []
+    #agency specific numeric for incident
+    incident_number_holder = []
+    address_holder = []
+    datetime_holder = []
+    time_slot_ids = []
+    for row in rows:
+        cells = row.findChildren('td')
+        #0 is date, 1 is time, 3 is address, 4 is incident type
+        if is_violent_MUPD_crime(cells[4].text.strip()):
+            incident_holder.append(cells[4].text.strip())
+            incident_number_holder.append(cells[2].text.strip())
+            address_holder.append(cells[3].text.strip())
+            call_datetime_string = f"{cells[0].text.strip()} {cells[1].text.strip()}"
+
+            call_datetime = datetime.datetime.strptime(call_datetime_string, '%m/%d/%Y %I:%M %p')
+            datetime_holder.append(call_datetime)
+
+            day_of_week, time_of_day = datetime_to_timeslot_id(call_datetime)
+
+            time_slot_tuple = tuple((day_of_week, time_of_day))
+
+            time_slot_id = time_slot_map[time_slot_tuple]
+
+            time_slot_ids.append(time_slot_id)
+        else:
+            continue
+
+    incident_wrapper = [datetime_holder, address_holder, incident_holder, incident_number_holder]
+    num_of_incidents = len(incident_wrapper[0])
+
+    crimes = []    
+    for index in range(0, num_of_incidents):
+
+        crime = create_crime_dict(incident_number_holder[index], 3, time_slot_ids[index], incident_holder[index])
+        crimes.append(crime)
+
+    unique_key = ["agency_id", "incident_id"]
+    return_columns = ["id", "incident_id"]
+
+    result = insert_data(engine, crimes, Crime, return_columns=return_columns, natural_key=unique_key)
+
+    incident_id_map = {item['incident_id']: item['id'] for item in result}
+
+    crime_addresses = []    
+    for index in range(0, num_of_incidents):
+
+        incident_id = int(incident_number_holder[index])
+        crime_id = incident_id_map[incident_id]
+
+        address = {
+            "crime_id": crime_id,
+            "address": address_holder[index],
+        }
+        crime_addresses.append(address)
+
+    unique_key = ["crime_id"]
+    insert_data(engine, crime_addresses, CrimeAddress, natural_key=unique_key)
 
 
-#startTest = datetime.datetime(2023, 6, 1)
-#endTest = datetime.datetime(2023, 7, 1)
+def run_MUPD_scrape(start_date, end_date, engine):
+    row_count = 10000
 
-#run_CPD_scrape(startTest, endTest)
+    intervals = split_into_monthly_collection_intervals(start_date, end_date)
+    for x in intervals:
+        start = x["start"]
+        end = x["end"]
+
+        print(f"Collecting MUPD crimes between {start.strftime('%m/%d/%Y'),} and {end.strftime('%m/%d/%Y'),}")
+        scraping_MUPD(start, end, row_count, engine)
