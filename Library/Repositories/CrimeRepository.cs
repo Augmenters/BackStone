@@ -65,9 +65,11 @@ namespace Library.Repositories
                         Crimes = crimes
                     });
                 }
+
+                cache.Set("AllCrimes", allCrimes);
             }
 
-			return allCrimes;
+            return allCrimes;
         }
     }
 }

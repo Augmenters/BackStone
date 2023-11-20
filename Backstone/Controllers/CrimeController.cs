@@ -22,10 +22,10 @@ namespace Backstone.Controllers
         }
 
         /// <summary>
-        /// get crime statistics for a day/time
+        /// get crime statistics for a time slot Id
         /// </summary>
-        /// <param name="timeSlotId">day of week and time</param>
-        /// <returns>a list of POIs</returns>
+        /// <param name="timeSlotId">time slot id</param>
+        /// <returns>a list of crime geohash objects</returns>
         [HttpGet("{timeSlotId}")]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -54,8 +54,7 @@ namespace Backstone.Controllers
         /// <summary>
         /// get all crime statistics 
         /// </summary>
-        /// <param name="timeSlotId">day of week and time</param>
-        /// <returns>a list of POIs</returns>
+        /// <returns>a list of CrimeTimeslot Objects</returns>
         [HttpGet("All")]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
