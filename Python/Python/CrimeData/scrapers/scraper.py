@@ -196,6 +196,9 @@ def run_BSCO_scrape(startDate, endDate, rowCount, engine):
     return_columns = ["id", "incident_id"]
 
     result = insert_data(engine, crimes, Crime, return_columns=return_columns, natural_key=unique_key)
+    if not result:
+        print("No BCSO crimes")
+        return
 
     incident_id_map = {item['incident_id']: item['id'] for item in result}
 
@@ -320,6 +323,9 @@ def collect_CPD_data(startDate, endDate, engine):
     unique_key = ["agency_id", "incident_id"]
     return_columns = ["id", "incident_id"]
     result = insert_data(engine, data, Crime, return_columns=return_columns, natural_key=unique_key)
+    if not result:
+        print("No CPD crimes found")
+        return
 
     incident_id_map = {item['incident_id']: item['id'] for item in result}
 
@@ -418,6 +424,9 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
     time_slot_ids = []
     for row in rows:
         cells = row.findChildren('td')
+        if "No record found!" in str(cells[0]):
+            continue
+
         #0 is date, 1 is time, 3 is address, 4 is incident type
         if is_violent_MUPD_crime(cells[4].text.strip()):
             incident_holder.append(cells[4].text.strip())
@@ -451,6 +460,9 @@ def scraping_MUPD(start_date, end_date, row_count, engine):
     return_columns = ["id", "incident_id"]
 
     result = insert_data(engine, crimes, Crime, return_columns=return_columns, natural_key=unique_key)
+    if not result:
+        print("No MUPD crimes for this time")
+        return 
 
     incident_id_map = {item['incident_id']: item['id'] for item in result}
 

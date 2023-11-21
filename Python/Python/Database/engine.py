@@ -68,7 +68,7 @@ def insert_data(engine, data, table, natural_key, return_columns=[], on_conflict
             return False
 
     if len(data) == 0:
-
+        print("Length of data is 0")
         return False
 
     if isinstance(data[0], dict) is False: 
