@@ -7,7 +7,7 @@ namespace Library.DataAccess.Interfaces
 {
 	public interface IYelpDataAccess
 	{
-        Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate);
+        Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate, int offset = 0);
         Task<DataResult<BusinessReviewsResponse>> GetReviews(string businessId);
     }
 }

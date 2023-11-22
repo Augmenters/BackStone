@@ -25,7 +25,7 @@ namespace Library.DataAccess
             this.settings = settings;
         }
 
-        public async Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate)
+        public async Task<DataResult<IEnumerable<YelpBusiness>>> BusinessQuery(Coordinate coordinate, int offset = 0)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Library.DataAccess
                 {
                     client.HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + settings.YelpApiKey);
 
-                    var request = BuildRequest(coordinate, settings.SearchRadius);
+                    var request = BuildRequest(coordinate, settings.SearchRadius, offset);
 
                     var result = await client.SendQueryAsync<BusinessQueryResponse>(request);
 
@@ -41,7 +41,7 @@ namespace Library.DataAccess
                         return new DataResult<IEnumerable<YelpBusiness>> { IsSuccessful = false, ErrorMessage = result.Errors?.First().Message ?? "search failed" };
 
                     return result.Data?.Search?.Businesses != null
-                         ? new DataResult<IEnumerable<YelpBusiness>> { IsSuccessful = true, Data = result.Data.Search.Businesses }
+                         ? new DataResult<IEnumerable<YelpBusiness>> { IsSuccessful = true, Data = result.Data.Search.Businesses, Total = result.Data.Search.Total }
                          : new DataResult<IEnumerable<YelpBusiness>> { IsSuccessful = false, ErrorId = HttpStatusCode.NotFound };
                 }
 
@@ -81,13 +81,13 @@ namespace Library.DataAccess
             }
         }
 
-        private GraphQLRequest BuildRequest(Coordinate coordinate, double radius)
+        private GraphQLRequest BuildRequest(Coordinate coordinate, double radius, int offset = 0)
         {
             return new GraphQLRequest()
             {
-                Query = @"query BusinessSearch($latitude: Float!, $longitude: Float!, $radius: Float!)
+                Query = @"query BusinessSearch($latitude: Float!, $longitude: Float!, $radius: Float!, $offset: Int!, $limit: Int!)
 						{ 
-							search(latitude: $latitude, longitude: $longitude, radius: $radius)
+							search(latitude: $latitude, longitude: $longitude, radius: $radius, offset: $offset, limit: $limit)
 							{ 
 								total
 								business
@@ -134,7 +134,9 @@ namespace Library.DataAccess
                 {
                     latitude = Convert.ToSingle(coordinate.Latitude),
                     longitude = Convert.ToSingle(coordinate.Longitude),
-                    radius = Convert.ToSingle(radius)
+                    radius = Convert.ToSingle(radius),
+                    offset = Convert.ToSingle(offset),
+                    limit = Convert.ToSingle(settings.Limit)
                 },
             };
         }

@@ -18,16 +18,19 @@ namespace Library.Repositories
         private readonly IGridRepository gridRepository;
         private readonly IAddressDataAccess addressDataAccess;
         private readonly ICacheHelper cache;
+        private readonly ISettings settings;
 
 		public BusinessRepository(IYelpDataAccess yelpDataAccess,
                                   IGridRepository gridRepository,
                                   IAddressDataAccess addressDataAccess,
-                                  ICacheHelper cache)
+                                  ICacheHelper cache,
+                                  ISettings settings)
 		{
             this.yelpDataAccess = yelpDataAccess;
             this.gridRepository = gridRepository;
             this.addressDataAccess = addressDataAccess;
             this.cache = cache;
+            this.settings = settings;
 		}
 
         public async Task<DataResult<IEnumerable<POI>>> GetPOIs(Coordinate coordinate)
@@ -46,20 +49,33 @@ namespace Library.Repositories
                 }
                 else
                 {
-                    var result = await yelpDataAccess.BusinessQuery(box.Center);
+                    var offset = 0;
+                    var totalResultCount = 1;
+                    DataResult<IEnumerable<YelpBusiness>> result = new DataResult<IEnumerable<YelpBusiness>>() { IsSuccessful = false };
 
-                    if (result.ErrorId == HttpStatusCode.NotFound)
-                        cache.Set(box.GeoHash, new List<POI>());
+                    var allPois = new List<YelpBusiness>();
+                    while (offset < totalResultCount)
+                    {
+                        result = await yelpDataAccess.BusinessQuery(box.Center, offset);
 
-                    if (!result.IsSuccessful || result.Data == null)
-                        return;
+                        if (result.ErrorId == HttpStatusCode.NotFound)
+                            cache.Set(box.GeoHash, new List<POI>());
 
-                    var converted = MapYelpToPOI(result.Data);
+                        if (!result.IsSuccessful || result.Data == null)
+                            return;
+
+                        totalResultCount = result.Total;
+
+                        allPois.AddRange(result.Data);
+                        offset += settings.Limit;
+                    }
+
+                    var converted = MapYelpToPOI(allPois);
                     var valid = RemovePOIsOutsideOfBox(box.GeoHash, converted).ToList();
                     var allAddresses = FillOpenAddressSlots(box.GeoHash, valid);
                     cache.Set(box.GeoHash, allAddresses);
 
-                    foreach(var poi in allAddresses)
+                    foreach (var poi in allAddresses)
                     {
                         POIList.Add(poi);
                     }
@@ -146,6 +162,9 @@ namespace Library.Repositories
                 {
                     Id = business.Id,
                     Phone = business.DisplayPhone,
+                    Rating = business.Rating,
+                    ReviewCount = business.ReviewCount,
+                    Price = business.Price,
                     Address = new Address()
                     {
                         Line1 = business.Location.Address1,

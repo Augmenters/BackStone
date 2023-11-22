@@ -17,6 +17,7 @@ namespace Library.Repositories.Utilities.Interfaces
         public long CacheSize { get; }
         public int GridPrecision { get; }
         public double SearchRadius { get; }
+        public int Limit { get; }
     }
 }
 

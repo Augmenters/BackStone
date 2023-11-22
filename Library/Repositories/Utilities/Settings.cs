@@ -16,6 +16,7 @@ namespace Library.Repositories.Utilities
         public long CacheSize { get; private set; }
         public double SearchRadius { get; private set; }
         public int GridPrecision { get; private set; }
+        public int Limit { get; private set; }
 
         public Settings(IConfiguration configuration)
         {
@@ -28,6 +29,7 @@ namespace Library.Repositories.Utilities
             YelpApiKey = Environment.GetEnvironmentVariable("YelpApiKey");
 
             BackstoneDB = ConnectionStringBuilder.Build(configuration);
+            Limit = int.Parse(configuration.GetSection("AppSettings")["Limit"]);
 
             if (string.IsNullOrWhiteSpace(YelpApiKey))
             {

@@ -13,6 +13,7 @@ namespace Library.Models
 	public sealed class DataResult<T> : Result
 	{
 		public T Data { get; set; }
-	}
+        public int Total { get; set; }
+    }
 }
 
